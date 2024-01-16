@@ -51,7 +51,6 @@ dependencies:
   flutter_secure_storage: any
   http: any
   permission_handler: any
-  wechat_assets_picker: any
   firebase_messaging: any
   firebase_core: any
   flutter_local_notifications: any
@@ -64,6 +63,7 @@ dependencies:
   path: any
   contacts_service: any
   cached_network_image: any
+  image_picker: any
   flutter_branch_sdk: ^7.0.1
   pay: ^1.1.0
   shimmer: ^3.0.0
@@ -80,6 +80,9 @@ dependencies:
 
 
 
+
+dependency_overrides:
+  photo_manager: ^3.0.0-dev.2
 
 
 dev_dependencies:

@@ -26,10 +26,10 @@ class EditProfileView extends StatelessWidget {
                             backgroundColor: APPColors.bg_app_primary,
                             title: kEditProfile,
                           )),
-                      body: BehaviorSubjectBuilder<AssetEntity>(
+                      body: BehaviorSubjectBuilder<File>(
                           subject: bloc.selectedImageSubject$,
                           builder: (BuildContext context,
-                              AsyncSnapshot<AssetEntity>
+                              AsyncSnapshot<File>
                                   selectedAssetSnapshot) {
                             return Container(
                               padding: PagePadding.horizontalSymmetric(5.w),
@@ -97,12 +97,8 @@ class EditProfileView extends StatelessWidget {
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             50),
-                                                    child: Image(
-                                                      image:
-                                                          AssetEntityImageProvider(
-                                                        selectedAssetSnapshot
-                                                            .data!,
-                                                      ),
+                                                    child: Image.file(
+                                                      selectedAssetSnapshot.data!,
                                                       fit: BoxFit.cover,
                                                       height: 100,
                                                       width: 100,

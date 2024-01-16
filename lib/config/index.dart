@@ -54,5 +54,6 @@ final dataFactories = {
   TeamExistModel: (_) => TeamExistModel.fromJson(_),
   TeamChatListModel: (_) => TeamChatListModel.fromJson(_),
   TeamDetailChatModel: (_) => TeamDetailChatModel.fromJson(_),
+  ConversationModel: (_) => ConversationModel.fromJson(_),
 
 };

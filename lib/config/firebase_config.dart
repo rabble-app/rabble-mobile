@@ -74,7 +74,6 @@ class FirebaseMessagingManager {
       initializationSettings,
       onDidReceiveNotificationResponse: (NotificationResponse str) {
         Map<String, dynamic> data = json.decode(str.payload!);
-        print("1");
         handleClick(data);
       },
       onDidReceiveBackgroundNotificationResponse: notificationTapBackground,
@@ -84,7 +83,6 @@ class FirebaseMessagingManager {
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       globalBloc.isNotifcation.sink.add(true);
-      print("asdasd12123");
       _notificationsHandler(message);
     });
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage? message) async {
@@ -124,7 +122,6 @@ class FirebaseMessagingManager {
   void handleClick(Map<String, dynamic> data) {
     debugPrint('*******************  handleClick called  *****************');
 
-    print(data.toString());
 
     RabbleStorage.setFromNotification('1');
     NavigatorHelper().navigateTo('/splash');
@@ -169,7 +166,6 @@ class FirebaseMessagingManager {
     localNotificationsPlugin!.initialize(initializationSettings,
         onDidReceiveNotificationResponse: (NotificationResponse str) {
       Map<String, dynamic> data = json.decode(str.payload!);
-      print("4");
 
       handleClick(data);
     }, onDidReceiveBackgroundNotificationResponse: notificationTapBackground);

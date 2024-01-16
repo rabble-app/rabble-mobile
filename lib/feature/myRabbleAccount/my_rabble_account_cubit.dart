@@ -1,8 +1,6 @@
-import 'package:rabble/config/export.dart';
 import 'package:rabble/domain/entities/ProfilePictureModel.dart';
-import 'package:rabble/feature/branch/welcome_to_team_sheet.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:http_parser/http_parser.dart';
+import 'package:rabble/config/export.dart';
 
 class MyRabbleAccountCubit extends RabbleBaseCubit with Validators {
   MyRabbleAccountCubit() : super(RabbleBaseState.idle()) {
@@ -13,8 +11,7 @@ class MyRabbleAccountCubit extends RabbleBaseCubit with Validators {
 
   BehaviorSubject<UserModel> userDataSubject$ = BehaviorSubject<UserModel>();
 
-  BehaviorSubject<AssetEntity> selectedImageSubject$ =
-      BehaviorSubject<AssetEntity>();
+  BehaviorSubject<File> selectedImageSubject$ = BehaviorSubject<File>();
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController surNameController = TextEditingController();
@@ -81,10 +78,10 @@ class MyRabbleAccountCubit extends RabbleBaseCubit with Validators {
   Future<void> changePhoto(BuildContext context) async {
     bool permission = await AskPermission().askPhotoPermission();
     if (permission) {
-      List<AssetEntity>? assets = await AssetPicker.pickAssets(context,
-          pickerConfig: const AssetPickerConfig(maxAssets: 1));
-      if (assets != null && assets.isNotEmpty) {
-        selectedImageSubject$.sink.add(assets.first);
+      XFile? pic = await ImagePicker().pickImage(source: ImageSource.gallery);
+
+      if (pic != null) {
+        selectedImageSubject$.sink.add(File(pic.path));
       }
     }
   }
@@ -103,9 +100,9 @@ class MyRabbleAccountCubit extends RabbleBaseCubit with Validators {
         await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
     UserModel userModel = UserModel.fromJson(jsonDecode(userData));
     if (selectedImageSubject$.hasValue) {
-      File? file = await selectedImageSubject$.value.file;
+      File? file = await selectedImageSubject$.value;
       MultipartFile image =
-          await MultipartFile.fromFile(file!.path, filename: 'image.jpg');
+          await MultipartFile.fromFile(file.path, filename: 'image.jpg');
       FormData formData;
       if (userModel.imageKey != null) {
         formData = FormData.fromMap({
