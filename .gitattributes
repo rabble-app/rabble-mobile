@@ -1,0 +1,5 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+*.build filter=lfs diff=lfs merge=lfs -text
+build/app/intermediates/intermediary_bundle/release/packageReleaseBundle/intermediary-bundle.aab filter=lfs diff=lfs merge=lfs -text
+build/app/intermediates/intermediary_bundle/release/shrinkBundleReleaseResources/intermediary-bundle.aab filter=lfs diff=lfs merge=lfs -text

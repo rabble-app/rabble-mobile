@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "896330199240",
+    "project_id": "rabble-f73a4",
+    "storage_bucket": "rabble-f73a4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:896330199240:android:ebae23f496e13d7e0cb5fd",
+        "android_client_info": {
+          "package_name": "com.rabble.rabble"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "896330199240-f9psn0f40qkp6klti23cif6hidq2hdro.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLfXSZvVLHTT2gJ80FNpBr_X20SAXM3bQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "896330199240-f9psn0f40qkp6klti23cif6hidq2hdro.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
