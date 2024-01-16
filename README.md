@@ -1,13 +1,16 @@
 # rabble
 
-This project is coding assessment of Rabble
+This project Rabble customer app.
 
 ## Getting Started
 
 # Feature
-This project contain UI part where team can see the remaining threshold.
+This feature folder contain UI part
 
+# Core
+This core folder contain everything which is being shared overall in project
 
-# State management
-I have followed Bloc state management with cubit, It is totally customized state management with RxDart pattern.
+# Config
+This config folder contain everything which is base
+
 
