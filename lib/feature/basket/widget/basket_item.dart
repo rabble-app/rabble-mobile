@@ -9,7 +9,6 @@ class BasketItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    print("price ${price}");
     return SizedBox(
       height: 5.h,
       child: Row(
@@ -40,7 +39,7 @@ class BasketItemWidget extends StatelessWidget {
             ],
           ),
           RabbleText.subHeaderText(
-            text: DateFormatUtil.amountFormatter( (int.parse(qty)*int.parse(price)).toDouble()),
+            text: DateFormatUtil.amountFormatter( (double.parse(qty)*double.parse(price)).toDouble()),
             fontSize: 13.sp,
             fontFamily: cGosha,
             fontWeight: FontWeight.w700,

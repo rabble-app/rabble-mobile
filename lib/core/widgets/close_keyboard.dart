@@ -6,7 +6,6 @@ class ToucheDetector extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        print('HERE');
         FocusScope.of(context).unfocus();
 
       },

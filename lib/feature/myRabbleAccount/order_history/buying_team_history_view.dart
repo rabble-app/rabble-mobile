@@ -51,8 +51,8 @@ class BuyingTeamOrderHistoryView extends StatelessWidget {
   String getTotalAmount(List<Basket>? orders) {
     return orders!.fold(
         '0',
-        (previousValue, element) => (int.parse(previousValue) +
-                int.parse(element.price.toString()))
+        (previousValue, element) => (double.parse(previousValue) +
+            double.parse(element.price.toString()))
             .toString());
   }
 }

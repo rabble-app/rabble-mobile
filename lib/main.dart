@@ -8,24 +8,22 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Config.initialize(Flavor.DEV, DevConfig());
 
+  // Stripe.publishableKey = kStripeDebugPublishKey;
+
   if (kDebugMode) {
-    Stripe.publishableKey =
-        'pk_test_51MiiYmLOm4z6Mbsx2Bv78MsSqQdcBBPz8cRCvXHUNEw3C7mOCHVUf7mhpd7BqrrllgXPf9A9lnF7PaEJlvtY6Ycr00LL5Ld4OD';
+    Stripe.publishableKey = kStripeDebugPublishKey;
   } else {
-    Stripe.publishableKey =
-        'pk_live_51MiiYmLOm4z6MbsxZYWSwC4J1DppaCp2QjtCnYNdoEAcmKIenBH1b0V8Sjoks1gN58kkGCJURrXK4LedQpQVLc6u000hSHq8cD';
+    Stripe.publishableKey = kStripeReleasePublishKey;
   }
 
-  Stripe.merchantIdentifier = 'merchant.com.postcodecollective';
-  await Stripe.instance.applySettings();
+  Stripe.merchantIdentifier = kStripeMerchantIdentifier;
 
+  await Stripe.instance.applySettings();
 
   await FlutterBranchSdk.init(
       useTestKey: false, enableLogging: true, disableTracking: false);
 
-
   //  FlutterBranchSdk.validateSDKIntegration();
-
 
   await loadImage(AssetImage('assets/png/onboard1.png'));
   await loadImage(AssetImage('assets/png/onboard2.png'));
@@ -38,8 +36,12 @@ void main() async {
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-  String forceVersion = await getForceVersion();
+  // runApp(const MaterialApp(
+  //   debugShowCheckedModeBanner: false,
+  //   home: App(),
+  // ));
 
+  String forceVersion = await getForceVersion();
   PackageInfo.fromPlatform().then((value) {
     String currentVersion = value.buildNumber;
 
@@ -90,19 +92,6 @@ Future<void> loadImage(ImageProvider provider) {
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   RabbleStorage.setFromNotification('1');
   NavigatorHelper().navigateTo('/splash');
-}
-
-Future<void> _launchUrl() async {
-  globalBloc.showSuccessSnackBar(message: 'HERE');
-  String url = Platform.isIOS
-      ? 'https://apps.apple.com/app/rabble/id6450045487'
-      : 'https://apps.apple.com/app/rabble/id6450045487';
-  if (!await launchUrl(Uri.parse(url),
-      mode: LaunchMode.externalNonBrowserApplication)) {
-    globalBloc.showSuccessSnackBar(message: 'HERE 2');
-
-    throw 'Could not launch $url';
-  }
 }
 
 Future<String> getForceVersion() async {

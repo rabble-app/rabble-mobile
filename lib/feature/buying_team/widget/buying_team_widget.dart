@@ -294,7 +294,8 @@ class _BuyingTeamWidgetState extends State<BuyingTeamWidget> {
                         widget.callBackIfUpdated.call();
                       },
                       callBack: () {
-                        if (data.basket!.isEmpty) {
+                        if (data.basket == null || data.basket!.isEmpty) {
+//                        if (data.basket != null && data.basket!.isEmpty) {
                           ProducerDetail producerDetail = ProducerDetail(
                               imageUrl: data.producer!.imageUrl,
                               id: data.producer!.id,

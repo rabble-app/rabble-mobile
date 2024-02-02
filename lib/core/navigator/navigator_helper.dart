@@ -147,7 +147,6 @@ class NavigatorHelper {
 
   navigateToWebScreen(String url, String title) {
     String newUrl = getDomainName(url);
-    print(newUrl);
     navigateTo('/web/$newUrl/$title');
   }
 

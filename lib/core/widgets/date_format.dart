@@ -74,6 +74,8 @@ class DateFormatUtil {
     print('value ${value}');
     print('total ${total}');
     print("percentage ${percentage}");
+    if(percentage=='NaN')
+      return '0';
     return int.parse(percentage) < 100 ? percentage.toString() : '100';
   }
 

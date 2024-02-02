@@ -85,8 +85,8 @@ class CurrentOrderData {
     _id = json['id'];
     _teamId = json['teamId'];
     _status = json['status'];
-    _minimumTreshold = json['minimumTreshold'];
-    _accumulatedAmount = json['accumulatedAmount'];
+    _minimumTreshold = num.tryParse(json['minimumTreshold']) ?? 0;
+    _accumulatedAmount = num.tryParse(json['accumulatedAmount']) ?? 0;
     _deadline = json['deadline'];
     _createdAt = json['createdAt'];
     _updatedAt = json['updatedAt'];
@@ -231,7 +231,7 @@ class Payments {
     _id = json['id'];
     _orderId = json['orderId'];
     _userId = json['userId'];
-    _amount = json['amount'];
+    _amount = num.tryParse(json['amount']);
     _paymentIntentId = json['paymentIntentId'];
     _status = json['status'];
     _createdAt = json['createdAt'];
@@ -327,7 +327,7 @@ class Basket {
     _userId = json['userId'];
     _productId = json['productId'];
     _quantity = json['quantity'];
-    _price = json['price'];
+    _price = num.tryParse(json['price']);
     _createdAt = json['createdAt'];
     _updatedAt = json['updatedAt'];
     _product =

@@ -306,7 +306,7 @@ class _AllCardViewState extends State<AllCardView>
                                                                 fontFamily:
                                                                     cPoppins,
                                                                 fontSize:
-                                                                    8.5.sp,
+                                                                    8.3.sp,
                                                                 color: APPColors
                                                                     .bg_grey27,
                                                                 fontWeight:

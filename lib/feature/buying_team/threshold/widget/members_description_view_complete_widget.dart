@@ -45,7 +45,7 @@ class MemberDescriptionViewComplete extends StatelessWidget {
       firstCharName1 = text[0];
       firstCharName2 = text.length > 1 ? text[1] : " "; // Change 2 to 1
 
-      combination = firstCharName1[0] + firstCharName2[0];
+      combination =firstCharName1.length > 0 ? firstCharName1[0] + firstCharName2[0]:firstCharName2.length > 0 ? firstCharName2[0]:'';
     }
 
     return Padding(
@@ -240,7 +240,7 @@ class MemberList extends StatelessWidget {
                       member.user!.imageUrl! !=
                           'https://rabble-dev1.s3.us-east-2.amazonaws.com/profile/img.png'
                   ? SizedBox(
-                      width: 30,
+                      width: 40,
                       height: 40,
                       child: RabbleImageLoader(
                         imageUrl: member.user!.imageUrl!,
@@ -249,7 +249,7 @@ class MemberList extends StatelessWidget {
                       ),
                     )
                   : SizedBox(
-                      width: 30,
+                      width: 40,
                       height: 40,
                       child: CircleAvatar(
                         child: RabbleText.subHeaderText(
@@ -261,7 +261,7 @@ class MemberList extends StatelessWidget {
                     )
               : index == 3
                   ? SizedBox(
-                      width: 30,
+                      width: 40,
                       height: 40,
                       child: CircleAvatar(
                         child: Center(

@@ -18,7 +18,7 @@ class ProducerView extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
 
     final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
-    final double itemWidth = size.width / 2.1;
+    final double itemWidth = size.width / 1.8;
 
     return CubitProvider<RabbleBaseState, ProductTabCubit>(
         create: (BuildContext context) =>
@@ -65,6 +65,7 @@ class ProducerView extends StatelessWidget {
                                 AsyncSnapshot<int> snapshot) {
                               return SafeArea(
                                 child: SingleChildScrollView(
+                                  physics: ClampingScrollPhysics(),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment:

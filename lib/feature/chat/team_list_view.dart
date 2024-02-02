@@ -24,6 +24,7 @@ class TeamListView extends StatelessWidget {
             itemBuilder: (context, index) {
               ChatMembers memberData = teamList[index];
               return MemberProfileView(
+                imageUrl: memberData.user!.imageUrl,
                 isNormalPage: true,
                 teamName:
                     '${memberData.user!.firstName ?? ''} ${memberData.user!.lastName ?? ''}',

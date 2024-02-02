@@ -465,11 +465,12 @@ class BuyingTeamItemWidget extends StatelessWidget {
     return orders!.fold(
         '0',
         (previousValue, element) =>
-            (int.parse(previousValue) + int.parse(element.price.toString()))
+            (double.parse(previousValue) + double.parse(element.price.toString()))
                 .toString());
   }
 
   String getOutwardCode(String postalCode) {
+
     if (postalCode == null || postalCode.isEmpty) {
       return '';
     }

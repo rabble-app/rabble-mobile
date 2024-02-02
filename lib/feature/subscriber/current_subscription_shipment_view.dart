@@ -15,8 +15,8 @@ class CurrentSubscriptionShipmentView extends StatelessWidget {
     String memberId = data['memberId'];
 
     String percentage = DateFormatUtil.calculatePercentage(
-        int.parse(currentOrderData.accumulatedAmount!.toString()),
-        int.parse(currentOrderData.minimumTreshold!.toString()));
+        int.parse(currentOrderData.accumulatedAmount!.round().toString()),
+        int.parse(currentOrderData.minimumTreshold!.round().toString()));
 
     int remainingDays = data['deadline'] != null && data['deadline'] != '0'
         ? DateFormatUtil.remainingDays(data['deadline'])

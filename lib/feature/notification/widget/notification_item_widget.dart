@@ -61,12 +61,16 @@ class NotificationItemWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                RabbleText.subHeaderText(
-                  text: title ?? '',
-                  color: APPColors.appBlack4,
-                  fontWeight: FontWeight.normal,
-                  fontFamily: cGosha,
-                  fontSize: 13.sp,
+                SizedBox(
+                  width: context.allWidth * 0.75,
+                  child: RabbleText.subHeaderText(
+                    text: title ?? '',
+                    textAlign: TextAlign.start,
+                    color: APPColors.appBlack4,
+                    fontWeight: FontWeight.normal,
+                    fontFamily: cGosha,
+                    fontSize: 13.sp,
+                  ),
                 ),
                 SizedBox(
                   width: context.allWidth * 0.75,

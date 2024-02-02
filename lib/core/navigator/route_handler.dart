@@ -10,7 +10,6 @@ class RouteHandlers {
 
   static Handler webScreenHandler = Handler(
     handlerFunc: (context, Map<String, dynamic> parameters) {
-      print("parameters['url'][0] ${parameters['title'][0]}");
       return WebView(
         url: parameters['url'][0],
         title: parameters['title'][0],

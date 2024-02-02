@@ -100,9 +100,10 @@ class ProductItemWidget extends StatelessWidget {
                                                 ? ColorFiltered(
                                                     colorFilter:
                                                         const ColorFilter.mode(
-                                                          Colors.grey, // Grayscale filter color
-                                                          BlendMode.saturation,
-                                                        ),
+                                                      Colors.grey,
+                                                      // Grayscale filter color
+                                                      BlendMode.saturation,
+                                                    ),
                                                     child: Image.network(
                                                       productDetail.imageUrl ??
                                                           '',
@@ -186,8 +187,7 @@ class ProductItemWidget extends StatelessWidget {
                                           left: 0,
                                           child: Center(
                                             child: RabbleText.subHeaderText(
-                                              text:
-                                              'You got the\nlast carton!',
+                                              text: 'You got the\nlast carton!',
                                               textAlign: TextAlign.center,
                                               fontWeight: FontWeight.w700,
                                               fontSize: 17.sp,
@@ -355,28 +355,27 @@ class ProductItemWidget extends StatelessWidget {
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 13.sp,
-                                      fontFamily: cGosha,
+                                      fontSize: 11.sp,
+                                      fontFamily: cPoppins,
                                       color: APPColors.appBlack4,
                                     ),
                                   ),
                                   !isHorizontal!
                                       ? SizedBox(
-                                          height: 1.h,
+                                          height: 1.5.h,
                                         )
                                       : SizedBox.shrink(),
                                   businessDetail != null
                                       ? RabbleText.subHeaderText(
-                                              text:
-                                                  '${productDetail.unitsPerOrder} ${productDetail.unitsOfMeasure!.toLowerCase()} ${productDetail.orderSubUnit!.toLowerCase()}',
-                                              fontSize: 10.sp,
-                                              fontFamily: cPoppins,
-                                              maxLines: 2,
-                                              textAlign: TextAlign.start,
-                                              fontWeight: FontWeight.normal,
-                                              color: APPColors.appTextPrimary,
-                                            )
-
+                                          text:
+                                              '${productDetail.unitsPerOrder} ${productDetail.unitsOfMeasure!.toLowerCase()} ${productDetail.orderSubUnit!.toLowerCase()}',
+                                          fontSize: 11.sp,
+                                          fontFamily: cPoppins,
+                                          maxLines: 2,
+                                          textAlign: TextAlign.start,
+                                          fontWeight: FontWeight.w500,
+                                          color: APPColors.bg_grey27,
+                                        )
                                       : const SizedBox.shrink(),
                                   SizedBox(
                                     height: 1.h,
@@ -389,40 +388,63 @@ class ProductItemWidget extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                productDetail.type == 'PORTIONED_SINGLE_PRODUCT'
-                                    ? Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                        children: [
-                                          RabbleText.subHeaderText(
-                                            text: productDetail.price != null
-                                                ? '£${productDetail.price}/'
-                                                : '',
-                                            fontSize: 13.sp,
-                                            fontFamily: cGosha,
-                                            color: APPColors.appBlack4,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          RabbleText.subHeaderText(
-                                            text:
-                                                '${productDetail.orderSubUnit}',
-                                            fontSize: 8.sp,
-                                            height: 1,
-                                            fontFamily: cPoppins,
-                                            color: APPColors.appBlack4,
-                                            fontWeight: FontWeight.w600,
-                                          )
-                                        ],
-                                      )
-                                    : RabbleText.subHeaderText(
-                                        text: productDetail.price != null
-                                            ? '${DateFormatUtil.amountFormatter(double.parse(productDetail.price.toString()))}'
-                                            : '',
-                                        fontSize: 13.sp,
-                                        fontFamily: cGosha,
-                                        color: APPColors.appBlack4,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    RabbleText.subHeaderText(
+                                      text: productDetail.price != null
+                                          ? '£${productDetail.price}/'
+                                          : '',
+                                      fontSize: 13.sp,
+                                      fontFamily: cGosha,
+                                      color: APPColors.appBlack4,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    RabbleText.subHeaderText(
+                                      text: '${productDetail.orderSubUnit}',
+                                      fontSize: 9.sp,
+                                      height: 1,
+                                      fontFamily: cPoppins,
+                                      color: APPColors.bg_grey27,
+                                      fontWeight: FontWeight.w500,
+                                    )
+                                  ],
+                                ),
+
+                                // productDetail.type == 'PORTIONED_SINGLE_PRODUCT'
+                                //     ? Row(
+                                //         crossAxisAlignment:
+                                //             CrossAxisAlignment.end,
+                                //         children: [
+                                //           RabbleText.subHeaderText(
+                                //             text: productDetail.price != null
+                                //                 ? '£${productDetail.price}/'
+                                //                 : '',
+                                //             fontSize: 13.sp,
+                                //             fontFamily: cGosha,
+                                //             color: APPColors.appBlack4,
+                                //             fontWeight: FontWeight.bold,
+                                //           ),
+                                //           RabbleText.subHeaderText(
+                                //             text:
+                                //                 '${productDetail.orderSubUnit}',
+                                //             fontSize: 8.sp,
+                                //             height: 1,
+                                //             fontFamily: cPoppins,
+                                //             color: APPColors.appBlack4,
+                                //             fontWeight: FontWeight.w600,
+                                //           )
+                                //         ],
+                                //       )
+                                //     : RabbleText.subHeaderText(
+                                //         text: productDetail.price != null
+                                //             ? '${DateFormatUtil.amountFormatter(double.parse(productDetail.price.toString()))}'
+                                //             : '',
+                                //         fontSize: 13.sp,
+                                //         fontFamily: cGosha,
+                                //         color: APPColors.appBlack4,
+                                //         fontWeight: FontWeight.bold,
+                                //       ),
                                 isHorizontal!
                                     ? SizedBox(
                                         width: context.allWidth * 0.16,

@@ -729,8 +729,7 @@ abstract class BaseSource {
             try {
               final accessToken = await RabbleStorage.getToken();
 
-//              options.headers['Authorization'] = 'Bearer $accessToken';
-              options.headers['Authorization'] = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IisyMzQ3MDAwMDAwMDAwIiwidXNlcklkIjoiMTc5ODkzNmItMmM2MC00NDExLWEzZDctZjY3ZmU2ZjMzMTY0IiwiaWF0IjoxNzAxMDE1ODE2fQ.Vn34DklEJVF6_TGID0JpLcAVVOXIJwyJowYS9xajljs';
+              options.headers['Authorization'] = 'Bearer $accessToken';
 
               print(options.headers['Authorization']);
             } catch (e) {

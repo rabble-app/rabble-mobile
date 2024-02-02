@@ -37,9 +37,8 @@ class _ChatRoomViewState extends State<ChatRoomView> {
 
     return CubitProvider<RabbleBaseState, ChatRoomCubit>(
         create: (BuildContext context) => cubit
-          ..initScroller(data['teamId'])
-          ..fetchChatList(
-              data['teamId'])
+          ..initScroller(data['teamId'], context)
+          ..fetchChatList(data['teamId'])
           ..fetchTeamDetail(data['teamId']),
         builder:
             (BuildContext context, RabbleBaseState state, ChatRoomCubit bloc) {
@@ -49,30 +48,33 @@ class _ChatRoomViewState extends State<ChatRoomView> {
               child: Column(
                 children: <Widget>[
                   BehaviorSubjectBuilder<TeamDetailChatData>(
-                    subject: bloc.teamDetailSubject$,
-                    builder: (context, snapshot) {
-
-                      return ChatRoomAppbar(
-                        backTitle: kBack,
-                        title:snapshot.hasData?  snapshot.data!.name : '',
-                        subTitle:snapshot.hasData?  snapshot.data!.producer!.businessName!:'',
-                        memeberList:snapshot.hasData?  snapshot.data!.members!:[],
-                        hostId: snapshot.hasData? snapshot.data!.hostId :'' ,
-                        callBack: () {
-                          if (bloc.conversationListSubject$.hasValue) {
-                            if (bloc.conversationListSubject$.value.isNotEmpty) {
-                              NavigatorHelper().pop(
-                                  result: bloc.conversationListSubject$.value.last);
+                      subject: bloc.teamDetailSubject$,
+                      builder: (context, snapshot) {
+                        return ChatRoomAppbar(
+                          backTitle: kBack,
+                          title: snapshot.hasData ? snapshot.data!.name : '',
+                          subTitle: snapshot.hasData
+                              ? snapshot.data!.producer!.businessName!
+                              : '',
+                          memeberList:
+                              snapshot.hasData ? snapshot.data!.members! : [],
+                          hostId: snapshot.hasData ? snapshot.data!.hostId : '',
+                          callBack: () {
+                            if (bloc.conversationListSubject$.hasValue) {
+                              if (bloc
+                                  .conversationListSubject$.value.isNotEmpty) {
+                                NavigatorHelper().pop(
+                                    result: bloc
+                                        .conversationListSubject$.value.last);
+                              } else {
+                                NavigatorHelper().pop();
+                              }
                             } else {
                               NavigatorHelper().pop();
                             }
-                          } else {
-                            NavigatorHelper().pop();
-                          }
-                        },
-                      );
-                    }
-                  ),
+                          },
+                        );
+                      }),
                   Expanded(
                       child: state.primaryBusy
                           ? Container(
@@ -132,7 +134,9 @@ class _ChatRoomViewState extends State<ChatRoomView> {
                                         color: APPColors.bgColor,
                                         child: SingleChildScrollView(
                                           controller: bloc.scrollController,
-                                          reverse: conversationList.length > 10 ? true : false,
+                                          reverse: conversationList.length > 10
+                                              ? true
+                                              : false,
                                           padding: EdgeInsets.zero,
                                           child: Column(
                                             children: <Widget>[
@@ -161,64 +165,78 @@ class _ChatRoomViewState extends State<ChatRoomView> {
                                     });
                               })),
                   StreamBuilder<String>(
-                    stream: bloc.messageStream,
-                    builder: (context, snapshot) {
-                      return Container(
-                        height: snapshot.hasData ? snapshot.data!.length >=45? context.allHeight * 0.2 : context.allHeight * 0.12 : context.allHeight * 0.12,
-                        padding: PagePadding.all(1.h),
-                        child: Container(
-                          margin: PagePadding.onlyBottom(3.w),
-                          child: Padding(
-                            padding: PagePadding.custom(1.w, 1.w, 0, 0),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Container(
-                                  width: context.allWidth * 0.82,
-                                  height: snapshot.hasData ? snapshot.data!.length >=45? context.allHeight * 0.1 : context.allHeight * 0.05 : context.allHeight * 0.05,
-                                  decoration: ContainerDecoration.boxDecoration(
-                                      bg: APPColors.appBlack4,
-                                      border: Colors.transparent,
-                                      width: 1,
-                                      radius: 8),
-                                  child: Container(
-                                      width: context.allWidth * 0.82,
-                                      padding: EdgeInsets.only(top: 1.w),
-                                      child: RabbleTextField.borderLess(
-                                        color: APPColors.appWhite,
-                                        keyBoardType: TextInputType.text,
-                                        controller: bloc.msgController,
-                                        textAlign: TextAlign.start,
-                                        fontSize: 11.sp,
-                                        maxLine: snapshot.hasData ? snapshot.data!.length >=45? 2:1:1,
-                                        hintFontSize: 11.sp,
-                                        fontWeight: FontWeight.w400,
-                                        cursoeColor: APPColors.appPrimaryColor,
-                                        hint: 'Message',
-                                        onChange: bloc.messageC,
-                                        filledColor: Colors.transparent,
-                                        fontFamily: cPoppins,
-                                        letterSpacing: -0.9,
-                                        hintColor: APPColors.bg_grey27,
-                                      )),
-                                ),
-                                SizedBox(
-                                  width: 4.w,
-                                ),
-                                InkWell(
-                                  child: Assets.svgs.send
-                                      .svg(width: 1.8.h, height: 1.8.h),
-                                  onTap: () {
-                                    bloc.sendMessage(data['teamId'], data['teamName']);
-                                  },
-                                )
-                              ],
+                      stream: bloc.messageStream,
+                      builder: (context, snapshot) {
+                        return Container(
+                          height: snapshot.hasData
+                              ? snapshot.data!.length >= 45
+                                  ? context.allHeight * 0.2
+                                  : context.allHeight * 0.12
+                              : context.allHeight * 0.12,
+                          padding: PagePadding.all(1.h),
+                          child: Container(
+                            margin: PagePadding.onlyBottom(3.w),
+                            child: Padding(
+                              padding: PagePadding.custom(1.w, 1.w, 0, 0),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  Container(
+                                    width: context.allWidth * 0.82,
+                                    height: snapshot.hasData
+                                        ? snapshot.data!.length >= 45
+                                            ? context.allHeight * 0.1
+                                            : context.allHeight * 0.05
+                                        : context.allHeight * 0.05,
+                                    decoration:
+                                        ContainerDecoration.boxDecoration(
+                                            bg: APPColors.appBlack4,
+                                            border: Colors.transparent,
+                                            width: 1,
+                                            radius: 8),
+                                    child: Container(
+                                        width: context.allWidth * 0.82,
+                                        padding: EdgeInsets.only(top: 1.w),
+                                        child: RabbleTextField.borderLess(
+                                          color: APPColors.appWhite,
+                                          keyBoardType: TextInputType.text,
+                                          controller: bloc.msgController,
+                                          textAlign: TextAlign.start,
+                                          fontSize: 11.sp,
+                                          maxLine: snapshot.hasData
+                                              ? snapshot.data!.length >= 45
+                                                  ? 2
+                                                  : 1
+                                              : 1,
+                                          hintFontSize: 11.sp,
+                                          fontWeight: FontWeight.w400,
+                                          cursoeColor:
+                                              APPColors.appPrimaryColor,
+                                          hint: 'Message',
+                                          onChange: bloc.messageC,
+                                          filledColor: Colors.transparent,
+                                          fontFamily: cPoppins,
+                                          letterSpacing: -0.9,
+                                          hintColor: APPColors.bg_grey27,
+                                        )),
+                                  ),
+                                  SizedBox(
+                                    width: 4.w,
+                                  ),
+                                  InkWell(
+                                    child: Assets.svgs.send
+                                        .svg(width: 1.8.h, height: 1.8.h),
+                                    onTap: () {
+                                      bloc.sendMessage(
+                                          data['teamId'], data['teamName']);
+                                    },
+                                  )
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    }
-                  )
+                        );
+                      })
                 ],
               ),
             ),

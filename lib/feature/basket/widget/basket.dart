@@ -173,17 +173,11 @@ class BasketWidget extends StatelessWidget {
   }
 
   String calculateAmount(List<Basket> list) {
-    print(DateFormatUtil.amountFormatter(list.fold(
-        0,
-        (previousValue, item) =>
-            previousValue +
-            int.parse(item.price.toString()) *
-                int.parse(item.quantity.toString()))));
     return DateFormatUtil.amountFormatter(list.fold(
         0,
         (previousValue, item) =>
             previousValue +
-            int.parse(item.price.toString()) *
-                int.parse(item.quantity.toString())));
+                double.parse(item.price.toString()) *
+                    double.parse(item.quantity.toString())));
   }
 }

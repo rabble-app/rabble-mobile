@@ -82,7 +82,7 @@ class OrderHistoryData {
     _id = json['id'];
     _orderId = json['orderId'];
     _userId = json['userId'];
-    _amount = json['amount'];
+    _amount = num.parse(json['amount'])??0;
     _paymentIntentId = json['paymentIntentId'];
     _status = json['status'];
     _createdAt = json['createdAt'];
@@ -191,8 +191,8 @@ class Order {
     _id = json['id'];
     _teamId = json['teamId'];
     _status = json['status'];
-    _minimumTreshold = json['minimumTreshold'];
-    _accumulatedAmount = json['accumulatedAmount'];
+    _minimumTreshold = num.parse(json['minimumTreshold'])??0;
+    _accumulatedAmount = num.parse(json['accumulatedAmount'])??0;
     _deadline = json['deadline'];
     _lastNudge = json['lastNudge'];
     _deliveryDate = json['deliveryDate'];

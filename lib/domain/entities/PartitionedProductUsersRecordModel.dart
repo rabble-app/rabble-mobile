@@ -13,7 +13,7 @@ class PartitionedProductUsersRecord {
   }
 
   PartitionedProductUsersRecord.fromJson(dynamic json) {
-    _amount = json['amount'];
+    _amount = num.tryParse(json['amount']);
     if(json['quantity']!=null) {
       _quantity = json['quantity'];
     }
