@@ -4,8 +4,8 @@ import 'package:rxdart/rxdart.dart';
 
 import '../../../domain/entities/RequestSendModel.dart';
 
-class ThresholdViewCubit extends RabbleBaseCubit with Validators {
-  ThresholdViewCubit({required this.teamId}) : super(RabbleBaseState.idle()) {
+class TeamViewCubit extends RabbleBaseCubit with Validators {
+  TeamViewCubit({required this.teamId}) : super(RabbleBaseState.idle()) {
     fetchTeamDetail();
   }
 
@@ -16,8 +16,11 @@ class ThresholdViewCubit extends RabbleBaseCubit with Validators {
       BehaviorSubject<UserModel>();
 
   BehaviorSubject<Members> isMyTeam = BehaviorSubject<Members>();
+
   BehaviorSubject<RequestSendData> isMyRequest =
       BehaviorSubject<RequestSendData>();
+
+
   BehaviorSubject<bool> isUpdate = BehaviorSubject<bool>.seeded(false);
 
   BehaviorSubject<List<List<TempBoxData>>> allTempBoxList =
@@ -92,7 +95,7 @@ class ThresholdViewCubit extends RabbleBaseCubit with Validators {
 
             for (int k = 0; k < quantity; k++) {
               tempList.add(TempBoxData(
-                  '${userRecord.owner!.firstName!=null? userRecord.owner!.firstName!.trim():''} ${userRecord.owner!.lastName!=null?userRecord.owner!.lastName!.trim():''}'));
+                  '${userRecord.owner!.firstName != null ? userRecord.owner!.firstName!.trim() : ''} ${userRecord.owner!.lastName != null ? userRecord.owner!.lastName!.trim() : ''}'));
             }
           }
           var t = allTempBoxList.value;
@@ -104,11 +107,10 @@ class ThresholdViewCubit extends RabbleBaseCubit with Validators {
         print(' Size ${allTempBoxList.value.length}');
       }
 
-      for(int l = 0 ; l < allTempBoxList.value.length ; l++){
-        for(int m = 0 ; m < allTempBoxList.value[l].length ; m++){
+      for (int l = 0; l < allTempBoxList.value.length; l++) {
+        for (int m = 0; m < allTempBoxList.value[l].length; m++) {
           print('L $l and M $m element ${allTempBoxList.value[l][m].userName}');
         }
-
       }
 
 //      purchasedUserListSubject$.sink.add(tempList);
@@ -223,4 +225,18 @@ class ThresholdViewCubit extends RabbleBaseCubit with Validators {
     emit((RabbleBaseState.idle()));
     return false;
   }
-}
+
+  bool showMembers(TeamData teamData) {
+
+    return teamData.members!.isNotEmpty &&
+        teamData.members!.any((Members element) => element.userId == teamData.hostId);
+  }
+
+  getMyOrder(List<Basket> list, String? id) {
+    return list.where((element) => element.userId == id).toList();
+  }
+
+  bool getQuantity(List<Basket> list, String? userId) {
+    return list
+        .any((element) => element.quantity! > 0 && userId == element.userId);
+  }}

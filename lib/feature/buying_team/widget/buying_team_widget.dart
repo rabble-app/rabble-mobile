@@ -282,7 +282,7 @@ class _BuyingTeamWidgetState extends State<BuyingTeamWidget> {
                           ? data.producer!.categories!.first.category!.name
                           : '',
                       nextDelivery:
-                          'Next delivery ${data.nextDeliveryDate != null ? '${int.parse(DateFormatUtil.countDays(data.nextDeliveryDate!)) < 7 ? "in ${int.parse(DateFormatUtil.countDays(data.nextDeliveryDate!)) < 2 ? "day" : "days"}" : DateFormatUtil.formatDate(data.nextDeliveryDate!, 'dd MMM yyyy')} ' : 'date TBD'}',
+                      'Next delivery ${data.nextDeliveryDate != null ? '${int.parse(DateFormatUtil.countDays(data.nextDeliveryDate!)) < 7 ? "in ${DateFormatUtil.countDays(data.nextDeliveryDate!)} ${int.parse(DateFormatUtil.countDays(data.nextDeliveryDate!)) < 2 ? "day" : "days"}" : DateFormatUtil.formatDate(data.nextDeliveryDate!, 'dd MMM yyyy')} ' : 'date TBD'}',
                       producerName:
                           '${data.host!.firstName ?? ''} ${data.host!.lastName ?? ''}',
                       totalTeamMembers: data.members == null

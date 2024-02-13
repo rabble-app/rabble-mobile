@@ -4,7 +4,7 @@ import '../../../../domain/entities/RequestSendModel.dart';
 
 class ManageTeamView extends StatelessWidget {
   final TeamData teamData;
-  final ThresholdViewCubit cubit;
+  final TeamViewCubit cubit;
 
   ManageTeamView(this.teamData, this.cubit, {Key? key}) : super(key: key);
   final TeamMemberCubit teamMemberCubit = TeamMemberCubit();

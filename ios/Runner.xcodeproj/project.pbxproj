@@ -368,7 +368,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 73;
+				CURRENT_PROJECT_VERSION = 74;
 				DEVELOPMENT_TEAM = M463L9U7L5;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -378,7 +378,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.7.3;
+				MARKETING_VERSION = 1.7.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.rabble;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -505,7 +505,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = 73;
+				CURRENT_PROJECT_VERSION = 74;
 				DEVELOPMENT_TEAM = M463L9U7L5;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -515,7 +515,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.7.3;
+				MARKETING_VERSION = 1.7.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.rabble;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -536,7 +536,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/RunnerRelease.entitlements;
-				CURRENT_PROJECT_VERSION = 73;
+				CURRENT_PROJECT_VERSION = 74;
 				DEVELOPMENT_TEAM = M463L9U7L5;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -546,7 +546,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.7.3;
+				MARKETING_VERSION = 1.7.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.rabble;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
