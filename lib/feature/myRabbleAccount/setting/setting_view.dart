@@ -9,7 +9,7 @@ class SettingView extends StatelessWidget {
         create: (context) => MyRabbleAccountCubit(),
         builder: (context, state, bloc) {
           return Scaffold(
-            backgroundColor: APPColors.grey,
+            backgroundColor: APPColors.bgColor,
             appBar: PreferredSize(
                 preferredSize: Size.fromHeight(8.h),
                 child: const RabbleAppbar(
@@ -24,7 +24,24 @@ class SettingView extends StatelessWidget {
                   child: Column(
                     children: [
                       InkWell(
-                        onTap: () {},
+                        onTap: () async {
+                          final String recipient = 'support@rabble.market';
+                          final String subject = 'Subject of your email';
+                          final String body = 'Your email content goes here';
+
+                          final Uri mailtoUrl = Uri(
+                            scheme: 'mailto',
+                            path: recipient,
+                            queryParameters: {
+                              'subject': subject,
+                              'body': body,
+                            },
+                          );
+                          if (!await launchUrl(mailtoUrl,
+                              mode: LaunchMode.externalNonBrowserApplication)) {
+                            throw 'Could not launch $mailtoUrl';
+                          }
+                        },
                         child: TeamSettingCustomView(
                           icon: Container(
                               margin: PagePadding.onlyTop(1.w),
@@ -39,7 +56,9 @@ class SettingView extends StatelessWidget {
                         ),
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          _launchUrl();
+                        },
                         child: TeamSettingCustomView(
                           icon: Container(
                               margin: PagePadding.onlyTop(1.w),
@@ -54,7 +73,9 @@ class SettingView extends StatelessWidget {
                         ),
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          NavigatorHelper().navigateToWebScreen('2', '2');
+                        },
                         child: TeamSettingCustomView(
                           icon: Assets.svgs.faqs.svg(width: 3.w, height: 2.h),
                           title: kFAQs,
@@ -93,7 +114,9 @@ class SettingView extends StatelessWidget {
                         ),
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          NavigatorHelper().navigateToWebScreen('3', '3');
+                        },
                         child: TeamSettingCustomView(
                           icon: Assets.svgs.terms.svg(width: 3.w, height: 2.h),
                           title: kTermsofUse,
@@ -105,7 +128,9 @@ class SettingView extends StatelessWidget {
                         ),
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          NavigatorHelper().navigateToWebScreen('1', '1');
+                        },
                         child: TeamSettingCustomView(
                           icon: Assets.svgs.terms.svg(width: 3.w, height: 2.h),
                           title: kPrivacyPolicy,

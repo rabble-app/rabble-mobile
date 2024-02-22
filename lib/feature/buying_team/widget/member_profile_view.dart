@@ -8,11 +8,13 @@ class MemberProfileView extends StatelessWidget {
       this.teamName,
       required this.isHost,
       required this.orderId,
-      required this.isNormalPage})
+      required this.isNormalPage,
+      this.imageUrl})
       : super(key: key);
 
   final Members? data;
   final String? teamName;
+  final String? imageUrl;
   final bool isHost;
   final bool isNormalPage;
   final String orderId;
@@ -32,9 +34,8 @@ class MemberProfileView extends StatelessWidget {
       firstCharName2 = text.length > 1 ? text[1] : " "; // Change 2 to 1
 
       combination =
-      '${firstCharName1.length > 0 ? firstCharName1[0] : '' ?? ''}${firstCharName2.length > 0 ? firstCharName2[0] : '' ?? ''}';
+          '${firstCharName1.length > 0 ? firstCharName1[0] : '' ?? ''}${firstCharName2.length > 0 ? firstCharName2[0] : '' ?? ''}';
     }
-
 
     return Container(
       margin: PagePadding.onlyTop(2.h),
@@ -42,22 +43,33 @@ class MemberProfileView extends StatelessWidget {
         children: [
           Row(
             children: [
-              Container(
-                width: MediaQuery.of(context).size.width*0.12,
-                height: MediaQuery.of(context).size.width*0.12,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: APPColors.appBlack,
-                ),
-                child: Center(
-                  child: RabbleText.subHeaderText(
-                    text: combination,
-                    fontWeight: FontWeight.bold,
-                    color: APPColors.appPrimaryColor,
-                    fontSize: 13.sp,
-                  ),
-                ),
-              ),
+              imageUrl!.isNotEmpty
+                  ? SizedBox(
+                width: MediaQuery.of(context).size.width * 0.12,
+                height: MediaQuery.of(context).size.width * 0.12,
+
+                child: RabbleImageLoader(
+                        imageUrl: imageUrl!,
+                        isRound: true,
+                        roundValue: 18,
+                      ),
+                  )
+                  : Container(
+                      width: MediaQuery.of(context).size.width * 0.12,
+                      height: MediaQuery.of(context).size.width * 0.12,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: APPColors.appBlack,
+                      ),
+                      child: Center(
+                        child: RabbleText.subHeaderText(
+                          text: combination,
+                          fontWeight: FontWeight.bold,
+                          color: APPColors.appPrimaryColor,
+                          fontSize: 13.sp,
+                        ),
+                      ),
+                    ),
               SizedBox(
                 width: 3.w,
               ),

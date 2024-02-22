@@ -173,7 +173,7 @@ class ProductDetail {
     _imageUrl = json['imageUrl'];
     _description = json['description'];
     _producerId = json['producerId'];
-    _price = json['price'];
+    _price = num.tryParse(json['price']);
     _status = json['status'];
     _createdAt = json['createdAt'];
     _updatedAt = json['updatedAt'];

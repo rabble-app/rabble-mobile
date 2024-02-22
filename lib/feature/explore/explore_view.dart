@@ -49,7 +49,6 @@ class _ExploreViewState extends State<ExploreView> with WidgetsBindingObserver {
               return BehaviorSubjectBuilder<String>(
                   subject: PostalCodeService().postalCodeGlobalSubject,
                   builder: (context, postalCodeSnap) {
-                    print('notified');
                     return CubitProvider<RabbleBaseState, ExploreCubit>(
                         create: (context) => exploreCubit..fetchPostalCode(),
                         builder: (context, state, bloc) {

@@ -444,7 +444,7 @@ class Producer {
     _imageKey = json['imageKey'] ?? '';
     _businessName = json['businessName'] ?? '';
     _businessAddress = json['businessAddress'] ?? '';
-    _minimumTreshold = json['minimumTreshold'] ?? 0;
+    _minimumTreshold = num.parse(json['minimumTreshold'].toString() ??'0');
     _website = json['website'] ?? '';
     _description = json['description'] ?? '';
     _createdAt = json['createdAt'] ?? '';

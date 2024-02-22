@@ -4,7 +4,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 class WebView extends StatefulWidget {
   static const String routeName = '/web/:url/:title';
 
-  final String url,title;
+  final String url, title;
 
   WebView({required this.url, required this.title});
 
@@ -36,13 +36,11 @@ class _WebViewState extends State<WebView> {
           },
         ),
       )
-      ..loadRequest(Uri.parse('https://${widget.url}/'));
+      ..loadRequest(getUrl(widget.title));
   }
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       body: Column(
         children: [
@@ -80,7 +78,7 @@ class _WebViewState extends State<WebView> {
                 Align(
                   alignment: Alignment.center,
                   child: RabbleText.subHeaderText(
-                    text: widget.title,
+                    text: getTitle(widget.title),
                     color: APPColors.appPrimaryColor,
                     fontSize: 13.sp,
                     fontFamily: cGosha,
@@ -95,4 +93,32 @@ class _WebViewState extends State<WebView> {
       ),
     );
   }
+
+  Uri getUrl(String title) {
+    if (title == '1' || title == '3') {
+      return Uri.parse(
+          'https://rabble.notion.site/Privacy-Policy-bd014fb416b948aaaa7d8ee3d98c8f5e');
+    }
+
+    if (title == '2') {
+      return Uri.parse(
+          'https://rabble.notion.site/Rabble-FAQ-cd38e3e567ae499f906641ecd7632df4');
+    }
+
+    return Uri.parse('https://${widget.url}/');
+  }
+
+  getTitle(String title) {
+    if (title == '1' || title == '3') {
+      return kPrivacyPolicy;
+    }
+
+    if (title == '2') {
+      return kFAQs;
+    }
+
+    return widget.title;
+  }
+
+
 }

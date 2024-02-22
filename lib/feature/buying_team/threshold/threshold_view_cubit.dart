@@ -92,7 +92,7 @@ class ThresholdViewCubit extends RabbleBaseCubit with Validators {
 
             for (int k = 0; k < quantity; k++) {
               tempList.add(TempBoxData(
-                  '${userRecord.owner!.firstName!.trim()} ${userRecord.owner!.lastName!.trim()}'));
+                  '${userRecord.owner!.firstName!=null? userRecord.owner!.firstName!.trim():''} ${userRecord.owner!.lastName!=null?userRecord.owner!.lastName!.trim():''}'));
             }
           }
           var t = allTempBoxList.value;

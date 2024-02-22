@@ -11,7 +11,7 @@ class QuantityWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 25.w,
+      width: 21.w,
       margin: PagePadding.onlyBottom(1.w),
       decoration: ContainerDecoration.boxDecoration(
           bg: APPColors.appBlack,

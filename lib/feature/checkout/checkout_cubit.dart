@@ -217,10 +217,12 @@ class CheckoutCubit extends RabbleBaseCubit {
       totalAmount += e.quantity! * e.price!;
     });
 
-    BuyingTeamCreationService().addPaymentData(
-        mamount,
-        double.parse(calCulateAmountToPay(totalAmount.toInt(),
-            int.parse(getMyPaidPayment(payments, userId)))));
+    double originalValue = double.parse(calCulateAmountToPay(totalAmount,
+        double.parse(getMyPaidPayment(payments, userId).toString())));
+
+    double roundedValue = double.parse(originalValue.toStringAsFixed(2));
+
+    BuyingTeamCreationService().addPaymentData(mamount, roundedValue);
 
     List<Map<String, dynamic>> bulkBasketItems =
         myBasketList.value.map((UserBasketData productDetail) {
@@ -306,11 +308,15 @@ class CheckoutCubit extends RabbleBaseCubit {
     userDataSubject$.sink.add(userModel);
   }
 
-  calCulateAmountToPay(int totalAmount, int myPaidPayment) {
+  calCulateAmountToPay(double totalAmount, double myPaidPayment) {
     return (totalAmount - myPaidPayment).toString();
   }
 
-  Future<void> checkTeamExist(BuildContext context, String producerName,String producerId,) async {
+  Future<void> checkTeamExist(
+    BuildContext context,
+    String producerName,
+    String producerId,
+  ) async {
     emit(RabbleBaseState.secondaryBusy());
 
     var teamExistRes = await userRepo.checkTeamExist(producerId,
@@ -323,15 +329,17 @@ class CheckoutCubit extends RabbleBaseCubit {
       if (teamExistRes.data!.isNotEmpty) {
         CustomBottomSheet.showTeamExistBottomModelSheet(
             context,
-            TeamExistSheet(producerName,
-                PostalCodeService().postalCodeGlobalSubject.value.toString(),teamExistRes.data!,producerId),
+            TeamExistSheet(
+                producerName,
+                PostalCodeService().postalCodeGlobalSubject.value.toString(),
+                teamExistRes.data!,
+                producerId),
             true,
             true,
             isRemove: true);
       } else {
         BuyingTeamCreationService().isAuthSubject$.add(false);
-        NavigatorHelper().navigateTo(
-            '/create_group_name_view', producerName);
+        NavigatorHelper().navigateTo('/create_group_name_view', producerName);
       }
     }
 

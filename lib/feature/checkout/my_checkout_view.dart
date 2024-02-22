@@ -34,13 +34,11 @@ class MyCheckoutView extends StatelessWidget {
                   backgroundColor: APPColors.bg_app_primary,
                   appBar: PreferredSize(
                       preferredSize: Size.fromHeight(8.h),
-                      child:  RabbleAppbar(
+                      child: RabbleAppbar(
                         backgroundColor: Colors.transparent,
                         backTitle: kBack,
                         leadingWidth: 25.w,
-                        title: teamData.count!.order! > 1
-                            ? kYB
-                            : KUO,
+                        title: teamData.count!.order! > 1 ? kYB : KUO,
                       )),
                   body: SingleChildScrollView(
                     child: Column(
@@ -76,13 +74,11 @@ class MyCheckoutView extends StatelessWidget {
                       backgroundColor: APPColors.bg_app_primary,
                       appBar: PreferredSize(
                           preferredSize: Size.fromHeight(8.h),
-                          child:  RabbleAppbar(
+                          child: RabbleAppbar(
                             backgroundColor: Colors.transparent,
                             backTitle: kBack,
                             leadingWidth: 25.w,
-                            title: teamData.count!.order! > 1
-                                ? kYB
-                                : KUO,
+                            title: teamData.count!.order! > 1 ? kYB : KUO,
                           )),
                       body: productList.data!.isEmpty
                           ? Center(
@@ -299,10 +295,11 @@ class MyCheckoutView extends StatelessWidget {
                                                           RabbleText
                                                               .subHeaderText(
                                                             text: DateFormatUtil.amountFormatter(double.parse(calCulateAmountToPay(
-                                                                int.parse(getTotalAmount(
-                                                                    productList
-                                                                        .data)),
-                                                                int.parse(getMyPaidPayment(
+                                                                double.parse(
+                                                                    getTotalAmount(
+                                                                        productList
+                                                                            .data)),
+                                                                double.parse(getMyPaidPayment(
                                                                     currentOrderData
                                                                         .payments,
                                                                     snapshot
@@ -393,10 +390,11 @@ class MyCheckoutView extends StatelessWidget {
                                                           RabbleText
                                                               .subHeaderText(
                                                             text: DateFormatUtil.amountFormatter(double.parse(calCulateAmountToPay(
-                                                                int.parse(getTotalAmount(
-                                                                    productList
-                                                                        .data)),
-                                                                int.parse(getMyPaidPayment(
+                                                                double.parse(
+                                                                    getTotalAmount(
+                                                                        productList
+                                                                            .data)),
+                                                                double.parse(getMyPaidPayment(
                                                                     currentOrderData
                                                                         .payments,
                                                                     snapshot
@@ -433,9 +431,9 @@ class MyCheckoutView extends StatelessWidget {
                                           !element.update!) ==
                                       true &&
                                   double.parse(calCulateAmountToPay(
-                                          int.parse(
+                                          double.parse(
                                               getTotalAmount(productList.data)),
-                                          int.parse(getMyPaidPayment(
+                                          double.parse(getMyPaidPayment(
                                               currentOrderData.payments,
                                               bloc.userDataSubject$.value
                                                   .id!)))) <=
@@ -468,15 +466,18 @@ class MyCheckoutView extends StatelessWidget {
                                                 BuyingTeamCreationService().addPaymentData(
                                                     mamount,
                                                     double.parse(calCulateAmountToPay(
-                                                        int.parse(
+                                                        double.parse(
                                                             getTotalAmount(
                                                                 productList
                                                                     .data)),
-                                                        int.parse(getMyPaidPayment(
-                                                            currentOrderData
-                                                                .payments,
-                                                            bloc.userDataSubject$
-                                                                .value.id!)))));
+                                                        double.parse(
+                                                            getMyPaidPayment(
+                                                                currentOrderData
+                                                                    .payments,
+                                                                bloc
+                                                                    .userDataSubject$
+                                                                    .value
+                                                                    .id!)))));
 
                                                 BuyingTeamCreationService()
                                                     .groupNameSubject$
@@ -567,17 +568,21 @@ class MyCheckoutView extends StatelessWidget {
                                           }
                                         });
                                       } else {
+                                        double originalValue = double.parse(
+                                            calCulateAmountToPay(
+                                                double.parse(getTotalAmount(
+                                                    productList.data)),
+                                                double.parse(getMyPaidPayment(
+                                                    currentOrderData.payments,
+                                                    bloc.userDataSubject$.value
+                                                        .id!))));
+
+                                        double roundedValue = double.parse(
+                                            originalValue.toStringAsFixed(2));
+
                                         BuyingTeamCreationService()
                                             .addPaymentData(
-                                                mamount,
-                                                double.parse(calCulateAmountToPay(
-                                                    int.parse(getTotalAmount(
-                                                        productList.data)),
-                                                    int.parse(getMyPaidPayment(
-                                                        currentOrderData
-                                                            .payments,
-                                                        bloc.userDataSubject$
-                                                            .value.id!)))));
+                                                mamount, roundedValue);
 
                                         BuyingTeamCreationService()
                                             .groupNameSubject$
@@ -698,26 +703,29 @@ class MyCheckoutView extends StatelessWidget {
   }
 
   getTotalAmount(List<UserBasketData>? basket) {
-    return basket!.fold(
+    print(
+        'Total Amount ${basket!.fold('0', (previousValue, element) => (double.parse(previousValue) + double.parse(element.price.toString()) * element.quantity!).toString())}');
+
+    return basket.fold(
         '0',
-        (previousValue, element) => (int.parse(previousValue) +
-                int.parse(element.price.toString()) * element.quantity!)
+        (previousValue, element) => (double.parse(previousValue) +
+                double.parse(element.price.toString()) * element.quantity!)
             .toString());
   }
 
   getMyPaidPayment(List<Payments>? basket, String myId) {
-    print("MYID $myId");
-    return basket!.fold(
+    print(
+        'Paid Amount ${basket!.fold('0', (previousValue, element) => element.userId == myId ? (double.parse(previousValue) + double.parse(element.amount.toString())).toString() : previousValue)}');
+    return basket.fold(
         '0',
         (previousValue, element) => element.userId == myId
-            ? (int.parse(previousValue) + int.parse(element.amount.toString()))
+            ? (double.parse(previousValue) +
+                    double.parse(element.amount.toString()))
                 .toString()
             : previousValue);
   }
 
-  calCulateAmountToPay(int totalAmount, int myPaidPayment) {
-    print("totalAmount $totalAmount");
-    print("myPaidPayment $myPaidPayment");
+  calCulateAmountToPay(double totalAmount, double myPaidPayment) {
     return (totalAmount - myPaidPayment).toString();
   }
 }

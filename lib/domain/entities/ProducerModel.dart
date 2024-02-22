@@ -92,7 +92,7 @@ class ProducerDetail {
     _imageKey = json['imageKey'];
     _businessName = json['businessName'];
     _businessAddress = json['businessAddress'];
-    _minimumTreshold = json['minimumTreshold'];
+    _minimumTreshold = num.tryParse(json['minimumTreshold'])??0;
     _website = json['website'];
     _description = json['description'];
     _createdAt = json['createdAt'];

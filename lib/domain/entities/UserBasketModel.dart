@@ -83,7 +83,7 @@ class UserBasketData {
     _userId = json['userId'];
     _productId = json['productId'];
     _quantity = json['quantity'];
-    _price = json['price'];
+    _price = num.tryParse(json['price']);
     _createdAt = json['createdAt'];
     _updatedAt = json['updatedAt'];
     _product = json['product'] != null

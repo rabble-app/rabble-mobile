@@ -173,7 +173,7 @@ class CompleteThresholdView extends StatelessWidget {
                                                                                   delivers: teamDataSnap.data!.frequency!.toInt(),
                                                                                   memberSince: DateFormatUtil.formatDate(teamDataSnap.data!.createdAt!, 'dd MMM yyyy'),
                                                                                   currentUserId: teamDataSnap.data!.hostId,
-                                                                                  introText: teamDataSnap.data!.description!,
+                                                                                  introText: teamDataSnap.data!.description??'',
                                                                                   percentage: DateFormatUtil.calculatePercentage(int.parse(currentOrderSnap.data!.accumulatedAmount!.toString()), int.parse(currentOrderSnap.data!.minimumTreshold!.toString())),
                                                                                   hostId: teamDataSnap.data!.hostId!,
                                                                                 )
@@ -188,7 +188,7 @@ class CompleteThresholdView extends StatelessWidget {
                                                                                   memberSince: DateFormatUtil.formatDate(teamDataSnap.data!.createdAt!, 'dd MMM yyyy'),
                                                                                   currentUserId: teamDataSnap.data!.hostId,
                                                                                   introText: teamDataSnap.data!.description!,
-                                                                                  percentage: DateFormatUtil.calculatePercentage(int.parse(currentOrderSnap.data!.accumulatedAmount!.toString()), int.parse(currentOrderSnap.data!.minimumTreshold!.toString())),
+                                                                                  percentage: DateFormatUtil.calculatePercentage(int.parse(currentOrderSnap.data!.accumulatedAmount!.round().toString()), int.parse(currentOrderSnap.data!.minimumTreshold!.round().toString())),
                                                                                   hostId: teamDataSnap.data!.hostId!,
                                                                                 );
                                                                         }),
@@ -373,7 +373,7 @@ class CompleteThresholdView extends StatelessWidget {
                                                                                           currentOrderSnap.data!.deadline!.toString(),
                                                                                         ),
                                                                                         totalMembers: teamDataSnap.data!.members!.length.toString(),
-                                                                                        percentage: DateFormatUtil.calculatePercentage(int.parse(currentOrderSnap.data!.accumulatedAmount!.toString()), int.parse(currentOrderSnap.data!.minimumTreshold!.toString())),
+                                                                                        percentage: DateFormatUtil.calculatePercentage(int.parse(currentOrderSnap.data!.accumulatedAmount!.round().toString()), int.parse(currentOrderSnap.data!.minimumTreshold!.round().toString())),
                                                                                       ),
                                                                                       SizedBox(
                                                                                         height: 2.h,

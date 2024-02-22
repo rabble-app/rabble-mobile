@@ -43,7 +43,7 @@ class CustomBottomNavigation extends StatelessWidget {
         },
         child: SizedBox(
           height: MediaQuery.of(context).size.height*0.06,
-          width: 14.w,
+          width: 16.w,
           child: Column(
             children: [
               SizedBox(

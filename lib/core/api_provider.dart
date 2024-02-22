@@ -12,6 +12,7 @@ import 'package:rabble/domain/entities/TeamDetailChatModel.dart';
 import 'package:rabble/domain/entities/TeamModel.dart';
 import 'package:rabble/domain/entities/UserBasketModel.dart';
 import 'package:rabble/domain/entities/UserTeamModel.dart';
+import 'dart:math' as math; // Import the math library
 
 import '../domain/entities/MySubscriptionModel.dart';
 
@@ -55,7 +56,6 @@ class ApiProvider extends Source {
     snackBarOnError = true,
     VoidCallback? errorCallBack,
   }) async {
-
     final res = await post<BaseModel>(constructUrl('auth/pusher-user'),
         body: {'socket_id': socketId},
         throwOnError: throwOnError,
@@ -65,12 +65,12 @@ class ApiProvider extends Source {
   }
 
   Future<ConversationModel> chatList(
-      String teamId,
-      String offset, {
-        throwOnError = true,
-        snackBarOnError = true,
-        VoidCallback? errorCallBack,
-      }) async {
+    String teamId,
+    String offset, {
+    throwOnError = true,
+    snackBarOnError = true,
+    VoidCallback? errorCallBack,
+  }) async {
     final res = await get<ConversationModel>(
         constructUrl('chats?teamId=$teamId&offset=$offset'),
         throwOnError: throwOnError,
@@ -827,8 +827,6 @@ class ApiProvider extends Source {
     final http.Response response = await client.get(Uri.parse(request));
     late NearByLocations location;
 
-    print(response.statusCode);
-    print(response.body.toString());
     if (response.statusCode == 200) {
       location = NearByLocations.fromJson(json.decode(response.body));
     } else {
@@ -844,6 +842,9 @@ class ApiProvider extends Source {
     snackBarOnError = true,
     VoidCallback? errorCallBack,
   }) async {
+
+//    body['amount'] = body['amount'].round();
+
     final res = await post<ChargeModel>(
       constructUrl('$nPayment$nCharge'),
       body: body,

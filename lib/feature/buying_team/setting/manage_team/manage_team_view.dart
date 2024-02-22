@@ -127,6 +127,7 @@ class ManageTeamView extends StatelessWidget {
                                       : MemberProfileView(
                                           isNormalPage: false,
                                           teamName: teamData.name,
+                                          imageUrl: teamData.imageUrl,
                                           isHost:
                                               userData.id == teamData.hostId,
                                           orderId: teamData.id!,
