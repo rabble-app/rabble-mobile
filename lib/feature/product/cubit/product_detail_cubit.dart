@@ -205,11 +205,14 @@ class ProductDetailCubit extends RabbleBaseCubit {
   BehaviorSubject<UserModel> userDataSubject$ = BehaviorSubject<UserModel>();
 
   Future<void> fetchUserData() async {
-    var userData =
-        await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
-    UserModel userModel = UserModel.fromJson(jsonDecode(userData));
+    String status = await RabbleStorage.getLoginStatus() ?? "0";
+    if (status != '0') {
+      var userData =
+          await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+      UserModel userModel = UserModel.fromJson(jsonDecode(userData));
 
-    userDataSubject$.sink.add(userModel);
+      userDataSubject$.sink.add(userModel);
+    }
   }
 }
 

@@ -1,6 +1,7 @@
 import 'package:insta_image_viewer/insta_image_viewer.dart';
 import 'package:rabble/config/export.dart';
 import 'package:rabble/domain/entities/MoreProductModel.dart';
+import 'package:rabble/feature/auth/login/login_modal_view.dart';
 import 'package:rabble/feature/product/portioned_product_list_widget.dart';
 import 'package:rabble/feature/product/portioned_product_widget.dart';
 import 'package:shimmer/shimmer.dart';
@@ -524,7 +525,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                                                               return SizedBox(
                                                                 width: context
                                                                         .allWidth *
-                                                                    0.7,
+                                                                    0.75,
                                                                 child: RabbleText
                                                                     .subHeaderText(
                                                                   text:
@@ -557,7 +558,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                                                     MainAxisAlignment
                                                         .spaceBetween,
                                                 crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                    CrossAxisAlignment.center,
                                                 children: [
                                                   Container(
                                                     width:
@@ -608,11 +609,12 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                                                               '${productDetail.orderSubUnit}',
                                                           fontSize: 10.sp,
                                                           height: 1,
-
-                                                          fontFamily: cPoppins,
-                                                          color: APPColors.bg_grey27,
-                                                          fontWeight: FontWeight.w500,
-
+                                                          fontFamily:
+                                                              cPoppinItalic,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          color: APPColors
+                                                              .bg_grey27,
                                                         )
                                                       ],
                                                     ),
@@ -688,8 +690,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                                                   fontWeight: FontWeight.w500,
                                                   letterSpacing: 0.7,
                                                   wordSpacing: 1.5,
-                                                  color:
-                                                      APPColors.bg_grey27,
+                                                  color: APPColors.bg_grey27,
                                                 ),
                                               ),
                                               Container(
@@ -697,13 +698,13 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                                                     1.w, 3.w, 2.w, 3.w),
                                                 child: RabbleText.subHeaderText(
                                                   text:
-                                                  '${productDetail.description}',
+                                                      '${productDetail.description}',
                                                   textAlign: TextAlign.start,
                                                   fontSize: 11.sp,
                                                   fontFamily: cPoppins,
                                                   fontWeight: FontWeight.w400,
                                                   color:
-                                                  APPColors.appTextPrimary,
+                                                      APPColors.appTextPrimary,
                                                 ),
                                               ),
                                               Container(
@@ -739,80 +740,83 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                                                           children: [
                                                             InkWell(
                                                               onTap: () async {
-                                                                if (productDetail
-                                                                        .type ==
-                                                                    'PORTIONED_SINGLE_PRODUCT') {
-                                                                  List<TempBoxData>
-                                                                      tempList =
-                                                                      bloc.purchasedUserListSubject$
+                                                                String status =
+                                                                    await RabbleStorage
+                                                                            .getLoginStatus() ??
+                                                                        "0";
+                                                                if (status !=
+                                                                    '0') {
+                                                                  String
+                                                                      postalCode =
+                                                                      await RabbleStorage
+                                                                          .getPostalCode();
+
+                                                                  if (postalCode
+                                                                      .isEmpty) {
+                                                                    NavigatorHelper()
+                                                                        .navigateTo(
+                                                                            '/add_postal_code_view');
+                                                                  } else {
+                                                                    if (productDetail
+                                                                            .type ==
+                                                                        'PORTIONED_SINGLE_PRODUCT') {
+                                                                      List<
+                                                                          TempBoxData> tempList = bloc
+                                                                              .purchasedUserListSubject$
                                                                               .hasValue
                                                                           ? bloc
                                                                               .purchasedUserListSubject$
                                                                               .value
                                                                           : [];
 
-                                                                  if (tempList
-                                                                      .isNotEmpty) {
-                                                                    tempList
-                                                                        .removeLast();
-                                                                  }
-                                                                  bloc.purchasedUserListSubject$
-                                                                      .sink
-                                                                      .add(
-                                                                          tempList);
-                                                                  if (productDetailSnapShot
-                                                                              .data !=
-                                                                          null &&
-                                                                      productDetailSnapShot
-                                                                              .data!
-                                                                              .qty! >
-                                                                          1) {
-                                                                    bloc.productQuantity(
-                                                                        productDetailSnapShot.data!.qty! -
-                                                                            1,
-                                                                        productDetailSnapShot
-                                                                            .data!
-                                                                            .id!,
-                                                                        productDetailSnapShot
+                                                                      if (tempList
+                                                                          .isNotEmpty) {
+                                                                        tempList
+                                                                            .removeLast();
+                                                                      }
+                                                                      bloc.purchasedUserListSubject$
+                                                                          .sink
+                                                                          .add(
+                                                                              tempList);
+                                                                      if (productDetailSnapShot.data !=
+                                                                              null &&
+                                                                          productDetailSnapShot.data!.qty! >
+                                                                              1) {
+                                                                        bloc.productQuantity(
+                                                                            productDetailSnapShot.data!.qty! -
+                                                                                1,
+                                                                            productDetailSnapShot.data!.id!,
+                                                                            productDetailSnapShot.data!.producer!.id!);
+                                                                      } else {
+                                                                        await bloc
+                                                                            .removeProduct(productDetail.id!);
+                                                                        bloc.fetchAllProducts(productDetailSnapShot
                                                                             .data!
                                                                             .producer!
                                                                             .id!);
-                                                                  } else {
-                                                                    await bloc.removeProduct(
-                                                                        productDetail
+                                                                      }
+                                                                    } else {
+                                                                      if (productDetailSnapShot.data !=
+                                                                              null &&
+                                                                          productDetailSnapShot.data!.qty! >
+                                                                              1) {
+                                                                        bloc.productQuantity(
+                                                                            productDetailSnapShot.data!.qty! -
+                                                                                1,
+                                                                            productDetailSnapShot.data!.id!,
+                                                                            productDetailSnapShot.data!.producer!.id!);
+                                                                      } else {
+                                                                        await bloc
+                                                                            .removeProduct(productDetail.id!);
+                                                                        bloc.fetchAllProducts(productDetailSnapShot
+                                                                            .data!
+                                                                            .producer!
                                                                             .id!);
-                                                                    bloc.fetchAllProducts(productDetailSnapShot
-                                                                        .data!
-                                                                        .producer!
-                                                                        .id!);
+                                                                      }
+                                                                    }
                                                                   }
                                                                 } else {
-                                                                  if (productDetailSnapShot
-                                                                              .data !=
-                                                                          null &&
-                                                                      productDetailSnapShot
-                                                                              .data!
-                                                                              .qty! >
-                                                                          1) {
-                                                                    bloc.productQuantity(
-                                                                        productDetailSnapShot.data!.qty! -
-                                                                            1,
-                                                                        productDetailSnapShot
-                                                                            .data!
-                                                                            .id!,
-                                                                        productDetailSnapShot
-                                                                            .data!
-                                                                            .producer!
-                                                                            .id!);
-                                                                  } else {
-                                                                    await bloc.removeProduct(
-                                                                        productDetail
-                                                                            .id!);
-                                                                    bloc.fetchAllProducts(productDetailSnapShot
-                                                                        .data!
-                                                                        .producer!
-                                                                        .id!);
-                                                                  }
+                                                                  openLoginSheet();
                                                                 }
                                                               },
                                                               child: Container(
@@ -860,39 +864,57 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                                                                       .bold,
                                                             ),
                                                             InkWell(
-                                                              onTap: () {
-                                                                if (productDetail
-                                                                        .type ==
-                                                                    'PORTIONED_SINGLE_PRODUCT') {
-                                                                  List<TempBoxData>
-                                                                      tempList =
-                                                                      bloc.purchasedUserListSubject$
-                                                                              .hasValue
-                                                                          ? bloc
-                                                                              .purchasedUserListSubject$
-                                                                              .value
-                                                                          : [];
+                                                              onTap: () async {
+                                                                String
+                                                                    postalCode =
+                                                                    await RabbleStorage
+                                                                        .getPostalCode();
 
-                                                                  if (productDetailSnapShot
+                                                                if (postalCode
+                                                                    .isEmpty) {
+                                                                  NavigatorHelper()
+                                                                      .navigateTo(
+                                                                          '/add_postal_code_view');
+                                                                } else {
+                                                                  if (productDetail
+                                                                          .type ==
+                                                                      'PORTIONED_SINGLE_PRODUCT') {
+                                                                    List<
+                                                                        TempBoxData> tempList = bloc
+                                                                            .purchasedUserListSubject$
+                                                                            .hasValue
+                                                                        ? bloc
+                                                                            .purchasedUserListSubject$
+                                                                            .value
+                                                                        : [];
+
+                                                                    if (productDetailSnapShot.data!.qty! +
+                                                                            1 <=
+                                                                        productDetail
+                                                                            .thresholdQuantity!) {
+                                                                      tempList.add(
+                                                                          TempBoxData(
+                                                                              '${bloc.userDataSubject$.value.firstName} ${bloc.userDataSubject$.value.lastName}'));
+                                                                      bloc.purchasedUserListSubject$
+                                                                          .sink
+                                                                          .add(
+                                                                              tempList);
+                                                                    }
+                                                                    if (productDetailSnapShot.data!.qty! +
+                                                                            1 <=
+                                                                        productDetail
+                                                                            .thresholdQuantity!) {
+                                                                      bloc.productQuantity(
+                                                                          productDetailSnapShot.data!.qty! +
+                                                                              1,
+                                                                          productDetail
+                                                                              .id,
+                                                                          productDetailSnapShot
                                                                               .data!
-                                                                              .qty! +
-                                                                          1 <=
-                                                                      productDetail
-                                                                          .thresholdQuantity!) {
-                                                                    tempList.add(
-                                                                        TempBoxData(
-                                                                            '${bloc.userDataSubject$.value.firstName} ${bloc.userDataSubject$.value.lastName}'));
-                                                                    bloc.purchasedUserListSubject$
-                                                                        .sink
-                                                                        .add(
-                                                                            tempList);
-                                                                  }
-                                                                  if (productDetailSnapShot
-                                                                              .data!
-                                                                              .qty! +
-                                                                          1 <=
-                                                                      productDetail
-                                                                          .thresholdQuantity!) {
+                                                                              .producer!
+                                                                              .id!);
+                                                                    }
+                                                                  } else {
                                                                     bloc.productQuantity(
                                                                         productDetailSnapShot.data!.qty! +
                                                                             1,
@@ -903,17 +925,6 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                                                                             .producer!
                                                                             .id!);
                                                                   }
-                                                                } else {
-                                                                  bloc.productQuantity(
-                                                                      productDetailSnapShot
-                                                                              .data!.qty! +
-                                                                          1,
-                                                                      productDetail
-                                                                          .id,
-                                                                      productDetailSnapShot
-                                                                          .data!
-                                                                          .producer!
-                                                                          .id!);
                                                                 }
                                                               },
                                                               child: Container(
@@ -944,37 +955,57 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                                                             ButtonSize.large,
                                                         bgColor: APPColors
                                                             .appPrimaryColor,
-                                                        onPressed: () {
-                                                          if (productDetailSnapShot
-                                                                  .hasData &&
-                                                              productDetailSnapShot
-                                                                      .data!
-                                                                      .qty !=
-                                                                  null &&
-                                                              productDetailSnapShot
-                                                                      .data!
-                                                                      .qty !=
-                                                                  0) {
-                                                            NavigatorHelper()
-                                                                .navigateTo(
-                                                                    "/checkout",
-                                                                    data)
-                                                                .then((value) {
-                                                              bloc.fetchSingleProductExist(
-                                                                  productDetail
-                                                                      .id!);
-                                                            });
-                                                          } else {
-                                                            productDetail
-                                                                    .producerName =
-                                                                productDetailSnapShot
+                                                        onPressed: () async {
+                                                          String status =
+                                                              await RabbleStorage
+                                                                      .getLoginStatus() ??
+                                                                  "0";
+
+                                                          if (status != '0') {
+                                                            String postalCode =
+                                                                await RabbleStorage
+                                                                    .getPostalCode();
+
+                                                            if (postalCode
+                                                                .isEmpty) {
+                                                              NavigatorHelper()
+                                                                  .navigateTo(
+                                                                      '/add_postal_code_view');
+                                                            } else {
+                                                              if (productDetailSnapShot
+                                                                      .hasData &&
+                                                                  productDetailSnapShot
+                                                                          .data!
+                                                                          .qty !=
+                                                                      null &&
+                                                                  productDetailSnapShot
+                                                                          .data!
+                                                                          .qty !=
+                                                                      0) {
+                                                                NavigatorHelper()
+                                                                    .navigateTo(
+                                                                        "/checkout",
+                                                                        data)
+                                                                    .then(
+                                                                        (value) {
+                                                                  bloc.fetchSingleProductExist(
+                                                                      productDetail
+                                                                          .id!);
+                                                                });
+                                                              } else {
+                                                                productDetail
+                                                                    .producerName = productDetailSnapShot
                                                                         .data!
                                                                         .producer!
                                                                         .businessName ??
                                                                     '';
-                                                            bloc.addProductInCart(
-                                                                context,
-                                                                productDetail);
+                                                                bloc.addProductInCart(
+                                                                    context,
+                                                                    productDetail);
+                                                              }
+                                                            }
+                                                          } else {
+                                                            openLoginSheet();
                                                           }
                                                         },
                                                         child: RabbleText
@@ -1265,5 +1296,10 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                     );
                   });
         });
+  }
+
+  void openLoginSheet() {
+    CustomBottomSheet.showLoginViewModelSheet(context, LoginModalView(), true,
+        isRemove: true);
   }
 }

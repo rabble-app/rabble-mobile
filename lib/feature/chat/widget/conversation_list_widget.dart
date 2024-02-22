@@ -10,7 +10,6 @@ class ConversationListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(conversationList.length);
     return ListView.builder(
         itemCount: conversationList.length,
         shrinkWrap: true,

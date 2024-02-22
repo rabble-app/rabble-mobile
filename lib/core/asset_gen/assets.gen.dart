@@ -14,13 +14,29 @@ class $AssetsSVGGen {
   SvgGenImage get host => const SvgGenImage('assets/svg/host.svg');
   SvgGenImage get search_view => const SvgGenImage('assets/svg/search_view.svg');
 
+  SvgGenImage get myTeamTab => const SvgGenImage('assets/svg/myTeamTab.svg');
+  SvgGenImage get myTeamTab_selected => const SvgGenImage('assets/svg/myTeamTab_selected.svg');
+  SvgGenImage get memberTeamTab_selected => const SvgGenImage('assets/svg/memberTeamTab_selected.svg');
+
+
   SvgGenImage get host_empty => const SvgGenImage('assets/svg/host_empty.svg');
 
   SvgGenImage get member_empty => const SvgGenImage('assets/svg/member_empty.svg');
   SvgGenImage get gpay => const SvgGenImage('assets/svg/gpay.svg');
+
+  SvgGenImage get search_bottom => const SvgGenImage('assets/svg/search_bottom.svg');
+  SvgGenImage get tabhome => const SvgGenImage('assets/svg/tabhome.svg');
   SvgGenImage get tabteam => const SvgGenImage('assets/svg/tabteam.svg');
+  SvgGenImage get tabteam0 => const SvgGenImage('assets/svg/tabteam0.svg');
   SvgGenImage get tabprofile => const SvgGenImage('assets/svg/tabprofile.svg');
   SvgGenImage get tabmessages => const SvgGenImage('assets/svg/tabmessages.svg');
+
+
+  SvgGenImage get search_bottom_selected => const SvgGenImage('assets/svg/search_bottom_selected.svg');
+  SvgGenImage get tabteam_selected => const SvgGenImage('assets/svg/tabteam_selected.svg');
+  SvgGenImage get tabprofile_selected => const SvgGenImage('assets/svg/tabprofile_selected.svg');
+  SvgGenImage get tabmessages_selected => const SvgGenImage('assets/svg/tabmessages_selected.svg');
+
 
   SvgGenImage get request => const SvgGenImage('assets/svg/request.svg');
   SvgGenImage get send => const SvgGenImage('assets/svg/send.svg');
@@ -145,8 +161,7 @@ class $AssetsSVGGen {
 
   SvgGenImage get usertag => const SvgGenImage('assets/svg/user-tag.svg');
 
-  SvgGenImage get search_bottom =>
-      const SvgGenImage('assets/svg/search_bottom.svg');
+
 
   SvgGenImage get user_bottom =>
       const SvgGenImage('assets/svg/user_bottom.svg');
@@ -193,6 +208,10 @@ class $AssetsPNGGen {
 
 
   PngGenImage get teamhost => const PngGenImage('assets/png/teamhost.png');
+  PngGenImage get loginImage => const PngGenImage('assets/png/loginImage.png');
+  PngGenImage get otpImage => const PngGenImage('assets/png/otpImage.png');
+  PngGenImage get singupImage => const PngGenImage('assets/png/singupImage.png');
+  PngGenImage get detailImage => const PngGenImage('assets/png/detailImage.png');
 
 
 }

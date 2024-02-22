@@ -57,25 +57,16 @@ class _AuthWidgetState extends State<AuthWidget> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(
-                              height: 2.5.h,
-                            ),
-                            RabbleText.subHeaderText(
-                              text: kEnterYourPhoneNumber,
-                              fontFamily: 'Poppins',
-                              color: APPColors.appTextPrimary,
-                              fontSize: 9.sp,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            SizedBox(
-                              height: 1.h,
+                              height: 0.5.h,
                             ),
                             SizedBox(
                               height: Platform.isIOS
-                                  ? MediaQuery.of(context).size.height * 0.070
-                                  : MediaQuery.of(context).size.height * 0.080,
+                                  ? MediaQuery.of(context).size.height * 0.060
+                                  : MediaQuery.of(context).size.height * 0.070,
                               child: Row(
                                 children: [
                                   Container(
+                                  width: MediaQuery.of(context).size.width * 0.2,
                                     decoration:
                                         ContainerDecoration.boxDecoration(
                                             bg: APPColors.bg_grey26,
@@ -149,11 +140,12 @@ class _AuthWidgetState extends State<AuthWidget> {
                                                 if (!snapshot.hasData) {
                                                   return Assets.png.flagEngland
                                                       .png(
-                                                          width: 10.w,
-                                                          height: 6.h);
+                                                          width: 7.w,
+                                                          height: 4.h);
                                                 }
                                                 return RabbleText.headerText(
                                                   text: snapshot.data,
+                                                  fontSize: 18.sp,
                                                 );
                                               }),
                                           SizedBox(
@@ -162,7 +154,7 @@ class _AuthWidgetState extends State<AuthWidget> {
                                           const Icon(
                                             Icons.keyboard_arrow_down,
                                             color: APPColors.bg_grey27,
-                                            size: 30,
+                                            size: 25,
                                           ),
                                         ],
                                       ),
@@ -323,7 +315,7 @@ class _AuthWidgetState extends State<AuthWidget> {
                             ),
                             RabbleText.subHeaderText(
                               text: erroSnapshot.data!.isEmpty
-                                  ? kLoginHint2
+                                  ? ''
                                   : erroSnapshot.data!,
                               color: APPColors.bg_grey27,
                               fontWeight: FontWeight.normal,
@@ -332,7 +324,7 @@ class _AuthWidgetState extends State<AuthWidget> {
                               fontSize: 10.sp,
                             ),
                             SizedBox(
-                              height: 4.h,
+                              height: 2.h,
                             ),
                             StreamBuilder(
                                 stream: authCubit.validFPField,
@@ -365,16 +357,32 @@ class _AuthWidgetState extends State<AuthWidget> {
                                   );
                                 }),
                             SizedBox(
-                              height: 3.h,
+                              height: 2.h,
                             ),
-                            RabbleText.subHeaderText(
-                              text: kLoginDetailText,
-                              fontSize: 10.sp,
-                              fontFamily: cPoppins,
-                              height: 1.3,
-                              textAlign: TextAlign.start,
-                              color: APPColors.bg_grey27,
-                              fontWeight: FontWeight.normal,
+                            Row(
+                              children: [
+                                RabbleText.subHeaderText(
+                                  text: kTC,
+                                  fontSize: 10.sp,
+                                  fontFamily: cPoppins,
+                                  textAlign: TextAlign.start,
+                                  color: APPColors.bg_grey27,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                GestureDetector(
+                                  onTap: (){
+                                    NavigatorHelper().navigateToWebScreen('3', '3');
+                                  },
+                                  child: RabbleText.subHeaderText(
+                                    text: kTermsAndConditions,
+                                    fontSize: 10.sp,
+                                    fontFamily: cPoppins,
+                                    textAlign: TextAlign.start,
+                                    color: APPColors.appBlue,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ],
                             ),
                             SizedBox(
                               height: 4.h,

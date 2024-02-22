@@ -58,18 +58,21 @@ class CardCubit extends RabbleBaseCubit with Validators {
       emit(RabbleBaseState.idle());
     });
     if (myCardRes!.statusCode == 200) {
-      for (int i = 0; i < myCardRes.data!.length; i++) {
-        if (myCardRes.data![i].id != userModel.stripeDefaultPaymentMethodId!)
-          continue;
-        CardData tempData = myCardRes.data![i];
-        tempData.isSelected = true;
-        myCardRes.data![i] = tempData;
-        break;
+
+      if(myCardRes.data!.isNotEmpty) {
+        for (int i = 0; i < myCardRes.data!.length; i++) {
+          if (myCardRes.data![i].id != userModel.stripeDefaultPaymentMethodId!)
+            continue;
+          CardData tempData = myCardRes.data![i];
+          tempData.isSelected = true;
+          myCardRes.data![i] = tempData;
+          break;
+        }
+
+        myCardListSubject$.sink.add(myCardRes.data!);
+
+        primaryCardSubject$.sink.add(userModel.stripeDefaultPaymentMethodId!);
       }
-
-      myCardListSubject$.sink.add(myCardRes.data!);
-
-      primaryCardSubject$.sink.add(userModel.stripeDefaultPaymentMethodId!);
     }
 
     emit(RabbleBaseState.idle());

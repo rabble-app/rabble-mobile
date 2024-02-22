@@ -4,31 +4,37 @@ class ExploreCubit extends RabbleBaseCubit {
   ExploreCubit() : super(RabbleBaseState.idle());
 
   final BehaviorSubject<String> postalCodeSubject =
-      BehaviorSubject<String>.seeded('');
+      BehaviorSubject<String>();
   final BehaviorSubject<bool> visibleShareWidgetSubject =
       BehaviorSubject<bool>();
   BehaviorSubject<UserModel> userDataSubject$ = BehaviorSubject<UserModel>();
 
   Future<void> fetchPostalCode() async {
-    var postalCode = await RabbleStorage.getPostalCode();
-    var visibleShare = await RabbleStorage.getStatusShareWidget() ?? '0';
-    if (postalCode != null) {
-      PostalCodeService().postalCodeGlobalSubject.sink.add(postalCode!);
-      postalCodeSubject.sink.add(postalCode!);
-    }
+    String status = await RabbleStorage.getLoginStatus() ?? "0";
+    if (status != '0') {
+      var postalCode = await RabbleStorage.getPostalCode();
+      var visibleShare = await RabbleStorage.getStatusShareWidget() ?? '0';
+      if (postalCode != null) {
+        PostalCodeService().postalCodeGlobalSubject.sink.add(postalCode!);
+        postalCodeSubject.sink.add(postalCode!);
+      }
 
-    if (visibleShare == '1') {
-      visibleShareWidgetSubject.sink.add(false);
-    } else {
-      visibleShareWidgetSubject.sink.add(true);
-    }
+      if (visibleShare == '1') {
+        visibleShareWidgetSubject.sink.add(false);
+      } else {
+        visibleShareWidgetSubject.sink.add(true);
+      }
 
-    var userData =
-        await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
-    UserModel userModel = UserModel.fromJson(jsonDecode(userData));
-    userDataSubject$.sink.add(userModel);
-    if (userModel.postalCode != null && userModel.postalCode!.isNotEmpty) {
-      fetchAllBuyingTeamsForPostalCode();
+      var userData =
+          await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+      UserModel userModel = UserModel.fromJson(jsonDecode(userData));
+      userDataSubject$.sink.add(userModel);
+      if (userModel.postalCode != null && userModel.postalCode!.isNotEmpty) {
+        fetchAllBuyingTeamsForPostalCode();
+      }
+    }else{
+      postalCodeSubject.sink.add('');
+
     }
   }
 

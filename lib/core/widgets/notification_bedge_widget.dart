@@ -14,7 +14,7 @@ class NotificationBadgeWidget extends StatelessWidget {
         callBack!.call();
       }:null,
       child: Padding(
-        padding: PagePadding.custom(3,3,12.0,12.0),
+        padding: const PagePadding.custom(3,3,12.0,12.0),
         child: notifcationList.isNotEmpty?
         Assets.svgs.direct_notification.svg(
           width: 5.w,

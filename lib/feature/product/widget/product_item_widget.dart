@@ -1,4 +1,5 @@
 import 'package:rabble/config/export.dart';
+import 'package:rabble/feature/auth/login/login_modal_view.dart';
 import 'package:rabble/feature/product/product_detail/portioned_product_sheet.dart';
 
 class ProductItemWidget extends StatelessWidget {
@@ -362,9 +363,9 @@ class ProductItemWidget extends StatelessWidget {
                                   ),
                                   !isHorizontal!
                                       ? SizedBox(
-                                          height: 1.5.h,
+                                          height: 0.5.h,
                                         )
-                                      : SizedBox.shrink(),
+                                      : const SizedBox.shrink(),
                                   businessDetail != null
                                       ? RabbleText.subHeaderText(
                                           text:
@@ -404,9 +405,9 @@ class ProductItemWidget extends StatelessWidget {
                                       text: '${productDetail.orderSubUnit}',
                                       fontSize: 9.sp,
                                       height: 1,
-                                      fontFamily: cPoppins,
+                                      fontFamily: cPoppinItalic,
+                                      fontWeight: FontWeight.w600,
                                       color: APPColors.bg_grey27,
-                                      fontWeight: FontWeight.w500,
                                     )
                                   ],
                                 ),
@@ -511,23 +512,47 @@ class ProductItemWidget extends StatelessWidget {
                                       )
                                     : GestureDetector(
                                         onTap: () async {
-                                          productDetail.producerName =
-                                              businessDetail != null
-                                                  ? businessDetail!
-                                                          .businessName ??
-                                                      ''
-                                                  : '';
-                                          if (voidCallBack != null) {
-                                            productDetail.qty =
-                                                qtySnapshot.data;
-                                            await bloc.addProductInCart(
-                                                context, productDetail);
-                                            voidCallBack!.call();
+                                          String status = await RabbleStorage
+                                                  .getLoginStatus() ??
+                                              "0";
+
+                                          String postalCode = await RabbleStorage
+                                              .getPostalCode();
+
+
+                                          if (status != '0') {
+
+                                           if (postalCode.isEmpty) {
+                                            NavigatorHelper().navigateTo(
+                                                '/add_postal_code_view');
+                                          }else{
+                                             productDetail.producerName =
+                                             businessDetail != null
+                                                 ? businessDetail!
+                                                 .businessName ??
+                                                 ''
+                                                 : '';
+                                             if (voidCallBack != null) {
+                                               productDetail.qty =
+                                                   qtySnapshot.data;
+                                               await bloc.addProductInCart(
+                                                   context, productDetail);
+                                               voidCallBack!.call();
+                                             } else {
+                                               productDetail.qty =
+                                                   qtySnapshot.data;
+                                               bloc.addProductInCart(
+                                                   context, productDetail);
+                                             }
+                                           }
+
                                           } else {
-                                            productDetail.qty =
-                                                qtySnapshot.data;
-                                            bloc.addProductInCart(
-                                                context, productDetail);
+                                            CustomBottomSheet
+                                                .showLoginViewModelSheet(
+                                                    context,
+                                                    LoginModalView(),
+                                                    true,
+                                                    isRemove: true);
                                           }
                                         },
                                         child: Row(

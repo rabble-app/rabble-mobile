@@ -49,9 +49,10 @@ class _UserNameViewState extends State<UserNameView> {
                 padding: EdgeInsets.zero,
                 child: Column(
                   children: [
-                    const AuthUpperWidget(
+                     AuthUpperWidget(
                       heading: kYourDetails,
                       subHeading: kTellYourName,
+                      image: Assets.png.detailImage.png(),
                       steps: 'Step 2/2',
                     ),
                     Container(

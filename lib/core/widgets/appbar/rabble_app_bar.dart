@@ -33,14 +33,7 @@ class RabbleAppbar extends StatelessWidget {
                 if (hasRoutesToPop) {
                   NavigatorHelper().pop();
                 } else {
-
-                  String status = await RabbleStorage.getLoginStatus() ?? "0";
-
-                  if (status == '1') {
-                    NavigatorHelper().navigateAnClearAll('/home');
-                  } else {
-                    NavigatorHelper().navigateAnClearAll('/splash');
-                  }
+                  NavigatorHelper().navigateAnClearAll('/home');
                 }
               },
               child: Padding(
@@ -50,7 +43,9 @@ class RabbleAppbar extends StatelessWidget {
                 child: Row(
                   children: [
                     Assets.svgs.arrowLeft.svg(height: 3.h),
-                    SizedBox(width: 1.w,),
+                    SizedBox(
+                      width: 1.w,
+                    ),
                     RabbleText.subHeaderText(
                       text: backTitle ?? kBack,
                       color: APPColors.appPrimaryColor,

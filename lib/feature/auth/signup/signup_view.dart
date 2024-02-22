@@ -10,35 +10,45 @@ class SignUpView extends StatelessWidget {
       backgroundColor: APPColors.bgColor,
 
       body: ToucheDetector(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.zero,
-          child: Column(
-            children: [
-              Column(
-                children: [
-                  const AuthUpperWidget(
-                    heading: kSignUp,
-                    subHeading: kLoginHint,
-                    steps: 'Step 1/2',
-                  ),
-                  AuthWidget(
-                    type: '1',
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height*0.12,
-                  ),
+        child: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.zero,
+                child: Column(
+                  children: [
+                    Column(
+                      children: [
+                        AuthUpperWidget(
+                          heading: kSignUp,
+                          subHeading: kSignUpHint,
+                          image: Assets.png.singupImage.png(),
+                          steps: 'Step 1/2',
+                        ),
+                        AuthWidget(
+                          type: '1',
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height*0.12,
+                        ),
 
-                ],
+                      ],
+                    ),
+
+
+                  ],
+                ),
               ),
-              SizedBox(height: 5.h,),
-              AuthNowWidget(
-                  heading: kAlreadyMember,
-                  subHeading: kLogin,
-                  callBack: () {
-                    NavigatorHelper().navigateTo('/login');
-                  }),
-            ],
-          ),
+            ),
+            AuthNowWidget(
+                heading: kAlreadyMember,
+                subHeading: kLogin,
+                callBack: () {
+                  NavigatorHelper().navigateTo('/login');
+                }),
+            SizedBox(height: 4.h,)
+
+          ],
         ),
       ),
     );

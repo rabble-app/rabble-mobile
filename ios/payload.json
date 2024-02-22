@@ -1,0 +1,11 @@
+{
+  "Simulator Target Bundle": "com.app.rabble",
+  "aps" : {
+    "alert" : {
+      "title" : "Bilal",
+      "body" : "NewMewty\nHey Maxwell"
+    },
+    "sound" : "default",
+    "badge" : 10
+  }
+}

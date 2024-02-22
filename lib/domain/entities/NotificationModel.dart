@@ -79,6 +79,7 @@ class NotificationData {
     bool? isRead,
     String? createdAt,
     String? updatedAt,
+    String? type,
   }) {
     _id = id;
     _orderId = orderId;
@@ -90,6 +91,7 @@ class NotificationData {
     _isRead = isRead;
     _createdAt = createdAt;
     _updatedAt = updatedAt;
+    _type = type;
   }
 
   NotificationData.fromJson(dynamic json) {
@@ -103,6 +105,7 @@ class NotificationData {
     _isRead = json['isRead'];
     _createdAt = json['createdAt'];
     _updatedAt = json['updatedAt'];
+    _type = json['type'];
   }
 
   String? _id;
@@ -115,6 +118,7 @@ class NotificationData {
   bool? _isRead;
   String? _createdAt;
   String? _updatedAt;
+  String? _type;
 
   NotificationData copyWith({
     String? id,
@@ -127,6 +131,7 @@ class NotificationData {
     bool? isRead,
     String? createdAt,
     String? updatedAt,
+    String? type,
   }) =>
       NotificationData(
         id: id ?? _id,
@@ -139,7 +144,11 @@ class NotificationData {
         isRead: isRead ?? _isRead,
         createdAt: createdAt ?? _createdAt,
         updatedAt: updatedAt ?? _updatedAt,
+        type: type ?? _type,
       );
+
+
+  String? get type => _type;
 
   String? get id => _id;
 

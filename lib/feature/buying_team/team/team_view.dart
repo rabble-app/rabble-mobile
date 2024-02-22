@@ -249,7 +249,13 @@ class TeamView extends StatelessWidget {
                                                                                                 width: context.allWidth * 0.55,
                                                                                                 child: RabbleText.subHeaderText(
                                                                                                   textAlign: TextAlign.start,
-                                                                                                  text: teamDataSnap.data!.chats!.isEmpty ? 'Message your host' : '~ ${teamDataSnap.data!.chats!.last.user!.firstName}: ${teamDataSnap.data!.chats!.last.text}',
+                                                                                                  text: teamDataSnap.data!.chats!.isEmpty
+                                                                                                      ? teamDataSnap.data!.hostId == userDataSnap.data!.id
+                                                                                                          ? 'Message your team'
+                                                                                                          : 'Message your host'
+                                                                                                      : teamDataSnap.data!.hostId == userDataSnap.data!.id
+                                                                                                          ? '~ You: ${teamDataSnap.data!.chats!.last.text}'
+                                                                                                          : '~ ${teamDataSnap.data!.chats!.last.user!.firstName}: ${teamDataSnap.data!.chats!.last.text}',
                                                                                                   fontSize: 10.sp,
                                                                                                   color: APPColors.appBlack4,
                                                                                                   fontWeight: FontWeight.w500,

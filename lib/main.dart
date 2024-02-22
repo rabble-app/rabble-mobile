@@ -8,13 +8,13 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Config.initialize(Flavor.DEV, DevConfig());
 
-  // Stripe.publishableKey = kStripeDebugPublishKey;
+   Stripe.publishableKey = kStripeDebugPublishKey;
 
-  if (kDebugMode) {
-    Stripe.publishableKey = kStripeDebugPublishKey;
-  } else {
-    Stripe.publishableKey = kStripeReleasePublishKey;
-  }
+  // if (kDebugMode) {
+  //   Stripe.publishableKey = kStripeDebugPublishKey;
+  // } else {
+  //   Stripe.publishableKey = kStripeReleasePublishKey;
+  // }
 
   Stripe.merchantIdentifier = kStripeMerchantIdentifier;
 
@@ -25,7 +25,8 @@ void main() async {
 
   //  FlutterBranchSdk.validateSDKIntegration();
 
-  await loadImage(AssetImage('assets/png/onboard1.png'));
+  await loadImage(AssetImage('assets/png/splash.png'));
+//  await loadImage(AssetImage('assets/png/onboard1.png'));
   await loadImage(AssetImage('assets/png/onboard2.png'));
   await loadImage(AssetImage('assets/png/onboard3.png'));
   await loadImage(AssetImage('assets/png/onboard4.png'));
@@ -36,27 +37,27 @@ void main() async {
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-  // runApp(const MaterialApp(
-  //   debugShowCheckedModeBanner: false,
-  //   home: App(),
-  // ));
+  runApp(const MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: App(),
+  ));
 
-  String forceVersion = await getForceVersion();
-  PackageInfo.fromPlatform().then((value) {
-    String currentVersion = value.buildNumber;
-
-    if (int.parse(currentVersion) < int.parse(forceVersion)) {
-      runApp(const MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: ForceUpdate(),
-      ));
-    } else {
-      runApp(const MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: App(),
-      ));
-    }
-  });
+  // String forceVersion = await getForceVersion();
+  // PackageInfo.fromPlatform().then((value) {
+  //   String currentVersion = value.buildNumber;
+  //
+  //   if (int.parse(currentVersion) < int.parse(forceVersion)) {
+  //     runApp(const MaterialApp(
+  //       debugShowCheckedModeBanner: false,
+  //       home: ForceUpdate(),
+  //     ));
+  //   } else {
+  //     runApp(const MaterialApp(
+  //       debugShowCheckedModeBanner: false,
+  //       home: App(),
+  //     ));
+  //   }
+  // });
 }
 
 Future<void> loadImage(ImageProvider provider) {

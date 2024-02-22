@@ -29,6 +29,7 @@ class GlobalBloc {
   final recallApi = BehaviorSubject<bool>.seeded(false);
   final postalCodeChanged = BehaviorSubject<bool>.seeded(false);
   final isNotifcation = BehaviorSubject<bool>.seeded(false);
+  final isBackNotifcation = BehaviorSubject<bool>.seeded(false);
 
   Function(bool) get updateResetGoogleMapFlag => resetGoogleMap.add;
 

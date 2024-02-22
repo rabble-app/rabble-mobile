@@ -27,7 +27,7 @@ class TeamListView extends StatelessWidget {
                 imageUrl: memberData.user!.imageUrl,
                 isNormalPage: true,
                 teamName:
-                    '${memberData.user!.firstName ?? ''} ${memberData.user!.lastName ?? ''}',
+                    '${memberData.user!.firstName ?? ''} ${memberData.user!.lastName!.length >= 1 ? data['hostId'] == memberData.user!.id ? memberData.user!.lastName : memberData.user!.lastName![0] : ''}',
                 isHost: data['hostId'] == memberData.user!.id,
                 orderId: '',
               );

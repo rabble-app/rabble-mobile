@@ -127,7 +127,7 @@ class NavigatorHelper {
   Future<T?> navigateToClearAll<T>(String route,
       [Object? arguments, bool force = false]) async {
     return navigatorKey.currentState
-        ?.pushNamedAndRemoveUntil(route, (Route<dynamic> route) => false);
+        ?.pushNamedAndRemoveUntil(route, (Route<dynamic> route) => false,arguments: arguments);
   }
 
   navigateToScreen(

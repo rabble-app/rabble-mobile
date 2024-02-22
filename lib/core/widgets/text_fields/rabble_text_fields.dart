@@ -40,6 +40,7 @@ class RabbleTextField extends TextField {
           maxLines: maxLine ?? 1,
           onSubmitted: onSubmitted,
           decoration: InputDecoration(
+            counterText: '',
             filled: true,
             fillColor: filledColor ?? APPColors.appWhite,
             contentPadding:
@@ -107,6 +108,7 @@ class RabbleTextField extends TextField {
           maxLength: maxLength ?? 5000,
           focusNode: focusNode ?? FocusNode(),
           decoration: InputDecoration(
+            counterText: '',
             filled: true,
             fillColor: filledColor ?? APPColors.appWhite,
             border: OutlineInputBorder(
@@ -179,6 +181,8 @@ class RabbleTextField extends TextField {
           maxLength: maxLength ?? 5000,
           decoration: InputDecoration(
             filled: true,
+            counterText: '',
+
             fillColor: filledColor ?? APPColors.appWhite,
             contentPadding: EdgeInsets.symmetric(
                 vertical: verticalContent ?? 10.0,

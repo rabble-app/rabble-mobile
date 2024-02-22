@@ -44,6 +44,7 @@ class _ChatRoomViewState extends State<ChatRoomView> {
             (BuildContext context, RabbleBaseState state, ChatRoomCubit bloc) {
           return Scaffold(
             backgroundColor: APPColors.appBlack,
+            resizeToAvoidBottomInset: true,
             body: ToucheDetector(
               child: Column(
                 children: <Widget>[
@@ -59,6 +60,7 @@ class _ChatRoomViewState extends State<ChatRoomView> {
                           memeberList:
                               snapshot.hasData ? snapshot.data!.members! : [],
                           hostId: snapshot.hasData ? snapshot.data!.hostId : '',
+                          teamId:data['teamId'] ,
                           callBack: () {
                             if (bloc.conversationListSubject$.hasValue) {
                               if (bloc
@@ -170,12 +172,11 @@ class _ChatRoomViewState extends State<ChatRoomView> {
                         return Container(
                           height: snapshot.hasData
                               ? snapshot.data!.length >= 45
-                                  ? context.allHeight * 0.2
-                                  : context.allHeight * 0.12
-                              : context.allHeight * 0.12,
+                                  ? context.allHeight * 0.12
+                                  : context.allHeight * 0.07
+                              : context.allHeight * 0.07,
                           padding: PagePadding.all(1.h),
                           child: Container(
-                            margin: PagePadding.onlyBottom(3.w),
                             child: Padding(
                               padding: PagePadding.custom(1.w, 1.w, 0, 0),
                               child: Row(
@@ -225,7 +226,7 @@ class _ChatRoomViewState extends State<ChatRoomView> {
                                   ),
                                   InkWell(
                                     child: Assets.svgs.send
-                                        .svg(width: 1.8.h, height: 1.8.h),
+                                        .svg(width: 1.8.h, height: 1.8.h, color: snapshot.hasData? APPColors.appPrimaryColor : APPColors.bgColor),
                                     onTap: () {
                                       bloc.sendMessage(
                                           data['teamId'], data['teamName']);

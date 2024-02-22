@@ -24,17 +24,21 @@ class PostalCubit extends RabbleBaseCubit with Validators {
   BehaviorSubject<UserModel> userModelSubject$ = BehaviorSubject<UserModel>();
 
   Future<void> fetchPostalCode() async {
-    var data = await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
-    Map<String, dynamic> response = json.decode(data.toString().trim());
+    String status = await RabbleStorage.getLoginStatus() ?? "0";
+    if (status != '0') {
+      var data = await RabbleStorage.retrieveDynamicValue(
+          RabbleStorage.userKey);
+      Map<String, dynamic> response = json.decode(data.toString().trim());
 
-    UserModel userData = UserModel.fromJson(response);
-    if (userData.postalCode != null) {
-      PostalCodeService()
-          .postalCodeGlobalSubject
-          .sink
-          .add(userData.postalCode!);
+      UserModel userData = UserModel.fromJson(response);
+      if (userData.postalCode != null) {
+        PostalCodeService()
+            .postalCodeGlobalSubject
+            .sink
+            .add(userData.postalCode!);
+      }
+      userModelSubject$.sink.add(userData);
     }
-    userModelSubject$.sink.add(userData);
   }
 
   Future<void> updatePostalCode() async {

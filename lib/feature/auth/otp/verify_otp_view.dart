@@ -40,9 +40,10 @@ class _VerifyOtpViewState extends State<VerifyOtpView> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const AuthUpperWidget(
+                  AuthUpperWidget(
                     heading: kOTPVerification,
-                    subHeading: kOTPVerificationHint,
+                    subHeading: 'Enter the six digit code sent to your number',
+                    image: Assets.png.otpImage.png(),
                   ),
                   SizedBox(
                     height: 8.h,

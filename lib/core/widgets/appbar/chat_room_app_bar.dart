@@ -5,6 +5,7 @@ class ChatRoomAppbar extends StatelessWidget {
   final String? title;
   final String? subTitle;
   final String? backTitle;
+  final String? teamId;
   final String? hostId;
   final List<Widget>? action;
   final Color? backgroundColor;
@@ -26,7 +27,7 @@ class ChatRoomAppbar extends StatelessWidget {
     this.hideLeading,
     this.leadingWidth,
     required this.memeberList,
-    required this.callBack,
+    required this.callBack, this.teamId,
   }) : super(key: key);
 
   @override
@@ -62,37 +63,49 @@ class ChatRoomAppbar extends StatelessWidget {
               ),
             ),
           ),
-          Column(
-            children: [
-              Center(
-                child: Container(
-                  width: context.allWidth * 0.5,
-                  margin: PagePadding.onlyTop(1.w),
-                  child: RabbleText.subHeaderText(
-                    text: title,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    fontFamily: cPoppins,
-                    color: APPColors.appPrimaryColor,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 13.sp,
+          GestureDetector(
+            onTap: (){
+              Map map = {
+                'teamId': teamId,
+                'type': '1',
+                'teamName': title
+              };
+
+              Navigator.pushNamed(context, '/threshold_view',
+                  arguments: map);
+            },
+            child: Column(
+              children: [
+                Center(
+                  child: Container(
+                    width: context.allWidth * 0.5,
+                    margin: PagePadding.onlyTop(1.w),
+                    child: RabbleText.subHeaderText(
+                      text: title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      fontFamily: cPoppins,
+                      color: APPColors.appPrimaryColor,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 13.sp,
+                    ),
                   ),
                 ),
-              ),
-              Center(
-                child: Container(
-                  width: context.allWidth * 0.5,
-                  child: RabbleText.subHeaderText(
-                    text: subTitle,
-                    maxLines: 1,
-                    fontFamily: cPoppins,
-                    color: APPColors.appPrimaryColor1,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 8.sp,
+                Center(
+                  child: Container(
+                    width: context.allWidth * 0.5,
+                    child: RabbleText.subHeaderText(
+                      text: subTitle,
+                      maxLines: 1,
+                      fontFamily: cPoppins,
+                      color: APPColors.appPrimaryColor1,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 8.sp,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           if (memeberList.isNotEmpty)
             GestureDetector(
@@ -130,6 +143,7 @@ class ChatRoomAppbar extends StatelessWidget {
                           firstCharName1 = text[0];
                           firstCharName2 =
                               text.length > 1 ? text[1] : " "; // Change 2 to 1
+
 
                           combination2 =
                               '${firstCharName1.length > 0 ? firstCharName1[0] : '' ?? ''}${firstCharName2.length > 0 ? firstCharName2[0] : '' ?? ''}';

@@ -35,7 +35,6 @@ class _OnBoardViewState extends State<OnBoardView>
     }
     authCubit.close();
     super.dispose();
-
   }
 
   @override
@@ -70,13 +69,13 @@ class _OnBoardViewState extends State<OnBoardView>
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               for (int i = 0;
-                              i < authCubit.storyDurations.length;
-                              i++)
+                                  i < authCubit.storyDurations.length;
+                                  i++)
                                 Container(
                                   width: 23.w,
                                   decoration: const BoxDecoration(
                                     borderRadius:
-                                    BorderRadius.all(Radius.circular(16)),
+                                        BorderRadius.all(Radius.circular(16)),
                                   ),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(8.0),
@@ -93,7 +92,6 @@ class _OnBoardViewState extends State<OnBoardView>
                           );
                         }),
                   ),
-
                 ],
               );
             },
@@ -140,7 +138,7 @@ class StoryWidget extends StatefulWidget {
 class _StoryWidgetState extends State<StoryWidget>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
-  late Animation<double> _animation;
+  late Animation<Offset> _animation;
   int _currentImageIndex = 0;
   StreamController<int> currentImageIndex = StreamController<int>.broadcast();
 
@@ -149,23 +147,17 @@ class _StoryWidgetState extends State<StoryWidget>
     super.initState();
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 5), // Adjust the duration as needed
+      duration: const Duration(milliseconds: 800),
     );
-    _animation = Tween<double>(begin: 0, end: 1).animate(_animationController)
-      ..addListener(() {
-        setState(() {});
-      })
-      ..addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
-          _currentImageIndex++;
-          if (_currentImageIndex >= 4) {
-            // End of story, navigate to next story or exit
-          } else {
-            _animationController.reset();
-            _animationController.forward();
-          }
-        }
-      });
+    _animation = Tween<Offset>(
+      begin: const Offset(0.0, 1.0), // Start from the top
+      end: const Offset(0.0, 0.0), // Stop at the center
+    ).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.easeIn,
+      ),
+    );
     _animationController.forward();
   }
 
@@ -177,9 +169,8 @@ class _StoryWidgetState extends State<StoryWidget>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery
-          .of(context)
+    return SizedBox(
+      width: MediaQuery.of(context)
           .size
           .width, // Ensure the container occupies full width
       child: StreamBuilder<int>(
@@ -220,12 +211,9 @@ class _StoryWidgetState extends State<StoryWidget>
                 children: [
                   Stack(
                     children: [
-
-
-
                       ShaderMask(
                         shaderCallback: (Rect bounds) {
-                          return  LinearGradient(
+                          return LinearGradient(
                             colors: [
                               Colors.white,
                               Color(0xff000000).withOpacity(0.7)
@@ -244,124 +232,130 @@ class _StoryWidgetState extends State<StoryWidget>
                           ),
                         ),
                       ),
-
                       Positioned(
                         bottom: 0,
                         right: 0,
                         left: 0,
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [
-                                Colors.transparent,
-                                Colors.black
-                              ],
+                        child: SlideTransition(
+                          position: _animation,
+                          child: Container(
+                            decoration: const BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [Colors.transparent, Colors.black],
+                              ),
                             ),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(14.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-
-                                RabbleText.subHeaderText(
-                                  text: widget.onboard.heading,
-                                  fontSize: 55.sp,
-                                  textAlign: TextAlign.start,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: cGosha,
-                                  letterSpacing: 0.3,
-                                  color: APPColors.appPrimaryColor,
-                                ),
-                                RabbleText.subHeaderText(
-                                  text: widget.onboard.subHeading,
-                                  fontSize: 16.sp,
-                                  fontFamily: cPoppins,
-                                  fontWeight: FontWeight.w600,
-                                  color: APPColors.appPrimaryColor3,
-                                ),
-                                SizedBox(
-                                  height: 2.h,
-                                ),
-                                RabbleText.subHeaderText(
-                                  text: widget.onboard.title,
-                                  fontSize: 15.sp,
-                                  fontFamily: cGosha,
-                                  textAlign: TextAlign.start,
-                                  fontWeight: FontWeight.w700,
-                                  color: APPColors.bg_grey26,
-                                ),
-                                SizedBox(
-                                  height: 1.h,
-                                ),
-                                RabbleText.subHeaderText(
-                                  text: widget.onboard.desc,
-                                  fontSize: 11.sp,
-                                  textAlign: TextAlign.start,
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: cPoppins,
-                                  height: 1.5,
-                                  color: APPColors.bg_grey25,
-                                ),
-                                SizedBox(
-                                  height: 6.h,
-                                ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    SizedBox(
-                                      width: 44.w,
-                                      child: RabbleButton.primaryFilled(
-                                        buttonSize: ButtonSize.medium,
-                                        onPressed: () async {
-                                          _animationController.stop();
-
-                                          await RabbleStorage.onBoarStatus("1");
-                                          NavigatorHelper().navigateAnClearAll('/signup_view');
-                                        },
-                                        child: RabbleText.subHeaderText(
-                                          text: kSignUp,
-                                          fontSize: 14.sp,
-                                          fontFamily: 'Gosha',
-                                          color: APPColors.appBlack,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                    GestureDetector(
-                                      onTap: () async {
-                                        _animationController.stop();
-                                        await RabbleStorage.onBoarStatus("1");
-                                        NavigatorHelper().navigateAnClearAll('/login');
-                                      },
-                                      child: Container(
+                            child: Padding(
+                              padding: const EdgeInsets.all(14.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  RabbleText.subHeaderText(
+                                    text: widget.onboard.heading,
+                                    fontSize: 55.sp,
+                                    textAlign: TextAlign.start,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: cGosha,
+                                    letterSpacing: 0.3,
+                                    color: APPColors.appPrimaryColor,
+                                  ),
+                                  RabbleText.subHeaderText(
+                                    text: widget.onboard.subHeading,
+                                    fontSize: 16.sp,
+                                    fontFamily: cPoppins,
+                                    fontWeight: FontWeight.w600,
+                                    color: APPColors.appPrimaryColor3,
+                                  ),
+                                  SizedBox(
+                                    height: 2.h,
+                                  ),
+                                  RabbleText.subHeaderText(
+                                    text: widget.onboard.title,
+                                    fontSize: 15.sp,
+                                    fontFamily: cGosha,
+                                    textAlign: TextAlign.start,
+                                    fontWeight: FontWeight.w700,
+                                    color: APPColors.bg_grey26,
+                                  ),
+                                  SizedBox(
+                                    height: 1.h,
+                                  ),
+                                  RabbleText.subHeaderText(
+                                    text: widget.onboard.desc,
+                                    fontSize: 11.sp,
+                                    textAlign: TextAlign.start,
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: cPoppins,
+                                    height: 1.5,
+                                    color: APPColors.bg_grey25,
+                                  ),
+                                  SizedBox(
+                                    height: 6.h,
+                                  ),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      SizedBox(
                                         width: 44.w,
-                                        height: 4.7.h,
-                                        decoration: ContainerDecoration.boxDecoration(
-                                            bg: APPColors.appBlack,
-                                            border: APPColors.bg_grey27,
-                                            radius: 8,
-                                            width: 1
-                                        ),
-                                        child: Center(
+                                        child: RabbleButton.primaryFilled(
+                                          buttonSize: ButtonSize.medium,
+                                          onPressed: () async {
+                                            _animationController.stop();
+
+                                            await RabbleStorage.onBoarStatus(
+                                                "1");
+                                            NavigatorHelper()
+                                                .navigateAnClearAll(
+                                                    '/signup_view');
+                                          },
                                           child: RabbleText.subHeaderText(
-                                            text: kLogin,
+                                            text: kSignUp,
                                             fontSize: 14.sp,
                                             fontFamily: 'Gosha',
-                                            color: APPColors.appPrimaryColor3,
+                                            color: APPColors.appBlack,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 3.h,),
-                              ],
+                                      GestureDetector(
+                                        onTap: () async {
+                                          _animationController.stop();
+                                          await RabbleStorage.onBoarStatus("1");
+                                          NavigatorHelper()
+                                              .navigateAnClearAll('/login');
+                                        },
+                                        child: Container(
+                                          width: 44.w,
+                                          height: 4.7.h,
+                                          decoration:
+                                              ContainerDecoration.boxDecoration(
+                                                  bg: APPColors.appBlack,
+                                                  border: APPColors.bg_grey27,
+                                                  radius: 8,
+                                                  width: 1),
+                                          child: Center(
+                                            child: RabbleText.subHeaderText(
+                                              text: kLogin,
+                                              fontSize: 14.sp,
+                                              fontFamily: 'Gosha',
+                                              color: APPColors.appPrimaryColor3,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 3.h,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -374,5 +368,4 @@ class _StoryWidgetState extends State<StoryWidget>
           }),
     );
   }
-
 }

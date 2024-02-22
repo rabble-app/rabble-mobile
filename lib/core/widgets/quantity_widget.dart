@@ -1,11 +1,16 @@
 import 'package:rabble/config/export.dart';
+import 'package:rabble/feature/auth/login/login_modal_view.dart';
 
 class QuantityWidget extends StatelessWidget {
   final String qty;
   final Function qtyCallBack;
   final Function removeProduct;
 
-  const QuantityWidget({Key? key, required this.qty, required this.qtyCallBack, required this.removeProduct})
+  const QuantityWidget(
+      {Key? key,
+      required this.qty,
+      required this.qtyCallBack,
+      required this.removeProduct})
       : super(key: key);
 
   @override
@@ -20,23 +25,50 @@ class QuantityWidget extends StatelessWidget {
           radius: 30),
       child: Padding(
         padding: PagePadding.custom(2.w, 2.w, 1.5.w, 1.5.w),
-        
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             int.parse(qty) == 1
                 ? InkWell(
-                    onTap: () {
-                      removeProduct.call();
+                    onTap: () async {
+                      String status =
+                          await RabbleStorage.getLoginStatus() ?? "0";
+                      if (status != '0') {
+                        String postalCode = await RabbleStorage.getPostalCode();
+
+                        if (postalCode.isEmpty) {
+                          NavigatorHelper().navigateTo('/add_postal_code_view');
+                        } else {
+                          removeProduct.call();
+                        }
+                      } else {
+                        CustomBottomSheet.showLoginViewModelSheet(
+                            context, LoginModalView(), true,
+                            isRemove: true);
+                      }
                     },
                     child: Assets.svgs.trash.svg(width: 4.w, height: 2.5.h))
                 : InkWell(
-                    onTap: () {
-                      if (int.parse(qty) != 1) {
-                        int quantity = int.parse(qty);
-                        quantity--;
-                        qtyCallBack.call(quantity);
+                    onTap: () async {
+                      String status =
+                          await RabbleStorage.getLoginStatus() ?? "0";
+                      if (status != '0') {
+                        String postalCode = await RabbleStorage.getPostalCode();
+
+                        if (postalCode.isEmpty) {
+                          NavigatorHelper().navigateTo('/add_postal_code_view');
+                        } else {
+                          if (int.parse(qty) != 1) {
+                            int quantity = int.parse(qty);
+                            quantity--;
+                            qtyCallBack.call(quantity);
+                          }
+                        }
+                      } else {
+                        CustomBottomSheet.showLoginViewModelSheet(
+                            context, LoginModalView(), true,
+                            isRemove: true);
                       }
                     },
                     child: Icon(
@@ -52,10 +84,23 @@ class QuantityWidget extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
             InkWell(
-              onTap: () {
-                int quantity = int.parse(qty);
-                quantity++;
-                qtyCallBack.call(quantity);
+              onTap: () async {
+                String status = await RabbleStorage.getLoginStatus() ?? "0";
+                if (status != '0') {
+                  String postalCode = await RabbleStorage.getPostalCode();
+
+                  if (postalCode.isEmpty) {
+                    NavigatorHelper().navigateTo('/add_postal_code_view');
+                  } else {
+                    int quantity = int.parse(qty);
+                    quantity++;
+                    qtyCallBack.call(quantity);
+                  }
+                } else {
+                  CustomBottomSheet.showLoginViewModelSheet(
+                      context, LoginModalView(), true,
+                      isRemove: true);
+                }
               },
               child: Icon(
                 Icons.add_outlined,
