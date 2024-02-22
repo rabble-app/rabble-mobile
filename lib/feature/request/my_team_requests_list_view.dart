@@ -11,11 +11,11 @@ class MyTeamRequestListView extends StatelessWidget {
 
     List<RequestSendData>? requestList = data['request'];
 
-    ThresholdViewCubit cubit = data['bloc'];
+    TeamViewCubit cubit = data['bloc'];
 
     cubit.myRequestListSubject$.sink.add(requestList!);
 
-    return CubitProvider<RabbleBaseState, ThresholdViewCubit>(
+    return CubitProvider<RabbleBaseState, TeamViewCubit>(
         create: (context) => cubit,
         builder: (context, state, bloc) {
           return Scaffold(

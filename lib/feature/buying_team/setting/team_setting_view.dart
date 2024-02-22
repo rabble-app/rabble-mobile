@@ -4,7 +4,7 @@ import 'package:rabble/feature/buying_team/setting/quite_team_sheet.dart';
 class TeamSettingView extends StatelessWidget {
   final TeamData teamData;
   final String myId;
-  final ThresholdViewCubit cubit;
+  final TeamViewCubit cubit;
   final String percentage;
   final String deadLine;
   final String memberId;
@@ -20,10 +20,10 @@ class TeamSettingView extends StatelessWidget {
     cubit.privateGroupStream.sink.add(teamData.isPublic ?? false);
     cubit.teamData$.sink.add(teamData);
 
-    return CubitProvider<RabbleBaseState, ThresholdViewCubit>(
+    return CubitProvider<RabbleBaseState, TeamViewCubit>(
         create: (BuildContext context) => cubit,
         builder: (BuildContext context, RabbleBaseState state,
-            ThresholdViewCubit bloc) {
+            TeamViewCubit bloc) {
           return Container(
             padding: PagePadding.custom(5.w, 5.w, 0, 0),
             child: SingleChildScrollView(

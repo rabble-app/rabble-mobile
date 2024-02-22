@@ -1,11 +1,7 @@
 import 'package:rabble/config/export.dart';
-import 'package:rabble/core/widgets/date_format.dart';
-import 'package:rabble/domain/entities/TeamModel.dart';
-import 'package:share_plus/share_plus.dart';
-import 'package:shimmer/shimmer.dart';
 
-class CompleteThresholdShimmer extends StatelessWidget {
-  CompleteThresholdShimmer({Key? key}) : super(key: key);
+class TeamViewShimmer extends StatelessWidget {
+  TeamViewShimmer({Key? key}) : super(key: key);
 
   final StreamController<bool> _expandableStream = StreamController.broadcast();
 

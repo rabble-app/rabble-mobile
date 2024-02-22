@@ -65,7 +65,7 @@ class DateFormatUtil {
 
     int differenceInDays = targetDate.difference(currentDate).inDays + 1;
 
-    return differenceInDays.toString();
+    return differenceInDays <0? '0': differenceInDays.toString();
   }
 
   static String calculatePercentage(int value, int total) {

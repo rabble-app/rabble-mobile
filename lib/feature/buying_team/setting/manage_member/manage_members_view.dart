@@ -14,12 +14,12 @@ class ManageMembersView extends StatelessWidget {
     String myId = teamData['myId'];
     String memberId = teamData['memberId'];
 
-    ThresholdViewCubit cubit = teamData['bloc'];
+    TeamViewCubit cubit = teamData['bloc'];
     String percentage = teamData['percentage'];
     int remainingDays = teamData['deadline'] != null && teamData['deadline'] != '0'
         ? DateFormatUtil.remainingDays(teamData['deadline'])
         : 0;
-    return CubitProvider<RabbleBaseState, ThresholdViewCubit>(
+    return CubitProvider<RabbleBaseState, TeamViewCubit>(
         create: (context) => cubit,
         builder: (context, state, bloc) {
           return Scaffold(

@@ -32,9 +32,7 @@ class MemberDescriptionViewComplete extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("showMemmbers ${showMemmbers}");
     List<String> text = '${firstName.trim()} ${lastName.trim()}'.split(' ');
-    print(text.toString());
 
     String firstCharName1 = '';
     String firstCharName2 = '';
@@ -73,6 +71,7 @@ class MemberDescriptionViewComplete extends StatelessWidget {
                           width: 65,
                           height: 65,
                           child: CircleAvatar(
+                            backgroundColor: APPColors.appBlack,
                             child: RabbleText.subHeaderText(
                               text: combination,
                               fontSize: 17.sp,
@@ -232,7 +231,7 @@ class MemberList extends StatelessWidget {
       int index = memebers.indexOf(member);
       double overlap = 0.1 * MediaQuery.of(context).size.width;
 
-      if (currentUserId != member.id) {
+      if (currentUserId != member.userId) {
         Widget positionedWidget = Positioned(
           left: index * (60 - overlap),
           child: index < 3
@@ -252,6 +251,8 @@ class MemberList extends StatelessWidget {
                       width: 40,
                       height: 40,
                       child: CircleAvatar(
+                        backgroundColor: APPColors.appBlack,
+
                         child: RabbleText.subHeaderText(
                           text: getName(member),
                           fontSize: 9.sp,
@@ -264,6 +265,8 @@ class MemberList extends StatelessWidget {
                       width: 40,
                       height: 40,
                       child: CircleAvatar(
+                        backgroundColor: APPColors.appBlack,
+
                         child: Center(
                           child: RabbleText.subHeaderText(
                             text: '+${memebers.length - 3}',

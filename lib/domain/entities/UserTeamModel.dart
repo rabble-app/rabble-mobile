@@ -444,7 +444,9 @@ class Producer {
     _imageKey = json['imageKey'] ?? '';
     _businessName = json['businessName'] ?? '';
     _businessAddress = json['businessAddress'] ?? '';
-    _minimumTreshold = num.parse(json['minimumTreshold'].toString() ??'0');
+    if(json['minimumTreshold']!=null) {
+      _minimumTreshold = num.parse(json['minimumTreshold'].toString() ??'0');
+    }
     _website = json['website'] ?? '';
     _description = json['description'] ?? '';
     _createdAt = json['createdAt'] ?? '';
@@ -666,5 +668,10 @@ class Members {
       map['user'] = _user?.toJson();
     }
     return map;
+  }
+
+  @override
+  String toString() {
+    return 'Members{_userId: $_userId}';
   }
 }

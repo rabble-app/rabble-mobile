@@ -144,7 +144,7 @@ class Routes {
         RouteHandlers.makeHandler(() => PersonaliseGroupView()));
 
     defineRoute(router, '/threshold_view',
-        RouteHandlers.makeHandler(() => CompleteThresholdView()));
+        RouteHandlers.makeHandler(() => TeamView()));
 
     defineRoute(router, '/add_address_view',
         RouteHandlers.makeHandler(() => AddAddressView()));

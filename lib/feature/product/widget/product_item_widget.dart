@@ -354,7 +354,7 @@ class ProductItemWidget extends StatelessWidget {
                                       textAlign: TextAlign.start,
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
-                                      fontWeight: FontWeight.bold,
+                                      fontWeight: FontWeight.w600,
                                       fontSize: 11.sp,
                                       fontFamily: cPoppins,
                                       color: APPColors.appBlack4,
