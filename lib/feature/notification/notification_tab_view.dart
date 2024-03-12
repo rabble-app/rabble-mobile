@@ -35,8 +35,9 @@ class _NotificationTabViewState extends State<NotificationTabView> {
           return Scaffold(
             appBar: PreferredSize(
                 preferredSize: Size.fromHeight(9.h),
-                child: const RabbleAppbar(
+                child: RabbleAppbar(
                   backgroundColor: APPColors.bg_app_primary,
+                  leadingWidth: 10.h,
                   title: kNotifications,
                 )),
             body: Container(

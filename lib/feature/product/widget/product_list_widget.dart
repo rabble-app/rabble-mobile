@@ -73,7 +73,7 @@ class ProductWidget extends StatelessWidget {
                                         scrollDirection: Axis.horizontal,
                                         itemBuilder:
                                             (BuildContext context, int index) {
-                                          return ProductItemWidget(
+                                          return SharedProductItemWidget(
                                             snapshot.data![index],
                                             isHorizontal: isHorizontal,
                                           );
@@ -91,7 +91,7 @@ class ProductWidget extends StatelessWidget {
                                                 (itemWidth / itemHeight)),
                                     itemBuilder:
                                         (BuildContext context, int index) {
-                                      return ProductItemWidget(
+                                      return SharedProductItemWidget(
                                         snapshot.data![index],
                                         businessDetail: producerDetail,
                                         isHorizontal: false,

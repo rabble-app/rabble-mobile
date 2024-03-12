@@ -71,9 +71,19 @@ class ConversationData {
   }
 
   ConversationData.fromJson(dynamic json) {
+
     _text = json['text'] ?? '';
-    _userId = json['userId'] ?? '';
-    _user = json['user'] != null ? User.fromJson(json['user']) : null;
+    if(json['userId'] != null) {
+      _userId = json['userId'];
+    }
+
+    if(json['user'] !=null){
+      _user = json['user'] != null ? User.fromJson(json['user']) : null;
+      if(_user?.id != null) {
+        _userId = _user?.id;
+      }
+    }
+
     _producer =
         json['producer'] != null ? Producer.fromJson(json['producer']) : null;
     _createdAt = json['createdAt'];
@@ -84,6 +94,14 @@ class ConversationData {
   User? _user;
   Producer? _producer;
   String? _createdAt;
+  String? _hosdId;
+
+
+  String? get hosdId => _hosdId;
+
+  set hosdId(String? value) {
+    _hosdId = value;
+  }
 
   ConversationData copyWith({
     String? text,

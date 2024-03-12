@@ -354,7 +354,7 @@ class _SearchProductViewState extends State<SearchProductView>
                                                               int index) {
                                                             ProducerDetail producerDetail = ProducerDetail(id: productList[
                                                             index].producerId);
-                                                            return ProductItemWidget(
+                                                            return SharedProductItemWidget(
                                                               businessDetail:producerDetail,
                                                               isEmpty: {},
                                                               productList[

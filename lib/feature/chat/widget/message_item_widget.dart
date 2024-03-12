@@ -65,7 +65,7 @@ class MessageItemWidget extends StatelessWidget {
                         child: RabbleText.subHeaderText(
                           text: teamChatData.team!.chats!.isEmpty
                               ? 'Start the conversation'
-                              : '~ ${teamChatData.team!.chats!.last.user!.firstName}: ${teamChatData.team!.chats!.last.text}',
+                              : '${teamChatData.team!.chats!.last.user!.firstName}: ${teamChatData.team!.chats!.last.text}',
                           textAlign: TextAlign.start,
                           fontFamily: cPoppins,
                           color: APPColors.appBlack4,

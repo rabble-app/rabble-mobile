@@ -4,6 +4,8 @@ import 'package:rabble/feature/producer/widget/producer_view_shimmer.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../product/widget/single_product_item_widget.dart';
+
 class ProducerView extends StatelessWidget {
   const ProducerView({Key? key}) : super(key: key);
 
@@ -17,8 +19,11 @@ class ProducerView extends StatelessWidget {
 
     Size size = MediaQuery.of(context).size;
 
-    final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
-    final double itemWidth = size.width / 1.8;
+    final double sharedItemHeight = (size.height - kToolbarHeight - 24) / 2;
+    final double sharedItemWidth = size.width / 1.9;
+
+    final double singleItemHeight = (size.height - kToolbarHeight - 24) / 2;
+    final double singleItemWidth = size.width / 1.7;
 
     return CubitProvider<RabbleBaseState, ProductTabCubit>(
         create: (BuildContext context) =>
@@ -41,7 +46,7 @@ class ProducerView extends StatelessWidget {
                         appBar: PreferredSize(
                             preferredSize: Size.fromHeight(8.h),
                             child: RabbleAppbar(
-                              leadingWidth: 26.w,
+                              leadingWidth: 23.w,
                               title: producerDetail.businessName,
                               action: [
                                 Padding(
@@ -140,12 +145,7 @@ class ProducerView extends StatelessWidget {
                                                                     null &&
                                                                 producerDetail
                                                                     .categories!
-                                                                    .isNotEmpty &&
-                                                                producerDetail
-                                                                        .categories!
-                                                                        .first
-                                                                        .category! !=
-                                                                    null
+                                                                    .isNotEmpty
                                                             ? producerDetail
                                                                 .categories!
                                                                 .first
@@ -377,7 +377,7 @@ class ProducerView extends StatelessWidget {
                                                                         .subHeaderText(
                                                                       text: producerDetail.count !=
                                                                               null
-                                                                          ? '${producerDetail.count!.buyingteams.toString()} ${producerDetail.count!.buyingteams==1? 'team':'teams'} '
+                                                                          ? '${producerDetail.count!.buyingteams.toString()} ${producerDetail.count!.buyingteams == 1 ? 'team' : 'teams'} '
                                                                           : '0',
                                                                       textAlign:
                                                                           TextAlign
@@ -436,6 +436,9 @@ class ProducerView extends StatelessWidget {
                                                                     return InkWell(
                                                                       onTap:
                                                                           () {
+                                                                        bloc.sortProductList(
+                                                                            index);
+
                                                                         bloc.currentIndexSubject
                                                                             .sink
                                                                             .add(index);
@@ -474,13 +477,13 @@ class ProducerView extends StatelessWidget {
                                                                     );
                                                                   }),
                                                         )
-                                                      : SizedBox.shrink();
+                                                      : const SizedBox.shrink();
                                                 }),
                                           ],
                                         ),
                                       ),
                                       SizedBox(
-                                        height: 3.h,
+                                        height: 2.h,
                                       ),
                                       state.secondaryBusy
                                           ? Shimmer.fromColors(
@@ -522,22 +525,30 @@ class ProducerView extends StatelessWidget {
                                                 },
                                               ),
                                             )
-                                          : BehaviorSubjectBuilder<
-                                                  List<ProductData>>(
-                                              subject: bloc.productListSubject$,
-                                              builder:
-                                                  (context, productSnapshot) {
-                                                if (!productSnapshot.hasData)
-                                                  return const Empty();
+                                          : Column(
+                                              children: [
+                                                BehaviorSubjectBuilder<
+                                                        List<ProductDetail>>(
+                                                    subject:
+                                                        bloc.sharedProductList,
+                                                    builder: (context,
+                                                        sharedSnapshot) {
+                                                      if (!sharedSnapshot
+                                                          .hasData) {
+                                                        return const SizedBox
+                                                            .shrink();
+                                                      }
+                                                      if (sharedSnapshot
+                                                          .data!.isEmpty) {
+                                                        return const SizedBox
+                                                            .shrink();
+                                                      }
 
-                                                return Column(
-                                                  children: [
-                                                    productSnapshot
-                                                            .data!.isNotEmpty
-                                                        ? Padding(
+                                                      return Column(
+                                                        children: [
+                                                          Padding(
                                                             padding: PagePadding
-                                                                .custom(0, 3.w,
-                                                                    0, 3.w),
+                                                                .onlyLeft(3.w),
                                                             child: Align(
                                                               alignment:
                                                                   Alignment
@@ -547,27 +558,110 @@ class ProducerView extends StatelessWidget {
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .bold,
-                                                                text: productSnapshot
-                                                                    .data![snapshot
-                                                                        .data!]
-                                                                    .name,
+                                                                text:
+                                                                    'Shared Products',
                                                                 color: APPColors
                                                                     .appBlack,
                                                                 fontFamily:
                                                                     cGosha,
-                                                                fontSize: context
-                                                                        .allWidth *
-                                                                    0.050,
+                                                                fontSize: 16.sp,
                                                               ),
                                                             ),
-                                                          )
-                                                        : SizedBox.shrink(),
-                                                    SizedBox(
-                                                      height: 2.h,
-                                                    ),
-                                                    productSnapshot
-                                                            .data!.isNotEmpty
-                                                        ? Container(
+                                                          ),
+                                                          SizedBox(
+                                                            height: 1.h,
+                                                          ),
+                                                          const Divider(
+                                                            color: APPColors
+                                                                .bg_grey25,
+                                                            thickness: 1,
+                                                          ),
+                                                          SizedBox(
+                                                            height: 1.h,
+                                                          ),
+                                                            Container(
+                                                              color: APPColors
+                                                                  .bgColor,
+                                                              child: GridView.builder(
+                                                                physics: const NeverScrollableScrollPhysics(),
+                                                                shrinkWrap: true,
+                                                                itemCount: sharedSnapshot.data!.length,
+                                                                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                                                  crossAxisCount: 2,
+                                                                  childAspectRatio: (sharedItemWidth / sharedItemHeight),
+                                                                ),
+                                                                itemBuilder: (BuildContext context, int index) {
+                                                                  return FutureBuilder<List<Widget>>(
+                                                                    future: _buildProductWidgets(sharedSnapshot.data!,bloc,producerDetail,data),
+                                                                    builder: (context, snapshot) {
+                                                                      if (snapshot.connectionState == ConnectionState.waiting) {
+                                                                        return const SizedBox.shrink();
+                                                                      } else {
+                                                                        return snapshot.data![index];
+                                                                      }
+                                                                    },
+                                                                  );
+                                                                },
+                                                              ),
+                                                            ),
+                                                        ],
+                                                      );
+                                                    }),
+                                                SizedBox(
+                                                  height: 1.h,
+                                                ),
+                                                BehaviorSubjectBuilder<
+                                                        List<ProductDetail>>(
+                                                    subject:
+                                                        bloc.singleProductList,
+                                                    builder: (context,
+                                                        singleSnapshot) {
+                                                      if (!singleSnapshot
+                                                          .hasData) {
+                                                        return const SizedBox
+                                                            .shrink();
+                                                      }
+                                                      if (singleSnapshot
+                                                          .data!.isEmpty) {
+                                                        return const SizedBox
+                                                            .shrink();
+                                                      }
+                                                      return Column(
+                                                        children: [
+                                                          Padding(
+                                                            padding: PagePadding
+                                                                .onlyLeft(3.w),
+                                                            child: Align(
+                                                              alignment:
+                                                                  Alignment
+                                                                      .topLeft,
+                                                              child: RabbleText
+                                                                  .subHeaderText(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                text:
+                                                                    'Single Products',
+                                                                color: APPColors
+                                                                    .appBlack,
+                                                                fontFamily:
+                                                                    cGosha,
+                                                                fontSize: 16.sp,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 1.h,
+                                                          ),
+                                                          const Divider(
+                                                            color: APPColors
+                                                                .bg_grey25,
+                                                            thickness: 1,
+                                                          ),
+                                                          SizedBox(
+                                                            height: 1.h,
+                                                          ),
+                                                          Container(
                                                             color: APPColors
                                                                 .bgColor,
                                                             child: GridView
@@ -576,26 +670,23 @@ class ProducerView extends StatelessWidget {
                                                                   NeverScrollableScrollPhysics(),
                                                               shrinkWrap: true,
                                                               itemCount:
-                                                                  productSnapshot
-                                                                      .data![snapshot
-                                                                          .data!]
-                                                                      .products!
+                                                                  singleSnapshot
+                                                                      .data!
                                                                       .length,
                                                               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                                                   crossAxisCount:
                                                                       2,
                                                                   childAspectRatio:
-                                                                      (itemWidth /
-                                                                          itemHeight)),
+                                                                      (singleItemWidth /
+                                                                          singleItemHeight)),
                                                               itemBuilder:
                                                                   (BuildContext
                                                                           context,
                                                                       int index) {
-                                                                return ProductItemWidget(
-                                                                  productSnapshot
-                                                                      .data![snapshot
-                                                                          .data!]
-                                                                      .products![index],
+                                                                return SingleProductItemWidget(
+                                                                  singleSnapshot
+                                                                          .data![
+                                                                      index],
                                                                   businessDetail:
                                                                       producerDetail,
                                                                   isHorizontal:
@@ -608,11 +699,12 @@ class ProducerView extends StatelessWidget {
                                                                 );
                                                               },
                                                             ),
-                                                          )
-                                                        : SizedBox.shrink()
-                                                  ],
-                                                );
-                                              }),
+                                                          ),
+                                                        ],
+                                                      );
+                                                    })
+                                              ],
+                                            ),
                                     ],
                                   ),
                                 ),
@@ -631,6 +723,7 @@ class ProducerView extends StatelessWidget {
                                     NavigatorHelper()
                                         .navigateTo("/checkout", data)
                                         .then((value) {
+                                          bloc.currentIndexSubject.sink.add(0);
                                       bloc.fetchAllProducts();
 
                                       if (isEmpty) {
@@ -738,5 +831,25 @@ class ProducerView extends StatelessWidget {
                     }),
           );
         });
+  }
+  Future<List<Widget>> _buildProductWidgets(List<ProductDetail> items, ProductTabCubit bloc, ProducerDetail producerDetail, Map data) async {
+    List<Widget> widgets = [];
+    for (int i = 0; i < items.length; i++) {
+      ProductDetail detail = items[i];
+      String productId = detail.id!;
+      await ProductDetailCubit().fetchSingleProductExist2(detail, productId);
+      widgets.add(
+        SharedProductItemWidget(
+          detail,
+          businessDetail: producerDetail,
+          isHorizontal: false,
+          voidCallBack: () {
+            bloc.fetchAllProducts();
+          },
+          isEmpty: data,
+        ),
+      );
+    }
+    return widgets;
   }
 }

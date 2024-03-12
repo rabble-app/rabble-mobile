@@ -14,8 +14,15 @@ class RabbleText extends Text {
     FontWeight? fontWeight,
   }) : super(text!,
             textAlign: textAlign ?? TextAlign.center,
-            maxLines: maxLines ?? 5 ,
-            style: RabbleTheme.themeData.textTheme.displayLarge.copyWith(fontSize: fontSize,letterSpacing: letterSpacing,wordSpacing: wordSpacing,color: color,fontWeight: fontWeight ?? FontWeight.normal,  fontFamily: fontFamily ?? cGosha,));
+            maxLines: maxLines ?? 5,
+            style: RabbleTheme.themeData.textTheme.displayLarge.copyWith(
+              fontSize: fontSize,
+              letterSpacing: letterSpacing,
+              wordSpacing: wordSpacing,
+              color: color,
+              fontWeight: fontWeight ?? FontWeight.normal,
+              fontFamily: fontFamily ?? cGosha,
+            ));
 
   RabbleText.subHeaderText({
     super.key,
@@ -35,8 +42,15 @@ class RabbleText extends Text {
             maxLines: maxLines,
             textAlign: textAlign ?? TextAlign.center,
             overflow: overflow ?? TextOverflow.visible,
-            style: RabbleTheme.themeData.textTheme.labelSmall
-                .copyWith(color: color ?? const Color(0xff000000), fontSize: fontSize ?? 14,
+            style: RabbleTheme.themeData.textTheme.labelSmall.copyWith(
+                color: color ?? const Color(0xff000000),
+                fontSize: fontSize ?? 14,
                 fontFamily: fontFamily ?? 'Gosha',
-                fontWeight: fontWeight ?? FontWeight.normal,height: height ?? 0 ,letterSpacing: letterSpacing,wordSpacing: wordSpacing,decoration: textDecoration));
+                fontWeight: fontWeight ?? FontWeight.normal,
+                height: height ?? 0,
+                letterSpacing: letterSpacing,
+                wordSpacing: wordSpacing,
+                decorationThickness: 1.5,
+                decorationColor: color,
+                decoration: textDecoration));
 }

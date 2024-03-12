@@ -19,6 +19,7 @@ class GlobalBloc {
   final GlobalKey<ScaffoldMessengerState> mainScreenScaffoldKey =
       GlobalKey<ScaffoldMessengerState>(
           debugLabel: 'global:mainscreenscaffold');
+
   BehaviorSubject<int> cartItemQty = BehaviorSubject<int>.seeded(0);
 
   var stopwatch = Stopwatch(); //Creates a new StopWatch, not Stopwatch

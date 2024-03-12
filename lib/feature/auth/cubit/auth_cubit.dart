@@ -54,9 +54,12 @@ class AuthCubit extends RabbleBaseCubit with Validators {
   ];
 
   BehaviorSubject<String> selectedCountryImage$ = BehaviorSubject<String>();
+
   BehaviorSubject<bool> focus$ = BehaviorSubject<bool>.seeded(false);
+
   BehaviorSubject<String> selectedCountryCode$ =
       BehaviorSubject<String>.seeded('44');
+
   BehaviorSubject<String> ErrorCode$ = BehaviorSubject<String>.seeded('');
 
   BehaviorSubject<bool> iSCompletedNumber$ =

@@ -4,17 +4,27 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:rabble/config/export.dart';
 import 'package:upgrader/upgrader.dart';
 
+
+
+
+// Steps to go on production
+
+// 1 : uncomment kStripeReleasePublishKey key.
+// 2 : uncomment getForceVersion() method.
+// 3 : change dev environment to production.
+// 4 : check pusher keys on ChatRoomCubit
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Config.initialize(Flavor.DEV, DevConfig());
 
-   Stripe.publishableKey = kStripeDebugPublishKey;
+//   Stripe.publishableKey = kStripeDebugPublishKey;
 
-  // if (kDebugMode) {
-  //   Stripe.publishableKey = kStripeDebugPublishKey;
-  // } else {
-  //   Stripe.publishableKey = kStripeReleasePublishKey;
-  // }
+  if (kDebugMode) {
+    Stripe.publishableKey = kStripeDebugPublishKey;
+  } else {
+    Stripe.publishableKey = kStripeReleasePublishKey;
+  }
 
   Stripe.merchantIdentifier = kStripeMerchantIdentifier;
 
@@ -37,27 +47,27 @@ void main() async {
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-  runApp(const MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: App(),
-  ));
+  // runApp(const MaterialApp(
+  //   debugShowCheckedModeBanner: false,
+  //   home: App(),
+  // ));
 
-  // String forceVersion = await getForceVersion();
-  // PackageInfo.fromPlatform().then((value) {
-  //   String currentVersion = value.buildNumber;
-  //
-  //   if (int.parse(currentVersion) < int.parse(forceVersion)) {
-  //     runApp(const MaterialApp(
-  //       debugShowCheckedModeBanner: false,
-  //       home: ForceUpdate(),
-  //     ));
-  //   } else {
-  //     runApp(const MaterialApp(
-  //       debugShowCheckedModeBanner: false,
-  //       home: App(),
-  //     ));
-  //   }
-  // });
+  String forceVersion = await getForceVersion();
+  PackageInfo.fromPlatform().then((value) {
+    String currentVersion = value.buildNumber;
+
+    if (int.parse(currentVersion) < int.parse(forceVersion)) {
+      runApp(const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: ForceUpdate(),
+      ));
+    } else {
+      runApp(const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: App(),
+      ));
+    }
+  });
 }
 
 Future<void> loadImage(ImageProvider provider) {
@@ -110,3 +120,20 @@ Future<String> getForceVersion() async {
 
   return forceVersion;
 }
+// Put this in main function
+// await preloadSVGs([
+// 'assets/icon_comment.svg',
+// 'assets/icon_info.svg',
+// 'assets/icon_link.svg',
+// ]);
+
+
+// Future<void> preloadSVGs(List<String> assetPaths) async {
+//   for (final path in assetPaths) {
+//     final loader = SvgAssetLoader(path);
+//     await svg.cache.putIfAbsent(
+//       loader.cacheKey(null),
+//           () => loader.loadBytes(null),
+//     );
+//   }
+// }

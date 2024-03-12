@@ -48,7 +48,7 @@ class SplashViewState extends State<SplashView>
     if (_branchProcessed) return; // Don't execute if Branch already processed
 
     // Fallback mechanism if Branch doesn't respond in 5 seconds
-    Future.delayed( Duration(seconds: !_branchProcessed? 3 : 5), () async {
+    Future.delayed(Duration(seconds: !_branchProcessed ? 3 : 5), () async {
       if (!_branchProcessed) {
         String status = await RabbleStorage.getLoginStatus() ?? "0";
         String onBoardStatus = await RabbleStorage.getOnBoardStatus() ?? '0';
@@ -87,6 +87,14 @@ class SplashViewState extends State<SplashView>
       };
       await RabbleStorage.onBoarStatus("1");
       NavigatorHelper().navigateAnClearAll('/producer', arguments: body);
+    } else if (data.containsKey('~feature') &&
+        data['~feature'] == 'Share Product') {
+      Map body = {
+        'productId': data['\$canonical_identifier'],
+        'producerId': data['\$canonical_url'],
+      };
+      await RabbleStorage.onBoarStatus("1");
+      NavigatorHelper().navigateAnClearAll('/detail', arguments: body);
     }
   }
 
@@ -112,7 +120,8 @@ class SplashViewState extends State<SplashView>
                 child: Container(
                   decoration: const BoxDecoration(
                       image: DecorationImage(
-                          image: AssetImage('assets/png/splash.png'))),
+                          image: AssetImage('assets/png/splash.png'),
+                          fit: BoxFit.fill)),
                   child: SafeArea(
                     child: Center(
                         child: SlideTransition(

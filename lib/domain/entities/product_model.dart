@@ -136,6 +136,7 @@ class ProductDetail {
     String? description,
     String? producerId,
     num? price,
+    num? rrp,
     String? status,
     String? createdAt,
     String? updatedAt,
@@ -165,6 +166,7 @@ class ProductDetail {
     _unitsPerOrder = unitsPerOrder;
     _unitsOfMeasure = unitsOfMeasure;
     _producer = producer;
+    _rrp = rrp;
   }
 
   ProductDetail.fromJson(dynamic json) {
@@ -177,6 +179,7 @@ class ProductDetail {
     _status = json['status'];
     _createdAt = json['createdAt'];
     _updatedAt = json['updatedAt'];
+    _qty = 0;
 
 
     _type = json['type'] ?? '';
@@ -203,6 +206,10 @@ class ProductDetail {
 
     if (json['measuresPerSubUnit'] != null) {
       _unitsPerOrder = json['measuresPerSubUnit'];
+    }
+    if (json['rrp'] != null) {
+      _rrp = num.tryParse(json['rrp']);
+
     }
 
     if (json['unitsOfMeasurePerSubUnit'] != null) {
@@ -239,7 +246,7 @@ class ProductDetail {
     _name = json['name'];
     _description = json['description'];
     _price = json['price'];
-    _qty = json['quantity'];
+    _qty = json['quantity'] ?? 0;
     _producerName = json['producerName'];
     _type = json['type'] ?? '';
     _thresholdQuantity = json['thresholdQuantity'] ?? 0;
@@ -256,7 +263,7 @@ class ProductDetail {
     userId = userId;
     _id = json['productId'];
     _price = json['price'];
-    _qty = json['quantity'];
+    _qty = json['quantity'] ?? 0;
     _producerName = json['producerName'];
     _type = json['type'] ?? '';
     _thresholdQuantity = json['thresholdQuantity'] ?? 0;
@@ -273,6 +280,7 @@ class ProductDetail {
   String? _description;
   String? _producerId;
   num? _price;
+  num? _rrp;
   String? _status;
   String? _createdAt;
   String? _updatedAt;
@@ -322,6 +330,7 @@ class ProductDetail {
     String? description,
     String? producerId,
     num? price,
+    num? rrp,
     String? status,
     String? createdAt,
     String? updatedAt,
@@ -337,6 +346,7 @@ class ProductDetail {
           description: description ?? _description,
           producerId: producerId ?? _producerId,
           price: price ?? _price,
+          rrp: rrp ?? _rrp,
           status: status ?? _status,
           createdAt: createdAt ?? _createdAt,
           updatedAt: updatedAt ?? _updatedAt,
@@ -346,6 +356,9 @@ class ProductDetail {
           partionedProducts: partionedProducts ?? _partionedProducts);
 
   String? get id => _id;
+
+
+  num? get rrp => _rrp;
 
   String? get name => _name;
 

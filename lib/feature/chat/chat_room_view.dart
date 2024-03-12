@@ -60,14 +60,16 @@ class _ChatRoomViewState extends State<ChatRoomView> {
                           memeberList:
                               snapshot.hasData ? snapshot.data!.members! : [],
                           hostId: snapshot.hasData ? snapshot.data!.hostId : '',
-                          teamId:data['teamId'] ,
+                          teamId: data['teamId'],
                           callBack: () {
                             if (bloc.conversationListSubject$.hasValue) {
                               if (bloc
                                   .conversationListSubject$.value.isNotEmpty) {
-                                NavigatorHelper().pop(
-                                    result: bloc
-                                        .conversationListSubject$.value.last);
+                                ConversationData conversationData =
+                                    bloc.conversationListSubject$.value.first;
+                                conversationData.hosdId =
+                                    snapshot.data!.hostId ?? '';
+                                NavigatorHelper().pop(result: conversationData);
                               } else {
                                 NavigatorHelper().pop();
                               }
@@ -171,7 +173,7 @@ class _ChatRoomViewState extends State<ChatRoomView> {
                       builder: (context, snapshot) {
                         return Container(
                           height: snapshot.hasData
-                              ? snapshot.data!.length >= 45
+                              ? snapshot.data!.length >= 30
                                   ? context.allHeight * 0.12
                                   : context.allHeight * 0.07
                               : context.allHeight * 0.07,
@@ -183,7 +185,7 @@ class _ChatRoomViewState extends State<ChatRoomView> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
                                   Container(
-                                    width: context.allWidth * 0.82,
+                                    width: context.allWidth * 0.81,
                                     height: snapshot.hasData
                                         ? snapshot.data!.length >= 45
                                             ? context.allHeight * 0.1
@@ -225,8 +227,15 @@ class _ChatRoomViewState extends State<ChatRoomView> {
                                     width: 4.w,
                                   ),
                                   InkWell(
-                                    child: Assets.svgs.send
-                                        .svg(width: 1.8.h, height: 1.8.h, color: snapshot.hasData? APPColors.appPrimaryColor : APPColors.bgColor),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Assets.svgs.send.svg(
+                                          width: 2.2.h,
+                                          height: 2.2.h,
+                                          color: snapshot.hasData
+                                              ? APPColors.appPrimaryColor
+                                              : APPColors.bgColor),
+                                    ),
                                     onTap: () {
                                       bloc.sendMessage(
                                           data['teamId'], data['teamName']);

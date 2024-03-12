@@ -64,7 +64,7 @@ class ProductTabView extends StatelessWidget {
                                                       itemBuilder:
                                                           (BuildContext context,
                                                           int index) {
-                                                        return ProductItemWidget(
+                                                        return SharedProductItemWidget(
                                                           productSnapshot
                                                               .data![snapshot.data!]
                                                               .products![index],

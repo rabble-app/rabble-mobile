@@ -186,6 +186,7 @@ class TeamView extends StatelessWidget {
                                                                           ((requestSnap.hasData && requestSnap.data != null && requestSnap.data!.status == 'APPROVED') || teamDataSnap.data!.members!.where((element) => element.userId == userDataSnap.data!.id).isNotEmpty)
                                                                               ? GestureDetector(
                                                                                   onTap: () {
+
                                                                                     Map map = {
                                                                                       'teamName': teamDataSnap.data!.name,
                                                                                       'teamId': teamDataSnap.data!.id,
@@ -193,7 +194,7 @@ class TeamView extends StatelessWidget {
                                                                                     NavigatorHelper().navigateTo('/chat_room', map).then((value) {
                                                                                       if (value != null) {
                                                                                         if (value is ConversationData) {
-                                                                                          print("her1111 ${value.text}");
+
                                                                                           TeamData teamData = teamDataSnap.data!;
                                                                                           teamData.chats!.add(value);
                                                                                           bloc.teamDataSubject$.sink.add(teamData);
@@ -253,9 +254,9 @@ class TeamView extends StatelessWidget {
                                                                                                       ? teamDataSnap.data!.hostId == userDataSnap.data!.id
                                                                                                           ? 'Message your team'
                                                                                                           : 'Message your host'
-                                                                                                      : teamDataSnap.data!.hostId == userDataSnap.data!.id
-                                                                                                          ? '~ You: ${teamDataSnap.data!.chats!.last.text}'
-                                                                                                          : '~ ${teamDataSnap.data!.chats!.last.user!.firstName}: ${teamDataSnap.data!.chats!.last.text}',
+                                                                                                      :  teamDataSnap.data!.chats!.last.userId == userDataSnap.data!.id
+                                                                                                          ? 'You: ${teamDataSnap.data!.chats!.last.text}'
+                                                                                                          : '${teamDataSnap.data!.chats!.last.user!.firstName}: ${teamDataSnap.data!.chats!.last.text}',
                                                                                                   fontSize: 10.sp,
                                                                                                   color: APPColors.appBlack4,
                                                                                                   fontWeight: FontWeight.w500,
@@ -334,7 +335,7 @@ class TeamView extends StatelessWidget {
                                                                                                 subject: bloc.allTempBoxList,
                                                                                                 builder: (BuildContext context, purchaseUserSnapshot) {
                                                                                                   return PortionedProductWidget(
-                                                                                                    heading: '${currentOrderSnap.data!.partionedProducts!.first.product!.orderUnit!} of ${currentOrderSnap.data!.partionedProducts!.first.product!.unitsOfMeasure!.toLowerCase().substring(0, 3)} ${currentOrderSnap.data!.partionedProducts!.first.product!.orderSubUnit!.toLowerCase()}s',
+                                                                                                    heading: '${currentOrderSnap.data!.partionedProducts!.first.product!.orderUnit!} of ${currentOrderSnap.data!.partionedProducts!.first.product!.unitsOfMeasure!.toLowerCase()} ${currentOrderSnap.data!.partionedProducts!.first.product!.orderSubUnit!.toLowerCase()}s',
                                                                                                     subHeading: 'This is a ${currentOrderSnap.data!.partionedProducts!.first.product!.totalThresholdQuantity} ${currentOrderSnap.data!.partionedProducts!.first.product!.orderSubUnit!.toLowerCase()} ${currentOrderSnap.data!.partionedProducts!.first.product!.orderUnit!.toLowerCase()}. The box is ordered once all cartons are sold to the team',
                                                                                                     items: currentOrderSnap.data!.partionedProducts!,
                                                                                                     purchaseUser: purchaseUserSnapshot.hasData ? purchaseUserSnapshot.data! : [],

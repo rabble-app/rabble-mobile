@@ -22,7 +22,7 @@ class MemberProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> text = teamName!.split(' ');
+    List<String> text = data !=null? '${data!.user!.firstName} ${data!.user!.lastName}'.split(' ') : teamName!.split(' ');
 
     String firstCharName1 = '';
     String firstCharName2 = '';
@@ -43,13 +43,13 @@ class MemberProfileView extends StatelessWidget {
         children: [
           Row(
             children: [
-              imageUrl!.isNotEmpty
+              data!=null && data!.user!.imageUrl!.isNotEmpty
                   ? SizedBox(
                 width: MediaQuery.of(context).size.width * 0.12,
                 height: MediaQuery.of(context).size.width * 0.12,
 
                 child: RabbleImageLoader(
-                        imageUrl: imageUrl!,
+                        imageUrl: data!.user!.imageUrl!,
                         isRound: true,
                         roundValue: 18,
                       ),
@@ -77,7 +77,7 @@ class MemberProfileView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   RabbleText.subHeaderText(
-                    text: '$teamName',
+                    text: data!=null? '${data!.user!.firstName} ${data!.user!.lastName!.length >= 1 ? isHost ? data!.user!.lastName : data!.user!.lastName![0] : ''}.':'${teamName}.',
                     color: APPColors.appBlack4,
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w600,
