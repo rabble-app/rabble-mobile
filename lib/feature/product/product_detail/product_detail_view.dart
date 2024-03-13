@@ -115,7 +115,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                                       children: [
                                         Container(
                                           color: APPColors.appYellow,
-                                          height: 6.5.h,
+                                          height: 5.h,
                                           child: Center(
                                             child: RabbleText.subHeaderText(
                                               text: kChooseyouritems,
@@ -136,7 +136,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                                                   height: MediaQuery.of(context)
                                                           .size
                                                           .height *
-                                                      0.4,
+                                                      0.38,
                                                   child: productDetail.thresholdQuantity! -
                                                                   productDetailSnapShot
                                                                       .data!
@@ -169,7 +169,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                                                           imageUrl: productDetail
                                                                   .imageUrl ??
                                                               '',
-                                                          fit: BoxFit.cover,
+                                                          fit: BoxFit.fill,
                                                           isRound: false)),
                                             ),
                                             if (productDetail.type ==

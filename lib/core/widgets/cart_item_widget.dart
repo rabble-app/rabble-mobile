@@ -37,12 +37,16 @@ class CartItemWidget extends StatelessWidget {
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    RabbleText.subHeaderText(
-                      text: producerName,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: cGosha,
-                      color: APPColors.appBlack4,
-                      fontSize: 14.sp,
+                    SizedBox(
+                      width: context.allWidth * 0.6,
+                      child: RabbleText.subHeaderText(
+                        text: itemName,
+                        textAlign: TextAlign.start,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: cGosha,
+                        color: APPColors.appBlack4,
+                        fontSize: 14.sp,
+                      ),
                     ),
                     Container(
                       height: context.allWidth * 0.07,

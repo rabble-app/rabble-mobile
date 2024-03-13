@@ -119,7 +119,7 @@ class _ExploreViewState extends State<ExploreView> with WidgetsBindingObserver {
                                                     child: InkWell(
                                                       onTap: () {
                                                         Share.share(
-                                                            'Join Rabble, the team buying platform, to support small producers and reduce your community’s carbon footprint\nhttps://apps.apple.com/app/rabble/id6450045487',
+                                                            'Hey, I thought you might like Rabble, the team buying platform for high quality, sustainable products at heavily discounted prices\nhttps://apps.apple.com/app/rabble/id6450045487',
                                                             subject:
                                                                 'Share Rabble with your friends and local community');
                                                       },

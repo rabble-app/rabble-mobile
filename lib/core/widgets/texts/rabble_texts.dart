@@ -45,7 +45,7 @@ class RabbleText extends Text {
             style: RabbleTheme.themeData.textTheme.labelSmall.copyWith(
                 color: color ?? const Color(0xff000000),
                 fontSize: fontSize ?? 14,
-                fontFamily: fontFamily ?? 'Gosha',
+                fontFamily: fontFamily ?? cGosha,
                 fontWeight: fontWeight ?? FontWeight.normal,
                 height: height ?? 0,
                 letterSpacing: letterSpacing,
