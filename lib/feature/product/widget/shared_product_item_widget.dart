@@ -175,7 +175,7 @@ class SharedProductItemWidget extends StatelessWidget {
                                     left: 0,
                                     child: Center(
                                       child: RabbleText.subHeaderText(
-                                        text: 'You got the\nlast carton!',
+                                        text: 'You got the\nlast ${productDetail.orderSubUnit!.toLowerCase()}!',
                                         textAlign: TextAlign.center,
                                         fontWeight: FontWeight.w700,
                                         fontSize: 17.sp,

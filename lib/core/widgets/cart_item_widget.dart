@@ -163,7 +163,7 @@ class CartItemWidget extends StatelessWidget {
                       child: Center(
                         child: RabbleText.subHeaderText(
                           text: thresholdQty! <= 0
-                              ? 'you grabbed the last carton!'
+                              ? 'you grabbed the last ${orderSubUnit!.toLowerCase()}!'
                               : '${thresholdQty} left',
                           textAlign: TextAlign.center,
                           fontWeight: FontWeight.w600,

@@ -9,83 +9,82 @@ class ForceUpdate extends StatelessWidget {
       return RabbleTheme(
           data: RabbleTheme.themeData,
           child: Scaffold(
-              backgroundColor: APPColors.appWhite,
-              body: FocusChild(
-                child: Container(
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Color(0xff202405),
-                        Color(0xff000000),
-                        Color(0xff202405),
-                      ],
+            backgroundColor: APPColors.appBlack,
+            body: FocusChild(
+              child: Container(
+                color: APPColors.appBlack,
+                child: Center(
+                    child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    ShaderMask(
+                        shaderCallback: (Rect bounds) {
+                          return LinearGradient(
+                            colors: [
+                              Colors.white,
+                              Color(0xff000000).withOpacity(0.7)
+                            ],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                          ).createShader(bounds);
+                        },
+                        child: Assets.png.loginImage.png()),
+                    SizedBox(height: 10.h,),
+                    Center(
+                      child: RabbleText.subHeaderText(
+                        text: 'RABBLE',
+                        fontSize: 62.sp,
+                        fontWeight: FontWeight.bold,
+                        color: APPColors.appPrimaryColor,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 0.7.h,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(5),
+                      margin: EdgeInsets.only(left: 3.h, right: 3.h),
+                      child: RabbleText.subHeaderText(
+                        text: sUpdateMsg,
+                        fontSize: 12.sp,
+                        height: 1.7,
+                        fontFamily: cPoppins,
+                        fontWeight: FontWeight.w400,
+                        color: APPColors.appPrimaryColor,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 1.h,
+                    ),
+                    SizedBox(
+                      height: 10.h,
+                    ),
+                  ],
+                )),
+              ),
+            ),
+            bottomNavigationBar: Padding(
+              padding: PagePadding.customHorizontalVerticalSymmetric(4.w, 6.w),
+              child: GestureDetector(
+                onTap: () {
+                  _launchUrl();
+                },
+                child: SizedBox(
+                  width: 70.w,
+                  child: RabbleButton.primaryFilled(
+                    child: RabbleText.subHeaderText(
+                      text: 'Update',
+                      fontSize: 17.sp,
+                      fontFamily: cGosha,
+                      color: APPColors.appBlack,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  child: SafeArea(
-                    child: Center(
-                        child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        RabbleText.subHeaderText(
-                          text: 'RABBLE',
-                          fontSize: 62.sp,
-                          fontWeight: FontWeight.bold,
-                          color: APPColors.appPrimaryColor,
-                        ),
-                        SizedBox(
-                          height: 0.7.h,
-                        ),
-                        Container(
-                          padding: const EdgeInsets.all(5),
-                          margin: EdgeInsets.only(left: 3.h, right: 3.h),
-                          child: RabbleText.subHeaderText(
-                            text: sUpdateMsg,
-                            fontSize: 12.sp,
-                            height: 1.7,
-                            fontWeight: FontWeight.w400,
-                            color: APPColors.appPrimaryColor,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 1.h,
-                        ),
-                        SizedBox(
-                          height: 10.h,
-                        ),
-                        Padding(
-                          padding: PagePadding.all(4.w),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  _launchUrl();
-                                },
-                                child: SizedBox(
-                                  width: 70.w,
-                                  child: RabbleButton.primaryFilled(
-                                    child: RabbleText.subHeaderText(
-                                      text: 'Update',
-                                      fontSize: 17.sp,
-                                      fontFamily: 'Gosha',
-                                      color: APPColors.appBlack,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    )),
-                  ),
                 ),
-              )));
+              ),
+            ),
+          ));
     });
   }
 

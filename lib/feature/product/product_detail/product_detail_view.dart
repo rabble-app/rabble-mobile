@@ -115,11 +115,11 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                                       children: [
                                         Container(
                                           color: APPColors.appYellow,
-                                          height: 5.h,
+                                          height: 4.h,
                                           child: Center(
                                             child: RabbleText.subHeaderText(
                                               text: kChooseyouritems,
-                                              fontSize: 13.sp,
+                                              fontSize: 12.sp,
                                               fontFamily: cGosha,
                                               fontWeight: FontWeight.bold,
                                               color: APPColors.appBlack,
@@ -136,7 +136,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                                                   height: MediaQuery.of(context)
                                                           .size
                                                           .height *
-                                                      0.38,
+                                                      0.5,
                                                   child: productDetail.thresholdQuantity! -
                                                                   productDetailSnapShot
                                                                       .data!
@@ -169,7 +169,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                                                           imageUrl: productDetail
                                                                   .imageUrl ??
                                                               '',
-                                                          fit: BoxFit.fill,
+                                                          fit: BoxFit.cover,
                                                           isRound: false)),
                                             ),
                                             if (productDetail.type ==
@@ -188,7 +188,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                                                   child:
                                                       RabbleText.subHeaderText(
                                                     text:
-                                                        'You got the last\ncarton!',
+                                                        'You got the last\n${productDetail.orderSubUnit!.toLowerCase()}!',
                                                     textAlign: TextAlign.center,
                                                     fontWeight: FontWeight.w700,
                                                     fontSize: 33.sp,

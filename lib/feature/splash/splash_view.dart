@@ -1,5 +1,8 @@
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:rabble/config/export.dart';
 import 'dart:io' show Platform;
+
+import '../../main.dart';
 
 class SplashView extends StatefulWidget {
   static const String route = '/splash';
@@ -74,28 +77,39 @@ class SplashViewState extends State<SplashView>
   }
 
   Future<void> handleDeepLinkParameters(Map<dynamic, dynamic> data) async {
-    if (data['token'] != null) {
-      authCubit.verifyToken(data['token'].toString());
-    } else if (data.containsKey('~feature') && data['~feature'] == 'Share') {
-      Map map = {'teamId': data['\$canonical_identifier'], 'type': '0'};
-      NavigatorHelper().navigateAnClearAll('/threshold_view', arguments: map);
-    } else if (data.containsKey('~feature') &&
-        data['~feature'] == 'Share Producer') {
-      Map body = {
-        'type': false,
-        'id': data['\$canonical_identifier'],
-      };
-      await RabbleStorage.onBoarStatus("1");
-      NavigatorHelper().navigateAnClearAll('/producer', arguments: body);
-    } else if (data.containsKey('~feature') &&
-        data['~feature'] == 'Share Product') {
-      Map body = {
-        'productId': data['\$canonical_identifier'],
-        'producerId': data['\$canonical_url'],
-      };
-      await RabbleStorage.onBoarStatus("1");
-      NavigatorHelper().navigateAnClearAll('/detail', arguments: body);
-    }
+    String forceVersion = await getForceVersion();
+    PackageInfo.fromPlatform().then((value) async {
+      String currentVersion = value.buildNumber;
+
+      if (int.parse(currentVersion) < int.parse(forceVersion)) {
+        NavigatorHelper().navigateAnClearAll('/force_update');
+      } else {
+        if (data['token'] != null) {
+          authCubit.verifyToken(data['token'].toString());
+        } else if (data.containsKey('~feature') &&
+            data['~feature'] == 'Share') {
+          Map map = {'teamId': data['\$canonical_identifier'], 'type': '0'};
+          NavigatorHelper()
+              .navigateAnClearAll('/threshold_view', arguments: map);
+        } else if (data.containsKey('~feature') &&
+            data['~feature'] == 'Share Producer') {
+          Map body = {
+            'type': false,
+            'id': data['\$canonical_identifier'],
+          };
+          await RabbleStorage.onBoarStatus("1");
+          NavigatorHelper().navigateAnClearAll('/producer', arguments: body);
+        } else if (data.containsKey('~feature') &&
+            data['~feature'] == 'Share Product') {
+          Map body = {
+            'productId': data['\$canonical_identifier'],
+            'producerId': data['\$canonical_url'],
+          };
+          await RabbleStorage.onBoarStatus("1");
+          NavigatorHelper().navigateAnClearAll('/detail', arguments: body);
+        }
+      }
+    });
   }
 
   @override
@@ -154,16 +168,8 @@ class SplashViewState extends State<SplashView>
         });
   }
 
-  void listenDynamicLinks() async {
-    streamSubscription = FlutterBranchSdk.initSession().listen((data) {
-      print('listenDynamicLinks - DeepLink Data: $data');
-    }, onError: (error) {
-      print('InitSesseion error: ${error.toString()}');
-    });
-  }
-
   void init() {
-    FlutterBranchSdk.initSession().listen((data) {
+    FlutterBranchSdk.listSession().listen((data) {
       print('Branch InitSession Error:1');
       if (data.containsKey('+clicked_branch_link') &&
           data['+clicked_branch_link'] == true) {
