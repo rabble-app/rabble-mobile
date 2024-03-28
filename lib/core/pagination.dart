@@ -1,5 +1,5 @@
 
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 abstract class Query {
   const Query();
   Map<String, String?> queryMap();

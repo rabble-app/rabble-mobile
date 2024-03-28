@@ -1,5 +1,5 @@
 import 'package:pay/pay.dart';
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 import 'package:rabble/domain/entities/CardModel.dart';
 import 'package:shimmer/shimmer.dart';
 

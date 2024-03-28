@@ -1,5 +1,5 @@
 import 'package:http/http.dart' as http;
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 import 'package:rabble/domain/entities/BulkUploadedModel.dart';
 import 'package:rabble/domain/entities/CardModel.dart';
 import 'package:rabble/domain/entities/ChargeModel.dart';

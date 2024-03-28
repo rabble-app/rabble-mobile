@@ -1,6 +1,6 @@
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 
 class DBHelper {
   static final DBHelper dbHelper = DBHelper._();
@@ -12,7 +12,7 @@ class DBHelper {
   static Database? database;
 
   static const String dbName = 'rabble.db';
-  static const int dbVersion = 8;
+  static const int dbVersion = 9;
 
   static const String tableSearch = 'RecentSearch';
   static const String clmText = 'keyword';
@@ -26,6 +26,8 @@ class DBHelper {
   static const String clmDesc = 'description';
   static const String clmPrice = 'price';
   static const String clmQty = 'quantity';
+  static const String clmProductImage = 'imageUrl';
+  static const String clmRRP = 'rrp';
   static const String clmThresoldQty = 'thresholdQuantity';
   static const String clmTotalThresoldQty = 'totalThresholdQuantity';
   static const String clmUnitPerOrder = 'unitPerOrder';
@@ -36,7 +38,7 @@ class DBHelper {
   static const String tableProductsQuery =
       'CREATE TABLE $tableCart(id INTEGER PRIMARY KEY AUTOINCREMENT, $clmName '
       'TEXT, $clmDesc TEXT, '
-      '$clmPrice INTEGER,$clmQty INTEGER, $clmProductId REAL, $clmProducerId TEXT, $clmProducerName TEXT, $clmProductType TEXT, $clmThresoldQty INTEGER,$clmTotalThresoldQty INTEGER, $clmUnitPerOrder INTEGER, $clmOrderSubUnit TEXT, $clmOrderUnit TEXT , $clmUnitsOfMeasure TEXT  )';
+      '$clmPrice INTEGER,$clmQty INTEGER, $clmProductId REAL, $clmProducerId TEXT, $clmProducerName TEXT, $clmProductType TEXT, $clmThresoldQty INTEGER,$clmTotalThresoldQty INTEGER, $clmUnitPerOrder INTEGER, $clmOrderSubUnit TEXT, $clmOrderUnit TEXT , $clmUnitsOfMeasure TEXT, $clmProductImage TEXT, $clmRRP INTEGER)';
 
   static const String tableSearchQuery =
       'CREATE TABLE $tableSearch(id INTEGER PRIMARY KEY AUTOINCREMENT, $clmText '

@@ -1,5 +1,5 @@
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 
 class VerifyOtpView extends StatefulWidget {
   const VerifyOtpView({Key? key}) : super(key: key);

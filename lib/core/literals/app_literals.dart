@@ -251,6 +251,7 @@ const kPersonaliseGroupIntroductionText =
 
 const kDeliveryfee = 'Delivery fee';
 const kSubTotal = 'Sub total';
+const kDiscount = 'Discount';
 const kOrderSummary = 'Order summary';
 const kDeliveryView = 'Choose delivery';
 const kReviewPayment = 'Review Payment';

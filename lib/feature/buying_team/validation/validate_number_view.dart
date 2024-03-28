@@ -1,4 +1,4 @@
-import '../../../config/export.dart';
+import '../../../core/config/export.dart';
 
 class ValidateNumberView extends StatelessWidget {
   const ValidateNumberView({Key? key}) : super(key: key);

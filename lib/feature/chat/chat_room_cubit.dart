@@ -3,7 +3,7 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 import 'package:rabble/domain/entities/ConversationModel.dart';
 import 'package:rabble/domain/entities/TeamDetailChatModel.dart';
 import 'package:rabble/domain/entities/contact_data.dart';
@@ -71,7 +71,7 @@ class ChatRoomCubit extends RabbleBaseCubit with Validators {
 
   Future<void> initPusher(String teamName) async {
      const String API_KEY = kDebugMode ? '748c798ef5d23aa4750d' : '87b6fa5d4ff005ec100e';
-//       const String API_KEY = '748c798ef5d23aa4750d';
+//      const String API_KEY = '748c798ef5d23aa4750d';
 
     const String API_CLUSTER = 'eu';
     await pusher.init(

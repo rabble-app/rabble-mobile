@@ -1,4 +1,4 @@
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 
 class CustomDropDownWidget extends StatelessWidget {
   final String heading;

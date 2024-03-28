@@ -1,5 +1,5 @@
 import 'package:path/path.dart';
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 
 class CustomBottomNavigation extends StatelessWidget {
   const CustomBottomNavigation(

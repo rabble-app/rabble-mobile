@@ -1,4 +1,4 @@
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 import 'package:rabble/domain/entities/RequestSendModel.dart';
 import 'package:rabble/feature/notification/team_request_cubit.dart';
 

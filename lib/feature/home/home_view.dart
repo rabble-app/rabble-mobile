@@ -1,4 +1,4 @@
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 import 'package:rabble/feature/auth/login/login_modal_view.dart';
 
 final List<Widget> _widgets = [

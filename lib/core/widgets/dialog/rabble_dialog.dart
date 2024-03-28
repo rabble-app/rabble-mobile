@@ -1,6 +1,6 @@
 import 'package:markdown/markdown.dart' as md;
 
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 
 enum DialogButtonTypes {
   PRIMARY,

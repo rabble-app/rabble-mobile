@@ -59,6 +59,8 @@ class DateFormatUtil {
   }
 
   static String countDays(String stringDate) {
+
+
     DateTime targetDate = DateTime.parse(stringDate).toLocal();
 
     DateTime currentDate = DateTime.now();
@@ -142,5 +144,58 @@ class DateFormatUtil {
     } else {
       return DateFormat('dd/MM/yyyy').format(messageTime);
     }
+  }
+
+
+ static String getNextDeliveryDate(String? dateString, int frequencyInSeconds) {
+    if (dateString == null) {
+      return 'Next Delivery date TBD';
+    }
+
+    DateTime targetDate = DateTime.parse(dateString).toLocal();
+    DateTime currentDate = DateTime.now();
+
+    // Calculate the adjusted target date based on frequency
+    DateTime adjustedDate = targetDate;
+    if (currentDate.isAfter(targetDate)) {
+      // Date has passed, calculate the next delivery date
+      int daysToAdd = 0;
+      switch (frequencyInSeconds) {
+        case 604800: // 1 week
+          daysToAdd = 7;
+          break;
+        case 1209600: // 2 weeks
+          daysToAdd = 14;
+          break;
+        case 2419200: // 1 month
+        // Adjusted to the next month
+          adjustedDate = DateTime(targetDate.year, targetDate.month + 1, targetDate.day);
+          break;
+        default:
+        // Custom frequency, calculate based on seconds
+          daysToAdd = (frequencyInSeconds / 86400).round();
+          break;
+      }
+      adjustedDate = adjustedDate.add(Duration(days: daysToAdd));
+    }
+
+    // Calculate the difference in days
+    int differenceInDays = daysBetween(currentDate,adjustedDate);
+
+    // Return appropriate string based on the difference
+    if (differenceInDays == 0) {
+      return 'Next Delivery due today';
+    } else if (differenceInDays == 1) {
+      return 'Next Delivery tomorrow';
+    } else if (differenceInDays > 1 && differenceInDays <= 10) {
+      return 'Next Delivery in $differenceInDays days';
+    } else {
+      return 'Next Delivery on ${DateFormat('dd MMM yyyy').format(adjustedDate)}';
+    }
+  }
+ static int daysBetween(DateTime from, DateTime to) {
+    from = DateTime(from.year, from.month, from.day);
+    to = DateTime(to.year, to.month, to.day);
+    return (to.difference(from).inHours / 24).round();
   }
 }

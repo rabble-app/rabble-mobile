@@ -1,4 +1,4 @@
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 
 class UserMemberCustomInfo extends StatelessWidget {
   const UserMemberCustomInfo({Key? key, required this.text, required this.icon,  this.textColor,}) : super(key: key);

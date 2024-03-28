@@ -1,4 +1,4 @@
-import '../../config/export.dart';
+import 'package:rabble/core/config/export.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebView extends StatefulWidget {

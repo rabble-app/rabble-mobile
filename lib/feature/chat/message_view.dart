@@ -1,6 +1,6 @@
 import 'package:rabble/feature/producer/widget/producer_item_shimmer.dart';
 
-import '../../config/export.dart';
+import '../../core/config/export.dart';
 
 class MessagesView extends StatefulWidget {
   const MessagesView({super.key});

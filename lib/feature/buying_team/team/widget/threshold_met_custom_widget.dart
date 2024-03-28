@@ -1,4 +1,4 @@
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 import 'package:rabble/core/widgets/date_format.dart';
 
 class ThresholdMetCustomWidget extends StatelessWidget {

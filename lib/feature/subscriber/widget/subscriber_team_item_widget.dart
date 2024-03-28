@@ -1,4 +1,4 @@
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 
 class SubscriberTeamItemWidget extends StatelessWidget {
   final BuyingTeamDetail? buyingTeamDetail;
@@ -10,7 +10,7 @@ class SubscriberTeamItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     print('${buyingTeamDetail!.name}');
     return Container(
-      width: context.allWidth*0.9,
+      width: context.allWidth * 0.9,
       decoration: ContainerDecoration.boxDecoration(
           bg: APPColors.bg_app_primary,
           border: APPColors.bg_grey25,
@@ -20,12 +20,8 @@ class SubscriberTeamItemWidget extends StatelessWidget {
       margin: PagePadding.custom(0, 0, 0, 4.w),
       child: GestureDetector(
         onTap: () {
-          Map map = {
-            'teamId': buyingTeamDetail!.id,
-            'type':'1'
-          };
-          NavigatorHelper().navigateToScreen('/threshold_view',
-              arguments: map);
+          Map map = {'teamId': buyingTeamDetail!.id, 'type': '1'};
+          NavigatorHelper().navigateToScreen('/threshold_view', arguments: map);
         },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -79,7 +75,9 @@ class SubscriberTeamItemWidget extends StatelessWidget {
                   fontFamily: cGosha,
                   fontSize: 14.sp,
                 ),
-                SizedBox(width: 2.w,),
+                SizedBox(
+                  width: 2.w,
+                ),
                 Container(
                   width: 14.w,
                   height: 3.h,
@@ -107,13 +105,15 @@ class SubscriberTeamItemWidget extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Assets.svgs.multi_profileuser.svg(
-                        width: 4.w,
-                        height: 2.h,
-                        color: APPColors.appBlue),
-                    SizedBox(width: 2.w,),
+                    Assets.svgs.multi_profileuser
+                        .svg(width: 4.w, height: 2.h, color: APPColors.appBlue),
+                    SizedBox(
+                      width: 2.w,
+                    ),
                     RabbleText.subHeaderText(
-                      text: buyingTeamDetail!.members!.isNotEmpty? buyingTeamDetail!.members!.length.toString():'0',
+                      text: buyingTeamDetail!.members!.isNotEmpty
+                          ? buyingTeamDetail!.members!.length.toString()
+                          : '0',
                       textAlign: TextAlign.start,
                       fontWeight: FontWeight.w500,
                       color: APPColors.bg_grey27,
@@ -122,19 +122,25 @@ class SubscriberTeamItemWidget extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(width: 4.w,),
+                SizedBox(
+                  width: 4.w,
+                ),
                 Row(
                   children: [
-                    Assets.svgs.category.svg(
-                        width: 4.w,
-                        height: 2.h,
-                        color: APPColors.appBlue),
-                    SizedBox(width: 2.w,),
+                    Assets.svgs.category
+                        .svg(width: 4.w, height: 2.h, color: APPColors.appBlue),
+                    SizedBox(
+                      width: 2.w,
+                    ),
                     RabbleText.subHeaderText(
                       text: buyingTeamDetail!.producer!.categories != null &&
-                          buyingTeamDetail!.producer!.categories!.isNotEmpty &&
-                          buyingTeamDetail!.producer!.categories!.first.category != null
-                          ?  buyingTeamDetail!.producer!.categories!.first.category!.name
+                              buyingTeamDetail!
+                                  .producer!.categories!.isNotEmpty &&
+                              buyingTeamDetail!
+                                      .producer!.categories!.first.category !=
+                                  null
+                          ? buyingTeamDetail!
+                              .producer!.categories!.first.category!.name
                           : '',
                       textAlign: TextAlign.start,
                       fontWeight: FontWeight.w500,
@@ -147,17 +153,18 @@ class SubscriberTeamItemWidget extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height:1.h,
+              height: 1.h,
             ),
             Row(
               children: [
-                Assets.svgs.truck_blue.svg(
-                    width: 4.w,
-                    height: 2.h,
-                    color: APPColors.appBlue),
-                SizedBox(width: 2.w,),
+                Assets.svgs.truck_blue
+                    .svg(width: 4.w, height: 2.h, color: APPColors.appBlue),
+                SizedBox(
+                  width: 2.w,
+                ),
                 RabbleText.subHeaderText(
-                  text: 'Next delivery ${buyingTeamDetail!.nextDeliveryDate !=null? 'in ${DateFormatUtil.countDays(buyingTeamDetail!.nextDeliveryDate!)}':'' }',
+                  text: DateFormatUtil.getNextDeliveryDate(
+                      buyingTeamDetail!.nextDeliveryDate, buyingTeamDetail!.frequency!.toInt()),
                   textAlign: TextAlign.start,
                   fontWeight: FontWeight.w500,
                   color: APPColors.bg_grey27,
@@ -166,12 +173,10 @@ class SubscriberTeamItemWidget extends StatelessWidget {
                 ),
               ],
             ),
-
             const Divider(
               color: APPColors.bg_grey25,
               thickness: 0.7,
             ),
-
             Row(
               children: [
                 Container(
@@ -192,9 +197,13 @@ class SubscriberTeamItemWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(width: 2.w,),
+                SizedBox(
+                  width: 2.w,
+                ),
                 RabbleText.subHeaderText(
-                  text: buyingTeamDetail!.producer! == null ? '' : buyingTeamDetail!.producer!.businessName,
+                  text: buyingTeamDetail!.producer! == null
+                      ? ''
+                      : buyingTeamDetail!.producer!.businessName,
                   textAlign: TextAlign.start,
                   fontWeight: FontWeight.normal,
                   color: APPColors.appBlack,
@@ -202,7 +211,6 @@ class SubscriberTeamItemWidget extends StatelessWidget {
                   fontSize: 11.sp,
                 ),
                 const Spacer(),
-
                 Row(
                   children: [
                     Container(
@@ -221,21 +229,25 @@ class SubscriberTeamItemWidget extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(width: 2.w,),
+                    SizedBox(
+                      width: 2.w,
+                    ),
                     Center(
                       child: RabbleText.subHeaderText(
-                        text: buyingTeamDetail!.host! == null ? '' : '${buyingTeamDetail!.host!.firstName ?? '' } ${buyingTeamDetail!.host!.lastName ?? ''}',
+                        text: buyingTeamDetail!.host! == null
+                            ? ''
+                            : '${buyingTeamDetail!.host!.firstName ?? ''} ${buyingTeamDetail!.host!.lastName ?? ''}',
                         color: APPColors.appBlack,
                         fontSize: 10.sp,
                       ),
                     )
-
                   ],
                 ),
               ],
             ),
-
-            SizedBox(height: 1.h,),
+            SizedBox(
+              height: 1.h,
+            ),
           ],
         ),
       ),

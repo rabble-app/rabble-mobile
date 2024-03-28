@@ -1,5 +1,5 @@
 import 'package:flutter_stripe/flutter_stripe.dart' as stripe;
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 
 class AddPaymentView extends StatelessWidget {
   AddPaymentView({Key? key}) : super(key: key);

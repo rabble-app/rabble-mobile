@@ -1,6 +1,6 @@
 import 'package:flutter/gestures.dart';
 
-import '../../../config/export.dart';
+import '../../../core/config/export.dart';
 
 class TextRichCustom extends StatelessWidget {
   const TextRichCustom({

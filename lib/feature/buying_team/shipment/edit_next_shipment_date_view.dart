@@ -1,4 +1,4 @@
-import '../../../config/export.dart';
+import '../../../core/config/export.dart';
 
 class EditNextShipmentDateView extends StatelessWidget {
   const EditNextShipmentDateView({Key? key}) : super(key: key);

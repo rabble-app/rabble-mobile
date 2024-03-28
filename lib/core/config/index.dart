@@ -2,8 +2,9 @@
 // https://stackoverflow.com/questions/55237006/how-to-call-a-named-constructor-from-a-generic-function-in-dart-flutter
 // ONLY enter those that can be returned from API endpoints
 
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 import 'package:rabble/domain/entities/ApplyPayModel.dart';
+import 'package:rabble/domain/entities/MySubscriptionModel.dart';
 import 'package:rabble/domain/entities/PartionedProductsData.dart';
 import 'package:rabble/domain/entities/MoreProductModel.dart';
 import 'package:rabble/domain/entities/ProfilePictureModel.dart';
@@ -14,7 +15,6 @@ import 'package:rabble/domain/entities/TeamDetailChatModel.dart';
 import 'package:rabble/domain/entities/UserBasketModel.dart';
 import 'package:rabble/domain/entities/UserTeamModel.dart';
 
-import '../domain/entities/MySubscriptionModel.dart';
 
 final dataFactories = {
   Null: (_) => null,

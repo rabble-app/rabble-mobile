@@ -1,4 +1,4 @@
-import '../../../config/export.dart';
+import '../../../core/config/export.dart';
 
 class PersonaliseGroupView extends StatelessWidget {
   PersonaliseGroupView(

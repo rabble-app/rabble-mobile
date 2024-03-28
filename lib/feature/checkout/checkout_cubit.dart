@@ -1,4 +1,4 @@
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 import 'package:rabble/domain/entities/UserBasketModel.dart';
 import 'package:rabble/feature/buying_team/setting/quite_team_sheet.dart';
 import 'package:rabble/feature/checkout/team_exist_sheet.dart';
@@ -12,6 +12,9 @@ class CheckoutCubit extends RabbleBaseCubit {
   final BehaviorSubject<List<UserBasketData>> myBasketList =
       BehaviorSubject<List<UserBasketData>>.seeded([]);
   final BehaviorSubject<double> totalSum = BehaviorSubject<double>();
+  final BehaviorSubject<double> totalSumRRP = BehaviorSubject<double>();
+  final BehaviorSubject<double> totalDiscount =
+      BehaviorSubject<double>.seeded(0.0);
   final BehaviorSubject<bool> isEmpty = BehaviorSubject<bool>.seeded(false);
   final List<int> originalQty = [];
 
@@ -36,7 +39,8 @@ class CheckoutCubit extends RabbleBaseCubit {
     }
 
     await calculateSum(products);
-
+    await calculateSumOfRRP(products);
+    await calculateDiscount(products);
     emit(RabbleBaseState.idle());
   }
 
@@ -66,14 +70,24 @@ class CheckoutCubit extends RabbleBaseCubit {
     totalSum.sink.add(totalPrice);
   }
 
+
+
   Future<void> calculateSum(List<ProductDetail> products) async {
-    print("here");
     double totalPrice = products.fold(
         0,
         (double previous, ProductDetail element) =>
             previous +
             double.parse((element.price! * element.qty!).toString()));
     totalSum.sink.add(totalPrice);
+  }
+
+  Future<void> calculateSumOfRRP(List<ProductDetail> products) async {
+    double totalPrice = products.fold(
+        0,
+        (double previous, ProductDetail element) =>
+            previous +
+            double.parse((element.rrp! * element.qty!).toString()));
+    totalSumRRP.sink.add(totalPrice);
   }
 
   Future<void> productQuantity(qty, String? productId) async {
@@ -344,5 +358,32 @@ class CheckoutCubit extends RabbleBaseCubit {
     }
 
     emit(RabbleBaseState.idle());
+  }
+
+  String calculatePercentage() {
+    double discountPercentage = 0;
+    for (ProductDetail element in productList.value) {
+      if (element.price == null || element.rrp == null || element.rrp == 0) {
+        discountPercentage = 0;
+      } else {
+        discountPercentage =
+            ((element.rrp! - element.price!) / element.rrp!) * 100;
+      }
+    }
+
+    return discountPercentage.toStringAsFixed(1);
+  }
+
+  Future<void> calculateDiscount(List<ProductDetail> products) async {
+    double discount = 0;
+    for (ProductDetail element in products) {
+      if (element.price == null || element.rrp == null || element.rrp == 0) {
+        discount = 0;
+      } else {
+        discount = discount +
+            (element.rrp! - element.price!).toDouble() * element.qty!;
+      }
+    }
+    totalDiscount.sink.add(double.parse(discount.toStringAsFixed(2)));
   }
 }

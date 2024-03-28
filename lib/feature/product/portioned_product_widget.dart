@@ -1,6 +1,6 @@
 import 'package:rabble/feature/product/portioned_product_list_widget.dart';
 
-import '../../config/export.dart';
+import '../../core/config/export.dart';
 import '../../domain/entities/PartionedProductsData.dart';
 
 class PortionedProductWidget extends StatelessWidget {

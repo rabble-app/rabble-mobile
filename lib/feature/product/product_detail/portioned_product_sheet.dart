@@ -1,6 +1,6 @@
 import 'package:rabble/domain/entities/PartionedProductsData.dart';
 
-import '../../../config/export.dart';
+import '../../../core/config/export.dart';
 
 class PortionedProductSheet extends StatelessWidget {
   final VoidCallback callBackDelete;

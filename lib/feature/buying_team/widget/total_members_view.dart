@@ -1,4 +1,4 @@
-import '../../../config/export.dart';
+import '../../../core/config/export.dart';
 
 class TotalMembersView extends StatelessWidget {
   const TotalMembersView({Key? key, required this.memberCount, }) : super(key: key);

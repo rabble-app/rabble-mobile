@@ -1,7 +1,7 @@
 import 'package:rabble/domain/entities/ConversationModel.dart';
 import 'package:rabble/domain/entities/TeamDetailChatModel.dart';
 
-import '../../config/export.dart';
+import '../../core/config/export.dart';
 import '../producer/widget/producer_item_shimmer.dart';
 
 class ChatRoomView extends StatefulWidget {
@@ -224,7 +224,7 @@ class _ChatRoomViewState extends State<ChatRoomView> {
                                         )),
                                   ),
                                   SizedBox(
-                                    width: 4.w,
+                                    width: 3.w,
                                   ),
                                   InkWell(
                                     child: Padding(

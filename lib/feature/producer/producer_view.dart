@@ -1,4 +1,4 @@
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 import 'package:rabble/feature/producer/widget/producer_item_shimmer.dart';
 import 'package:rabble/feature/producer/widget/producer_view_shimmer.dart';
 import 'package:share_plus/share_plus.dart';

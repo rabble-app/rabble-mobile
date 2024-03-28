@@ -1,4 +1,4 @@
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 
 class UserWidget extends StatelessWidget {
   const UserWidget({Key? key}) : super(key: key);

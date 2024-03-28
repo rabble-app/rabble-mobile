@@ -1,6 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 
 class RabbleStorage {
   static FlutterSecureStorage secureStorage = FlutterSecureStorage();

@@ -1,6 +1,6 @@
 import 'package:rabble/domain/entities/TeamDetailChatModel.dart';
 
-import '../../config/export.dart';
+import '../../core/config/export.dart';
 
 class TeamListView extends StatelessWidget {
   const TeamListView({super.key});

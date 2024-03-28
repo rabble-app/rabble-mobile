@@ -1,10 +1,10 @@
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 import 'package:rabble/domain/repositries/chat_repositry.dart';
 
-final authRepo = AuthRepository();
+final authRepo = di<AuthRepository>();
 final producerRepo = ProducerRepository();
 final buyingTeamRepo = BuyingTeamRepository();
-final addressRepo = AddressRepository();
+final addressRepo = di<AddressRepository>();
 final searchRepo = SearchRepository();
 final userRepo = UserRepository();
 final paymentRepo = PaymentRepository();

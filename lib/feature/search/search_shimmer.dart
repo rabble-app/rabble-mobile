@@ -1,6 +1,6 @@
 import 'package:shimmer/shimmer.dart';
 
-import '../../../config/export.dart';
+import '../../../core/config/export.dart';
 
 class SearchShimmer extends StatelessWidget {
   const SearchShimmer({Key? key}) : super(key: key);

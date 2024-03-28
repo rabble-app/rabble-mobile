@@ -1,4 +1,4 @@
-import '../../../config/export.dart';
+import '../../../core/config/export.dart';
 
 class TeamStrengthBox extends StatelessWidget {
   const TeamStrengthBox({Key? key, required  this.amountSaved, required this.teamStrength, required this.vansPrevented,}) : super(key: key);

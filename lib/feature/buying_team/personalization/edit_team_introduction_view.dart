@@ -1,4 +1,4 @@
-import '../../../config/export.dart';
+import '../../../core/config/export.dart';
 
 class EditTeamIntroductionView extends StatelessWidget {
   EditTeamIntroductionView({Key? key}) : super(key: key);

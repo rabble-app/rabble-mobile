@@ -1,4 +1,4 @@
-import '../../config/export.dart';
+import '../../core/config/export.dart';
 import '../../domain/entities/PartionedProductsData.dart';
 
 class PortionedProductListWidget extends StatelessWidget {

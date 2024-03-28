@@ -1,5 +1,5 @@
 import 'package:insta_image_viewer/insta_image_viewer.dart';
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 import 'package:rabble/domain/entities/MoreProductModel.dart';
 import 'package:rabble/feature/auth/login/login_modal_view.dart';
 import 'package:rabble/feature/product/portioned_product_list_widget.dart';

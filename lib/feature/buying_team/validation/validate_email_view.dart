@@ -1,4 +1,4 @@
-import '../../../config/export.dart';
+import '../../../core/config/export.dart';
 
 class ValidateEmailView extends StatelessWidget {
   ValidateEmailView({Key? key}) : super(key: key);

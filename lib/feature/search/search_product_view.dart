@@ -1,4 +1,4 @@
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 import 'package:rabble/feature/search/popular_search_widget.dart';
 import 'package:rabble/feature/search/recent_search_widget.dart';
 import 'package:rabble/feature/search/search_shimmer.dart';

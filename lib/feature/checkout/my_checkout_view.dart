@@ -1,4 +1,4 @@
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 import 'package:rabble/core/widgets/empty_state_widget.dart';
 import 'package:rabble/domain/entities/UserBasketModel.dart';
 import 'package:rabble/feature/checkout/checkout_shimmer.dart';
@@ -137,6 +137,7 @@ class MyCheckoutView extends StatelessWidget {
                                                                 .data!.length -
                                                             1 ==
                                                         index,
+                                                    imageUrl: item.product!.imageUrl,
                                                     itemName:
                                                         item.product!.name!,
                                                     price: DateFormatUtil

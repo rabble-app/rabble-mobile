@@ -1,5 +1,5 @@
 import 'package:flutter/scheduler.dart';
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 
 class ProducerItemWidget extends StatelessWidget {
   final ProducerDetail producerDetail;

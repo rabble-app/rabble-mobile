@@ -1,6 +1,6 @@
 // Grabbed from unmaintained https://github.com/aloisdeniel/dio_retry
 
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 
 typedef RetryEvaluator = FutureOr<bool> Function(DioError error);
 

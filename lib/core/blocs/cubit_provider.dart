@@ -1,5 +1,5 @@
 
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 
 typedef RabbleBlocWidgetBuilder<S extends RabbleBaseState,
         T extends RabbleBaseCubit>
