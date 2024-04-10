@@ -13,6 +13,7 @@ class RabbleStorage {
   static const String address = 'address';
   static const String inivitationData = 'inivitationData';
   static const String postalCode = 'postalCode';
+  static const String producerInfo = 'producerInfo';
   static const String shareStatus = 'shareStatus';
   static const String notificatioKey = 'notificationKey';
 
@@ -29,6 +30,16 @@ class RabbleStorage {
 
   static dynamic isFromNotification() async {
     var result = await secureStorage.read(key: notificatioKey);
+    return result;
+  }
+
+
+  static dynamic storeProducerInfo(String data) async {
+    await secureStorage.write(key: producerInfo, value: data);
+  }
+
+  static dynamic getProducerInfo() async {
+    var result = await secureStorage.read(key: producerInfo);
     return result;
   }
 

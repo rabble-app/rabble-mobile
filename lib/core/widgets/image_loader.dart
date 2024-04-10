@@ -61,6 +61,7 @@ class RabbleImageLoader extends StatelessWidget {
           size: roundValue ?? 40,
         ),
       ),
+
     );
   }
 }

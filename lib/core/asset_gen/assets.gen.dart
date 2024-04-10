@@ -13,6 +13,10 @@ class $AssetsSVGGen {
 
   SvgGenImage get host => const SvgGenImage('assets/svg/host.svg');
   SvgGenImage get search_view => const SvgGenImage('assets/svg/search_view.svg');
+  SvgGenImage get info => const SvgGenImage('assets/svg/info.svg');
+  SvgGenImage get arrowDown => const SvgGenImage('assets/svg/arrow-down.svg');
+  SvgGenImage get danger => const SvgGenImage('assets/svg/danger.svg');
+  SvgGenImage get arrowUp => const SvgGenImage('assets/svg/arrow-up.svg');
 
   SvgGenImage get myTeamTab => const SvgGenImage('assets/svg/myTeamTab.svg');
   SvgGenImage get myTeamTab_selected => const SvgGenImage('assets/svg/myTeamTab_selected.svg');

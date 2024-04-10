@@ -172,6 +172,70 @@ class CustomBottomSheet {
         Future.value(false);
   }
 
+
+  static Future<bool> showSharePortionedBottomModelSheet(
+      BuildContext ctx, Widget child, bool? isScrollAble,
+      {bool? isRemove, String? date}) async {
+    return await showModalBottomSheet(
+      context: ctx,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: isScrollAble ?? false,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(30),
+            topLeft: Radius.circular(30),
+          )),
+      builder: (context) {
+        return SizedBox(
+          height: MediaQuery.of(context).size.height * 0.43,
+          child: Scaffold(
+            body: Container(
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
+              child: StatefulBuilder(
+                builder: (lowerContext, innerState) {
+                  return child;
+                },
+              ),
+            ),
+          ),
+        );
+      },
+    ) ??
+        Future.value(false);
+  }
+
+  static Future<bool> showSharePortionedBottomModelSheet2(
+      BuildContext ctx, Widget child, bool? isScrollAble,
+      {bool? isRemove, String? date}) async {
+    return await showModalBottomSheet(
+      context: ctx,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: isScrollAble ?? false,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(30),
+            topLeft: Radius.circular(30),
+          )),
+      builder: (context) {
+        return SizedBox(
+          height: MediaQuery.of(context).size.height * 0.5,
+          child: Scaffold(
+            body: Container(
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
+              child: StatefulBuilder(
+                builder: (lowerContext, innerState) {
+                  return child;
+                },
+              ),
+            ),
+          ),
+        );
+      },
+    ) ??
+        Future.value(false);
+  }
   static Future<String> show500BottomModelSheet(
       BuildContext ctx, Widget child, bool? isScrollAble,
       {bool? isRemove}) async {
@@ -202,5 +266,37 @@ class CustomBottomSheet {
           },
         ) ??
         Future.value('nothing');
+  }
+
+  static Future<bool> showShareInfoModelSheet(
+      BuildContext ctx, Widget child, bool? isScrollAble,
+      {bool? isRemove, String? date}) async {
+    return await showModalBottomSheet(
+      context: ctx,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: isScrollAble ?? false,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(30),
+            topLeft: Radius.circular(30),
+          )),
+      builder: (context) {
+        return SizedBox(
+          height: MediaQuery.of(context).size.height * 0.6,
+          child: Scaffold(
+            body: Container(
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
+              child: StatefulBuilder(
+                builder: (lowerContext, innerState) {
+                  return child;
+                },
+              ),
+            ),
+          ),
+        );
+      },
+    ) ??
+        Future.value(false);
   }
 }

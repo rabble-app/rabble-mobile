@@ -119,7 +119,7 @@ class Routes {
         RouteHandlers.makeHandler(() => ReviewPaymentView()));
 
     defineRoute(router, '/add_payment_view',
-        RouteHandlers.makeHandler(() => AddPaymentView()));
+        RouteHandlers.makeHandler(() => AddNewCardView()));
 
     defineRoute(router, '/edit_team_name_view',
         RouteHandlers.makeHandler(() => EditNameView()));

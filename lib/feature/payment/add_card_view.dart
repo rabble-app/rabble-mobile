@@ -1,8 +1,8 @@
 import 'package:flutter_stripe/flutter_stripe.dart' as stripe;
 import 'package:rabble/core/config/export.dart';
 
-class AddPaymentView extends StatelessWidget {
-  AddPaymentView({Key? key}) : super(key: key);
+class AddNewCardView extends StatelessWidget {
+  AddNewCardView({super.key});
 
   final StreamController<bool> _over18Stream =
       StreamController<bool>.broadcast();

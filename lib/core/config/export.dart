@@ -241,7 +241,7 @@ export 'package:rabble/feature/purchases/widget/delivery_item_widget.dart';
 
 export '../../core/widgets/buttons/rabble_customzied_icon_button.dart';
 export '../../core/widgets/texts/text_rich_custom.dart';
-export 'package:rabble/feature/payment/add_payment_view.dart';
+export 'package:rabble/feature/payment/add_card_view.dart';
 
 export 'package:rabble/feature/contact/contact_cubit.dart';
 

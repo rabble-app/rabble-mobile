@@ -12,7 +12,7 @@ class DBHelper {
   static Database? database;
 
   static const String dbName = 'rabble.db';
-  static const int dbVersion = 9;
+  static const int dbVersion = 10;
 
   static const String tableSearch = 'RecentSearch';
   static const String clmText = 'keyword';
@@ -34,11 +34,12 @@ class DBHelper {
   static const String clmOrderSubUnit = 'orderSubUnit';
   static const String clmOrderUnit = 'orderUnit';
   static const String clmUnitsOfMeasure = 'unitsOfMeasure';
+  static const String clmPurchasedUserNames = 'purchasedUserNames';
 
   static const String tableProductsQuery =
       'CREATE TABLE $tableCart(id INTEGER PRIMARY KEY AUTOINCREMENT, $clmName '
       'TEXT, $clmDesc TEXT, '
-      '$clmPrice INTEGER,$clmQty INTEGER, $clmProductId REAL, $clmProducerId TEXT, $clmProducerName TEXT, $clmProductType TEXT, $clmThresoldQty INTEGER,$clmTotalThresoldQty INTEGER, $clmUnitPerOrder INTEGER, $clmOrderSubUnit TEXT, $clmOrderUnit TEXT , $clmUnitsOfMeasure TEXT, $clmProductImage TEXT, $clmRRP INTEGER)';
+      '$clmPrice INTEGER,$clmQty INTEGER, $clmProductId REAL, $clmProducerId TEXT, $clmProducerName TEXT, $clmProductType TEXT, $clmThresoldQty INTEGER,$clmTotalThresoldQty INTEGER, $clmUnitPerOrder INTEGER, $clmOrderSubUnit TEXT, $clmOrderUnit TEXT , $clmUnitsOfMeasure TEXT, $clmProductImage TEXT, $clmRRP INTEGER, $clmPurchasedUserNames TEXT)';
 
   static const String tableSearchQuery =
       'CREATE TABLE $tableSearch(id INTEGER PRIMARY KEY AUTOINCREMENT, $clmText '

@@ -1,3 +1,5 @@
+import 'package:rabble/core/config/export.dart';
+
 import 'PartionedProductsData.dart';
 
 class OrderModel {
@@ -61,10 +63,10 @@ class CurrentOrderData {
     String? createdAt,
     String? updatedAt,
     String? deliveryDate,
+    Producer? producer,
     List<Basket>? basket,
     List<Payments>? payments,
     List<PartionedProducts>? partionedProducts,
-
   }) {
     _id = id;
     _teamId = teamId;
@@ -77,8 +79,8 @@ class CurrentOrderData {
     _basket = basket;
     _payments = payments;
     _deliveryDate = deliveryDate;
+    _producer = producer;
     _partionedProducts = partionedProducts;
-
   }
 
   CurrentOrderData.fromJson(dynamic json) {
@@ -91,6 +93,10 @@ class CurrentOrderData {
     _createdAt = json['createdAt'];
     _updatedAt = json['updatedAt'];
     _deliveryDate = json['deliveryDate'];
+    if (json['team'] != null) {
+      _producer = Producer.fromJson(json['team']['producer']);
+    }
+
     if (json['basket'] != null) {
       _basket = [];
       json['basket'].forEach((v) {
@@ -124,6 +130,7 @@ class CurrentOrderData {
   List<Basket>? _basket;
   List<Payments>? _payments;
   List<PartionedProducts>? _partionedProducts;
+  Producer? _producer;
 
   CurrentOrderData copyWith({
     String? id,
@@ -135,28 +142,29 @@ class CurrentOrderData {
     String? createdAt,
     String? deliveryDate,
     String? updatedAt,
+    Producer? producer,
     List<Basket>? basket,
     List<Payments>? payments,
     List<PartionedProducts>? partionedProducts,
-
   }) =>
       CurrentOrderData(
-        id: id ?? _id,
-        teamId: teamId ?? _teamId,
-        status: status ?? _status,
-        minimumTreshold: minimumTreshold ?? _minimumTreshold,
-        accumulatedAmount: accumulatedAmount ?? _accumulatedAmount,
-        deadline: deadline ?? _deadline,
-        createdAt: createdAt ?? _createdAt,
-        updatedAt: updatedAt ?? _updatedAt,
-        basket: basket ?? _basket,
-        payments: payments ?? _payments,
-        deliveryDate: deliveryDate ?? _deliveryDate,
-          partionedProducts: partionedProducts ?? _partionedProducts
-
-      );
+          id: id ?? _id,
+          teamId: teamId ?? _teamId,
+          status: status ?? _status,
+          minimumTreshold: minimumTreshold ?? _minimumTreshold,
+          accumulatedAmount: accumulatedAmount ?? _accumulatedAmount,
+          deadline: deadline ?? _deadline,
+          createdAt: createdAt ?? _createdAt,
+          updatedAt: updatedAt ?? _updatedAt,
+          basket: basket ?? _basket,
+          payments: payments ?? _payments,
+          producer: producer ?? _producer,
+          deliveryDate: deliveryDate ?? _deliveryDate,
+          partionedProducts: partionedProducts ?? _partionedProducts);
 
   String? get id => _id;
+
+  Producer? get producer => _producer;
 
   List<PartionedProducts>? get partionedProducts => _partionedProducts;
 

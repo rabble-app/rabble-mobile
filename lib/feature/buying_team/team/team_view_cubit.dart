@@ -6,7 +6,9 @@ import '../../../domain/entities/RequestSendModel.dart';
 
 class TeamViewCubit extends RabbleBaseCubit with Validators {
   TeamViewCubit({required this.teamId}) : super(RabbleBaseState.idle()) {
-    fetchTeamDetail();
+    if(teamId.isNotEmpty) {
+      fetchTeamDetail();
+    }
   }
 
   BehaviorSubject<TeamData> teamDataSubject$ = BehaviorSubject<TeamData>();
@@ -104,16 +106,7 @@ class TeamViewCubit extends RabbleBaseCubit with Validators {
           allTempBoxList.sink.add(t);
         }
 
-        print(' Size ${allTempBoxList.value.length}');
       }
-
-      for (int l = 0; l < allTempBoxList.value.length; l++) {
-        for (int m = 0; m < allTempBoxList.value[l].length; m++) {
-          print('L $l and M $m element ${allTempBoxList.value[l][m].userName}');
-        }
-      }
-
-//      purchasedUserListSubject$.sink.add(tempList);
     }
     emit(RabbleBaseState.idle());
   }
@@ -130,6 +123,28 @@ class TeamViewCubit extends RabbleBaseCubit with Validators {
       feature: 'Share',
       channel: 'Rabble app',
       campaign: 'Invitation for team.',
+    );
+
+    final generatedLink = await FlutterBranchSdk.getShortUrl(
+        linkProperties: branchLinkProperties, buo: branchUniversalObject);
+
+    print('Generated deep link: ${generatedLink.result.toString()}');
+
+    return generatedLink.result.toString();
+  }
+
+  Future<String> generateDeepLinkForProducer(ProducerDetail teamData) async {
+    final branchUniversalObject = BranchUniversalObject(
+        canonicalIdentifier: teamData.id ?? '',
+        title: teamData.businessName ?? '',
+        imageUrl: teamData.imageUrl ?? '',
+        contentDescription: teamData.description ?? '',
+        keywords: ['producer_share']);
+
+    final branchLinkProperties = BranchLinkProperties(
+      feature: 'Share Producer',
+      channel: 'Rabble app',
+      campaign: 'Share producer.',
     );
 
     final generatedLink = await FlutterBranchSdk.getShortUrl(

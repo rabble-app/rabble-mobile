@@ -456,7 +456,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                                                   margin: PagePadding
                                                       .horizontalSymmetric(3.w),
                                                   child:
-                                                      PortionedProductTeamListWidget(
+                                                      PortionedProductBoxListWidget(
                                                     partionedProductsList:
                                                         productDetail
                                                                     .partionedProducts !=

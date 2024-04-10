@@ -27,11 +27,14 @@ class ProductDetailCubit extends RabbleBaseCubit {
         : [];
 
     var userData =
-        await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+    await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
     UserModel userModel = UserModel.fromJson(jsonDecode(userData));
 
     tempList.add(TempBoxData('${userModel.firstName} ${userModel.lastName}'));
     purchasedUserListSubject$.sink.add(tempList);
+
+
+
     fetchSingleProductExist(product.id!);
     fetchAllProducts(product.producerId!);
   }
@@ -171,14 +174,15 @@ class ProductDetailCubit extends RabbleBaseCubit {
     }
   }
 
-  Future<void> fetchSingleProductExist2(ProductDetail detail,String productId) async {
-     print("PRODUCT ID ${productId}");
+  Future<void> fetchSingleProductExist2(
+      ProductDetail detail, String productId) async {
+    print("PRODUCT ID ${productId}");
 
     dynamic res = await dbHelper.fetchSingleProduct(productId);
     if (res is ProductDetail && res.id == productId) {
-
       globalBloc.cartItemQty.sink.add(res.qty!);
-      if (productDetailSubject$.hasValue && productDetailSubject$.value.id == productId) {
+      if (productDetailSubject$.hasValue &&
+          productDetailSubject$.value.id == productId) {
         ProductDetail productDetail = productDetailSubject$.value;
         productDetail.qty = res.qty!;
 
@@ -203,13 +207,11 @@ class ProductDetailCubit extends RabbleBaseCubit {
         purchasedUserListSubject$.sink.add(tempList);
 
         productDetailSubject$.sink.add(productDetail);
-      }
-      else {
+      } else {
         print("res ${res.qty}");
         productDetailSubject$.sink.add(res);
       }
-    }
-    else {
+    } else {
       if (productDetailSubject$.hasValue) {
         print("A");
         List<TempBoxData> tempList = [];
@@ -246,7 +248,6 @@ class ProductDetailCubit extends RabbleBaseCubit {
       globalBloc.cartItemQty.sink.add(0);
     }
   }
-
 
   Future<bool> removeProduct(String productId) async {
     bool res = await dbHelper.removeProductFromCart(productId);
@@ -332,7 +333,6 @@ class ProductDetailCubit extends RabbleBaseCubit {
 
     return generatedLink.result.toString();
   }
-
 }
 
 class TempBoxData {
