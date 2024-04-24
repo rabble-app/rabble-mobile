@@ -148,6 +148,7 @@ class CreateGroupNameView extends StatelessWidget {
                                     textCapitalization:
                                         TextCapitalization.sentences,
                                     decoration: InputDecoration(
+                                      counterText: '',
                                       fillColor: Colors.transparent,
                                       contentPadding:
                                           EdgeInsets.symmetric(horizontal: 1.h),

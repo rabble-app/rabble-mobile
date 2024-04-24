@@ -106,7 +106,6 @@ class AddPaymentView extends StatelessWidget {
                               onChange: bloc.cardNumberC,
                               formater: [
                                 FilteringTextInputFormatter.digitsOnly,
-                                LengthLimitingTextInputFormatter(16),
                                 CardNumberFormatter(),
                               ],
                               filledColor: Colors.transparent,
@@ -153,7 +152,6 @@ class AddPaymentView extends StatelessWidget {
                                           formater: [
                                             FilteringTextInputFormatter
                                                 .digitsOnly,
-                                            LengthLimitingTextInputFormatter(3),
                                           ],
                                           hint: kCVVStar,
                                           filledColor: Colors.transparent,
@@ -197,7 +195,6 @@ class AddPaymentView extends StatelessWidget {
                                           formater: [
                                             FilteringTextInputFormatter
                                                 .digitsOnly,
-                                            LengthLimitingTextInputFormatter(4),
                                             ExpiryDateFormatter()
                                           ],
                                           filledColor: Colors.transparent,

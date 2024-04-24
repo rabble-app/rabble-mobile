@@ -16,45 +16,65 @@ class CustomBottomNavigation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-        color: APPColors.appBlack,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10.w,vertical: 0.5.w),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              item(context,Assets.svgs.search_bottom.path, 0, kExplore),
-              item(context,Assets.svgs.tabteam.path, 1, 'Teams'),
-              item(context,Assets.svgs.tabmessages.path, 2, 'Messages'),
-              item(context,Assets.svgs.tabprofile.path, 3, kMyRabble),
-            ],
-          ),
+    return Container(
+      color: APPColors.appBlack,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.w),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            item(
+                context,
+                currentIndex == 0
+                    ? Assets.svgs.search_bottom_selected.path
+                    : Assets.svgs.tabhome.path,
+                0,
+                kExplore),
+            item(
+                context,
+                currentIndex == 1
+                    ? Assets.svgs.tabteam_selected.path
+                    : Assets.svgs.tabteam.path,
+                1,
+                'Teams'),
+            item(
+                context,
+                currentIndex == 2
+                    ? Assets.svgs.tabmessages_selected.path
+                    : Assets.svgs.tabteam0.path,
+                2,
+                'Messages'),
+            item(
+                context,
+                currentIndex == 3
+                    ? Assets.svgs.tabprofile_selected.path
+                    : Assets.svgs.tabprofile.path,
+                3,
+                kMyRabble),
+          ],
         ),
       ),
     );
   }
 
-  GestureDetector item(BuildContext context,String path, int index, String title) {
-    return GestureDetector(
+  InkWell item(
+      BuildContext context, String path, int index, String title) {
+    return InkWell(
+
         onTap: () {
           onTap(index);
         },
         child: SizedBox(
-          height: MediaQuery.of(context).size.height*0.06,
+          height: MediaQuery.of(context).size.height * 0.057,
           width: 16.w,
           child: Column(
             children: [
-              SizedBox(
-                height: 0.7.h,
+              SvgPicture.asset(
+                path,
               ),
-              SvgPicture.asset(path,
-                  color: currentIndex == index
-                      ? APPColors.appPrimaryColor
-                      : APPColors.bg_grey27),
               SizedBox(
-                height: 0.5.h,
+                height: 0.2.h,
               ),
               RabbleText.subHeaderText(
                 text: title,

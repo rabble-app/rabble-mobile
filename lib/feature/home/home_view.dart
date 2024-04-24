@@ -1,4 +1,5 @@
 import 'package:rabble/config/export.dart';
+import 'package:rabble/feature/auth/login/login_modal_view.dart';
 
 final List<Widget> _widgets = [
   const ExploreView(),
@@ -64,9 +65,16 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
                                         CrossAxisAlignment.center,
                                     children: [
                                       PostCodeWidget(
-                                        callBack: () {
-                                          NavigatorHelper().navigateTo(
-                                              '/add_postal_code_view');
+                                        callBack: () async {
+                                          String status = await RabbleStorage
+                                                  .getLoginStatus() ??
+                                              "0";
+                                          if (status != '0') {
+                                            NavigatorHelper().navigateTo(
+                                                '/add_postal_code_view');
+                                          } else {
+                                            openLoginSheet();
+                                          }
                                         },
                                       ),
                                       RabbleText.subHeaderText(
@@ -79,13 +87,20 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
                                       Row(
                                         children: [
                                           Padding(
-                                            padding:
-                                                PagePadding.onlyTop(2.w),
+                                            padding: PagePadding.onlyTop(2.w),
                                             child: CartBadgeWidget(
-                                              callBack: () {
-                                                NavigatorHelper()
-                                                    .navigateTo('/checkout',
-                                                        {'type': false});
+                                              callBack: () async {
+                                                String status =
+                                                    await RabbleStorage
+                                                            .getLoginStatus() ??
+                                                        "0";
+                                                if (status != '0') {
+                                                  NavigatorHelper().navigateTo(
+                                                      '/checkout',
+                                                      {'type': false});
+                                                } else {
+                                                  openLoginSheet();
+                                                }
                                               },
                                             ),
                                           ),
@@ -93,37 +108,47 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
                                             width: 2.w,
                                           ),
                                           Padding(
-                                            padding:
-                                                PagePadding.onlyTop(2.w),
+                                            padding: PagePadding.onlyTop(2.w),
                                             child: BehaviorSubjectBuilder<
                                                     List<NotificationData>>(
                                                 subject: bloc
                                                     .notificationsListSubject$,
-                                                builder:
-                                                    (context, snapshot) {
+                                                builder: (context, ListSsnapshot) {
                                                   return NotificationBadgeWidget(
-                                                    notifcationList: snapshot
-                                                            .hasData
-                                                        ? snapshot.data!
-                                                                .isNotEmpty
-                                                            ? snapshot.data!
-                                                            : []
-                                                        : [],
-                                                    callBack: () {
-                                                      NavigatorHelper()
-                                                          .navigateTo(
-                                                              '/notification_list_view')
-                                                          .then((value) {
-                                                        List<NotificationData>
-                                                            tempList = bloc
-                                                                .notificationsListSubject$
-                                                                .value;
+                                                    notifcationList:
+                                                    ListSsnapshot.hasData
+                                                            ? ListSsnapshot.data!
+                                                                    .isNotEmpty
+                                                                ? ListSsnapshot.data!
+                                                                : []
+                                                            : [],
+                                                    callBack: () async {
 
-                                                        tempList.clear();
-                                                        bloc.notificationsListSubject$
-                                                            .sink
-                                                            .add(tempList);
-                                                      });
+                                                      String status =
+                                                          await RabbleStorage
+                                                                  .getLoginStatus() ??
+                                                              "0";
+                                                      if (status != '0') {
+                                                        NavigatorHelper()
+                                                            .navigateTo(
+                                                                '/notification_list_view')
+                                                            .then((value) {
+                                                          if(snapshot.data == 2){
+                                                            globalBloc.isBackNotifcation.sink.add(true);
+                                                          }
+                                                          List<NotificationData>
+                                                              tempList = bloc
+                                                                  .notificationsListSubject$
+                                                                  .value;
+
+                                                          tempList.clear();
+                                                          bloc.notificationsListSubject$
+                                                              .sink
+                                                              .add(tempList);
+                                                        });
+                                                      } else {
+                                                        openLoginSheet();
+                                                      }
                                                     },
                                                   );
                                                 }),
@@ -141,14 +166,25 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
                         bottomNavigationBar: CustomBottomNavigation(
                           list: _widgets,
                           currentIndex: snapshot.data!,
-                          onTap: (i) {
-                            bloc.selectedIndex$.sink.add(i);
+                          onTap: (i) async {
+                            String status =
+                                await RabbleStorage.getLoginStatus() ?? '0';
+                            if (status != '0') {
+                              bloc.selectedIndex$.sink.add(i);
+                            } else if (i != 0) {
+                              openLoginSheet();
+                            }
                           },
                         ),
                       );
                     });
               });
         });
+  }
+
+  void openLoginSheet() {
+    CustomBottomSheet.showLoginViewModelSheet(context, LoginModalView(), true,
+        isRemove: true);
   }
 
   @override

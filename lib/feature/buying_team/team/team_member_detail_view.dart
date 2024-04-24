@@ -12,6 +12,22 @@ class TeamMemberDetailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    List<String> text = data !=null? '${data!.user!.firstName} ${data!.user!.lastName}'.split(' ') : teamName!.split(' ');
+
+    String firstCharName1 = '';
+    String firstCharName2 = '';
+
+    String combination = '';
+
+    if (text.isNotEmpty) {
+      firstCharName1 = text[0];
+      firstCharName2 = text.length > 1 ? text[1] : " "; // Change 2 to 1
+
+      combination =
+      '${firstCharName1.length > 0 ? firstCharName1[0] : '' ?? ''}${firstCharName2.length > 0 ? firstCharName2[0] : '' ?? ''}';
+    }
+
     return CubitProvider<RabbleBaseState, BuyingTeamCubit>(
         create: (BuildContext context) => BuyingTeamCubit(),
         builder: (BuildContext context, RabbleBaseState state,
@@ -65,8 +81,7 @@ class TeamMemberDetailView extends StatelessWidget {
                           ),
                           child: Center(
                             child: RabbleText.subHeaderText(
-                              text: '${data!.user!.firstName??''}${data!.user!.lastName??''}'.length >2?
-                              '${data!.user!.firstName??''}${data!.user!.lastName??''}'.substring(0, 2):'NA',
+                              text: combination,
                               fontWeight: FontWeight.bold,
                               color: APPColors.appPrimaryColor,
                               fontSize: 13.sp,

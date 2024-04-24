@@ -24,15 +24,17 @@ class ChatRoomCubit extends RabbleBaseCubit with Validators {
 
   final TextEditingController msgController = TextEditingController();
 
-  BehaviorSubject<UserModel> myDataSubject$ = BehaviorSubject();
-
-  final PusherChannelsFlutter pusher = PusherChannelsFlutter.getInstance();
-
   final BehaviorSubject<String> _messageSubject$ = BehaviorSubject();
 
   Function(String) get messageC => _messageSubject$.sink.add;
 
   Stream<String> get messageStream => _messageSubject$.transform(validateEmpty);
+
+
+  BehaviorSubject<UserModel> myDataSubject$ = BehaviorSubject();
+
+  final PusherChannelsFlutter pusher = PusherChannelsFlutter.getInstance();
+
 
   late PusherChannel myChannel;
 
@@ -68,9 +70,8 @@ class ChatRoomCubit extends RabbleBaseCubit with Validators {
   }
 
   Future<void> initPusher(String teamName) async {
-     const String API_KEY =
-         kDebugMode ? '748c798ef5d23aa4750d' : '87b6fa5d4ff005ec100e';
-     //  const String API_KEY = '748c798ef5d23aa4750d';
+     const String API_KEY = kDebugMode ? '748c798ef5d23aa4750d' : '87b6fa5d4ff005ec100e';
+//       const String API_KEY = '748c798ef5d23aa4750d';
 
     const String API_CLUSTER = 'eu';
     await pusher.init(
@@ -101,7 +102,7 @@ class ChatRoomCubit extends RabbleBaseCubit with Validators {
       if (teamDetailSubject$.value.name != null) {
         myChannel = await pusher.subscribe(
           channelName:
-              'private-${removeSpaces(removeIntegers(teamDetailSubject$.value.name!.trim()))}-chat',
+              'private-${removeSpaces(removeSpecialCharactersExceptDash(removeIntegers(teamDetailSubject$.value.name!.trim())))}-chat',
           onEvent: (event) {
             print(event.toString());
           },
@@ -133,6 +134,10 @@ class ChatRoomCubit extends RabbleBaseCubit with Validators {
   String removeSpaces(String input) {
     String tempText = input.replaceAll(' ', '');
     return tempText.length > 2 ? tempText : 'Rabble$tempText';
+  }
+  String removeSpecialCharactersExceptDash(String inputString) {
+    RegExp regex = RegExp(r'[^a-zA-Z0-9\-]');
+    return inputString.replaceAll(regex, '');
   }
 
   Future<BaseModel> connectPusher(String channelName, String socketId) async {
@@ -172,9 +177,15 @@ class ChatRoomCubit extends RabbleBaseCubit with Validators {
       if (chatRes.data!.isEmpty) {
         isEmpty = true;
       } else {
-        // Insert the new messages at the beginning of the list
-        tempList.insertAll(0, chatRes.data!);
-        conversationListSubject$.sink.add(tempList);
+
+        if(offset==0){
+          tempList.insertAll(0, chatRes.data!);
+          conversationListSubject$.sink.add(tempList);
+        }else{
+          _scrollToBottom();
+          tempList.addAll(chatRes.data!);
+          conversationListSubject$.sink.add(tempList);
+        }
       }
     }
     emit(RabbleBaseState.idle());
@@ -244,7 +255,7 @@ class ChatRoomCubit extends RabbleBaseCubit with Validators {
                     .format(DateTime.now())));
       } else {
         tempList.insert(
-            tempList.length,
+            0,
             ConversationData(
                 text: _messageSubject$.value,
                 userId: myDataSubject$.value.id,
@@ -328,6 +339,15 @@ class ChatRoomCubit extends RabbleBaseCubit with Validators {
     if (chatRes!.statusCode == 200) {
       teamDetailSubject$.sink.add(chatRes.data!);
       initPusher(chatRes.data!.name!);
+    }
+  }
+  void _scrollToBottom() {
+    if (scrollController.hasClients) {
+      scrollController.animateTo(
+        scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 600),
+        curve: Curves.easeOut,
+      );
     }
   }
 }

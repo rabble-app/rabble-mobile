@@ -39,9 +39,9 @@ class SenderChip extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   SizedBox(
-                    height: 0.8.h,
+                    height: 0.2.h,
                   ),
-                  data.text!.length > 20
+                  data.text!.length > 30
                       ? SizedBox(
                           width: context.allWidth * 0.77,
                           child: RabbleText.subHeaderText(
@@ -54,14 +54,17 @@ class SenderChip extends StatelessWidget {
                             fontWeight: FontWeight.w400,
                           ),
                         )
-                      : RabbleText.subHeaderText(
-                          text: data.text ?? '',
-                          textAlign: TextAlign.start,
-                          fontFamily: cPoppins,
-                          color: APPColors.appBlack4,
-                          fontSize: 11.sp,
-                          height: 1.2,
-                          fontWeight: FontWeight.w400,
+                      : Padding(
+                          padding: PagePadding.onlyRight(14.w),
+                          child: RabbleText.subHeaderText(
+                            text: data.text ?? '',
+                            textAlign: TextAlign.start,
+                            fontFamily: cPoppins,
+                            color: APPColors.appBlack4,
+                            fontSize: 11.sp,
+                            height: 0.8,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
                   SizedBox(
                     height: 0.5.h,

@@ -3,14 +3,14 @@ import 'package:rabble/config/export.dart';
 class AuthUpperWidget extends StatelessWidget {
   final String heading, subHeading;
   final String? steps;
-  const AuthUpperWidget({Key? key, required this.heading, required this.subHeading, this.steps}) : super(key: key);
+  final Image? image;
+  const AuthUpperWidget({Key? key, required this.heading, required this.subHeading, this.steps, this.image}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 100.w,
       height: 30.h,
-      padding: PagePadding.onlyTop(20),
 
       decoration: ContainerDecoration.boxDecoration(
           bg: APPColors.appBlack,
@@ -19,9 +19,19 @@ class AuthUpperWidget extends StatelessWidget {
           width: 0),
       child: Stack(
         children: [
-          Assets.svgs.Ellipse1.svg(height: 10.h),
-          Assets.svgs.Ellipse2.svg(height: 17.h),
-          Positioned(
+          ShaderMask(
+              shaderCallback: (Rect bounds) {
+                return LinearGradient(
+                  colors: [
+                    Colors.white,
+                    Color(0xff000000).withOpacity(0.7)
+                  ],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ).createShader(bounds);
+              },
+              child: image),
+            Positioned(
             bottom: -2,
             left: 15,
             child: Column(
@@ -34,21 +44,21 @@ class AuthUpperWidget extends StatelessWidget {
                 RabbleText.subHeaderText(
                   text: heading,
                   color: APPColors.appPrimaryColor,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w700,
                   textAlign: TextAlign.start,
-                  fontFamily: 'Gosha',
-                  fontSize: 22.sp,
+                  fontFamily: cGosha,
+                  fontSize: 25.sp,
                 ),
                 SizedBox(
                   height: 0.7.h,
                 ),
                 RabbleText.subHeaderText(
                   text: subHeading,
-                  color: APPColors.appPrimaryColor1,
-                  fontWeight: FontWeight.normal,
+                  color: APPColors.appPrimaryColor2,
+                  fontWeight: FontWeight.w400,
                   textAlign: TextAlign.start,
-                  fontFamily: 'Poppin',
-                  fontSize: 10.sp,
+                  fontFamily: cPoppins,
+                  fontSize: 11.sp,
                 ),
                 SizedBox(
                   height: 2.5.h,

@@ -52,7 +52,7 @@ class BuyingTeamView extends StatelessWidget {
                                     title: kHost2,
                                     isSelected:
                                         snapshot.data == 0 ? true : false,
-                                    icon: Assets.svgs.host,
+                                    icon: snapshot.data == 0 ? Assets.svgs.myTeamTab_selected : Assets.svgs.myTeamTab,
                                     onTap: () => toggle(snapshot.data!),
                                   ),
                                 ),
@@ -62,7 +62,7 @@ class BuyingTeamView extends StatelessWidget {
                                     title: kMember,
                                     isSelected:
                                         snapshot.data == 1 ? true : false,
-                                    icon: Assets.svgs.multi_profileuser,
+                                    icon: snapshot.data == 1 ? Assets.svgs.memberTeamTab_selected : Assets.svgs.multi_profileuser,
                                     onTap: () => toggle(snapshot.data!),
                                   ),
                                 ),

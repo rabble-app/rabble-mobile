@@ -19,24 +19,21 @@ class NotificationItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        print(title);
         if (title == 'Join Request') {
           callBack.call();
-        } else if (title == 'New Team Member' ||
-            title == 'Team Request Accepted') {
+        } else if (notificationData.type == 'TEAM') {
           Map map = {
             'teamId': notificationData.teamId,
             'type': '1',
           };
           Navigator.pushNamed(context, '/threshold_view', arguments: map);
-        } else if (title!.contains('message')) {
-          Map map =
-          {
+        } else if (notificationData.type == 'CHAT') {
+          Map map = {
             'teamName': title,
             'teamId': notificationData.teamId,
           };
           Navigator.pushNamed(context, '/chat_room', arguments: map);
-        }else{}
+        } else {}
       },
       child: Container(
         padding: PagePadding.custom(3.w, 3.w, 1.w, 1.w),

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:rabble/config/export.dart';
 
 class CustomBottomSheet {
@@ -37,6 +39,32 @@ class CustomBottomSheet {
                     ),
                   ),
                 ),
+              ),
+            );
+          },
+        ) ??
+        Future.value('nothing');
+  }
+
+  static Future<String> showLoginViewModelSheet(
+      BuildContext ctx, Widget child, bool? isScrollAble,
+      {bool? isRemove}) async {
+    return await showModalBottomSheet(
+          context: ctx,
+          backgroundColor: Colors.transparent,
+          isScrollControlled: isScrollAble ?? false,
+          isDismissible: isRemove ?? false,
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+            topRight: Radius.circular(30),
+            topLeft: Radius.circular(30),
+          )),
+          builder: (context) {
+            return BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height * 0.88,
+                child: child,
               ),
             );
           },

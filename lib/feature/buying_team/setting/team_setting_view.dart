@@ -22,8 +22,8 @@ class TeamSettingView extends StatelessWidget {
 
     return CubitProvider<RabbleBaseState, TeamViewCubit>(
         create: (BuildContext context) => cubit,
-        builder: (BuildContext context, RabbleBaseState state,
-            TeamViewCubit bloc) {
+        builder:
+            (BuildContext context, RabbleBaseState state, TeamViewCubit bloc) {
           return Container(
             padding: PagePadding.custom(5.w, 5.w, 0, 0),
             child: SingleChildScrollView(
@@ -143,26 +143,36 @@ class TeamSettingView extends StatelessWidget {
                       initialData: teamData.isPublic,
                       subject: bloc.privateGroupStream,
                       builder: (context, s) {
-                        print("status ${s.data}");
                         return TeamSettingCustomView(
                           icon: Assets.svgs.lock.svg(),
                           title: !s.data! ? 'Make Group Public' : kPrivateGrp,
                           trailing: SizedBox(
-                            height: 4.h,
+                            height: 2.h,
                             child: state.primaryBusy
-                                ? const Center(
-                                    child:
-                                        RabbleSecondaryScreenProgressIndicator(
-                                      enabled: true,
+                                ? SizedBox(
+                                    width: 2.5.h,
+                                    height: 2.5.h,
+                                    child: const Center(
+                                      child:
+                                          RabbleSecondaryScreenProgressIndicator(
+                                        enabled: true,
+                                      ),
                                     ),
                                   )
                                 : Transform.scale(
-                                    scale: 1.2,
+                                    scale: 1,
                                     child: Switch(
+                                        trackOutlineColor:
+                                            MaterialStateProperty.all<Color>(
+                                                s.data!
+                                                    ? APPColors.appPrimaryColor
+                                                    : Colors.transparent),
                                         value: s.data!,
-                                        inactiveThumbColor: APPColors.bg_grey28,
+                                        activeColor: APPColors.appWhite,
+                                        inactiveThumbColor: APPColors.appWhite,
                                         inactiveTrackColor: APPColors.bg_grey28,
-                                        activeColor: APPColors.appPrimaryColor,
+                                        activeTrackColor:
+                                            APPColors.appPrimaryColor,
                                         onChanged: (val) async {
                                           bloc.privateGroupStream.sink.add(val);
 
@@ -311,15 +321,13 @@ class TeamSettingView extends StatelessWidget {
                       onTap: () async {
                         CustomBottomSheet.showQuitBottomModelSheet(
                             context,
-
                             QuiteTeam(
                               canLeave: int.parse(percentage) < 100 &&
-                                  remainingDays > 0 && teamData.count!.order! == 1,
-
+                                  remainingDays > 0 &&
+                                  teamData.count!.order! == 1,
                               showHeading: true,
                               isHost: teamData.hostId ==
                                   bloc.currentUserDataSubject$.value.id,
-
                               subheading:
                                   'Are you sure you want to shut down this team?',
                               des:
@@ -331,7 +339,8 @@ class TeamSettingView extends StatelessWidget {
                             ),
                             true,
                             int.parse(percentage) < 100 &&
-                                remainingDays > 0 && teamData.count!.order! == 1,
+                                remainingDays > 0 &&
+                                teamData.count!.order! == 1,
                             isRemove: true,
                             date: deadLine);
                       },

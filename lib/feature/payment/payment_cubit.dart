@@ -32,19 +32,19 @@ class PaymentCubit extends RabbleBaseCubit with Validators {
   Function(String) get cardNumberC => cardNumberSubject$.sink.add;
 
   Stream<String> get cardNumberStream =>
-      cardNumberSubject$.transform(validateCardNumber);
+      cardNumberSubject$.transform(validateEmpty);
 
   final BehaviorSubject<String> cvvSubject$ = BehaviorSubject<String>();
 
   Function(String) get cvvC => cvvSubject$.sink.add;
 
-  Stream<String> get cvvStream => cvvSubject$.transform(validateCVV);
+  Stream<String> get cvvStream => cvvSubject$.transform(validateEmpty);
 
   final BehaviorSubject<String> expirySubject$ = BehaviorSubject<String>();
 
   Function(String) get expiryC => expirySubject$.sink.add;
 
-  Stream<String> get expiryStream => expirySubject$.transform(validateExpiry);
+  Stream<String> get expiryStream => expirySubject$.transform(validateEmpty);
 
   Stream<bool> get validateCardFields => Rx.combineLatest3(
       cardNumberStream,

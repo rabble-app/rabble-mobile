@@ -99,6 +99,7 @@ class ProductDetailCubit extends RabbleBaseCubit {
     await dbHelper.updateProductQuantity(productId!, qty);
     globalBloc.cartItemQty.sink.add(qty);
     ProductDetail productDetail = productDetailSubject$.value;
+    print("qty 2 $qty");
     productDetail.qty = qty;
     productDetailSubject$.sink.add(productDetail);
     fetchAllProducts(producerId);
@@ -170,6 +171,83 @@ class ProductDetailCubit extends RabbleBaseCubit {
     }
   }
 
+  Future<void> fetchSingleProductExist2(ProductDetail detail,String productId) async {
+     print("PRODUCT ID ${productId}");
+
+    dynamic res = await dbHelper.fetchSingleProduct(productId);
+    if (res is ProductDetail && res.id == productId) {
+
+      globalBloc.cartItemQty.sink.add(res.qty!);
+      if (productDetailSubject$.hasValue && productDetailSubject$.value.id == productId) {
+        ProductDetail productDetail = productDetailSubject$.value;
+        productDetail.qty = res.qty!;
+
+        List<TempBoxData> tempList = [];
+        for (int j = 0; j < res.qty!; j++) {
+          if (userDataSubject$.hasValue) {
+            tempList.add(TempBoxData(
+                '${userDataSubject$.value.firstName} ${userDataSubject$.value.lastName}'));
+          }
+        }
+
+        if (productDetail.partionedProducts != null &&
+            productDetail.partionedProducts!.isNotEmpty) {
+          productDetail.partionedProducts!.first.partitionedProductUsersRecord!
+              .forEach((element) {
+            for (int j = 0; j < element.quantity!; j++) {
+              tempList.add(TempBoxData(
+                  '${element.owner!.firstName} ${element.owner!.lastName}'));
+            }
+          });
+        }
+        purchasedUserListSubject$.sink.add(tempList);
+
+        productDetailSubject$.sink.add(productDetail);
+      }
+      else {
+        print("res ${res.qty}");
+        productDetailSubject$.sink.add(res);
+      }
+    }
+    else {
+      if (productDetailSubject$.hasValue) {
+        print("A");
+        List<TempBoxData> tempList = [];
+        if (productDetailSubject$.value.partionedProducts != null &&
+            productDetailSubject$.value.partionedProducts!.isNotEmpty) {
+          productDetailSubject$
+              .value.partionedProducts!.first.partitionedProductUsersRecord!
+              .forEach((element) {
+            for (int j = 0; j < element.quantity!; j++) {
+              tempList.add(TempBoxData(
+                  '${element.owner!.firstName} ${element.owner!.lastName}'));
+            }
+          });
+
+          purchasedUserListSubject$.sink.add(tempList);
+        }
+      }
+
+      if (productDetailSubject$.hasValue) {
+        print("B");
+
+        ProductDetail productDetail = productDetailSubject$.value;
+        productDetail.qty = 0;
+        productDetailSubject$.sink.add(productDetail);
+      } else {
+        if (res is ProductDetail) {
+          productDetailSubject$.sink.add(res);
+        }
+      }
+
+      print("D");
+
+      productDetailSubject$.sink.add(detail);
+      globalBloc.cartItemQty.sink.add(0);
+    }
+  }
+
+
   Future<bool> removeProduct(String productId) async {
     bool res = await dbHelper.removeProductFromCart(productId);
     fetchSingleProductExist(productId);
@@ -205,12 +283,56 @@ class ProductDetailCubit extends RabbleBaseCubit {
   BehaviorSubject<UserModel> userDataSubject$ = BehaviorSubject<UserModel>();
 
   Future<void> fetchUserData() async {
-    var userData =
-        await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
-    UserModel userModel = UserModel.fromJson(jsonDecode(userData));
+    String status = await RabbleStorage.getLoginStatus() ?? "0";
+    if (status != '0') {
+      var userData =
+          await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+      UserModel userModel = UserModel.fromJson(jsonDecode(userData));
 
-    userDataSubject$.sink.add(userModel);
+      userDataSubject$.sink.add(userModel);
+    }
   }
+
+  String calculatePercentage(num? price, num? rrp) {
+    if (price == null || rrp == null || rrp == 0) {
+      return '0';
+    }
+
+    double discountPercentage = ((rrp - price) / rrp) * 100;
+    return discountPercentage.toStringAsFixed(1);
+  }
+
+  String calculateSaving(num? price, num? rrp) {
+    if (price == null || rrp == null || rrp == 0) {
+      return '0';
+    }
+
+    return '£${rrp - price > 0 ? (rrp - price).toStringAsFixed(2) : '0'}';
+  }
+
+  Future<String> generateDeepLink(ProductDetail productDetail) async {
+    final branchUniversalObject = BranchUniversalObject(
+        canonicalIdentifier: productDetail.id ?? '',
+        canonicalUrl: productDetail.producerId ?? '',
+        title: productDetail.name ?? '',
+        imageUrl: productDetail.imageUrl ?? '',
+        contentDescription: productDetail.description ?? '',
+        keywords: ['product_share']);
+
+    final branchLinkProperties = BranchLinkProperties(
+      feature: 'Share Product',
+      channel: 'Rabble app',
+      campaign: 'Share Product.',
+    );
+
+    final generatedLink = await FlutterBranchSdk.getShortUrl(
+        linkProperties: branchLinkProperties, buo: branchUniversalObject);
+
+    print('Generated deep link: ${generatedLink.result.toString()}');
+
+    return generatedLink.result.toString();
+  }
+
 }
 
 class TempBoxData {

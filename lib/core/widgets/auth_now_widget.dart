@@ -19,13 +19,15 @@ class AuthNowWidget extends StatelessWidget {
           RabbleText.subHeaderText(
             text: heading,
             fontSize: 12.sp,
-            fontWeight: FontWeight.bold,
+            fontFamily: cGosha,
+            fontWeight: FontWeight.w700,
             color: APPColors.appBlack,
           ),
           RabbleText.subHeaderText(
             text: subHeading,
             fontSize: 12.sp,
-            fontWeight: FontWeight.bold,
+            fontFamily: cGosha,
+            fontWeight: FontWeight.w700,
             color: APPColors.appBlue,
           ),
         ],

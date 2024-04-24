@@ -32,17 +32,18 @@ class _VerifyOtpViewState extends State<VerifyOtpView> {
     return CubitProvider<RabbleBaseState, VerifyOtpCubit>(
       create: (context) => verifyOtpCubit,
       builder: (context, state, bloc) {
-        return Scaffold(
-          backgroundColor: APPColors.bgColor,
-          body: ToucheDetector(
-            child: SingleChildScrollView(
+        return ToucheDetector(
+          child: Scaffold(
+            backgroundColor: APPColors.bgColor,
+            body: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const AuthUpperWidget(
+                  AuthUpperWidget(
                     heading: kOTPVerification,
-                    subHeading: kOTPVerificationHint,
+                    subHeading: 'Enter the six digit code sent to your number',
+                    image: Assets.png.otpImage.png(),
                   ),
                   SizedBox(
                     height: 8.h,
@@ -70,6 +71,7 @@ class _VerifyOtpViewState extends State<VerifyOtpView> {
                               fontWeight: FontWeight.bold),
                       useHapticFeedback: true,
                       autoFocus: true,
+                      autoDismissKeyboard: false,
                       pinTheme: PinTheme(
                           inactiveColor: APPColors.bg_grey25,
                           selectedColor: APPColors.appBlue,
@@ -97,8 +99,7 @@ class _VerifyOtpViewState extends State<VerifyOtpView> {
                                   onPressed: !snapshot.hasData
                                       ? null
                                       : () async {
-                                          bloc.sendOtp(data
-                                             );
+                                          bloc.sendOtp(data);
                                         },
                                   child: bloc.state.tertiaryBusy
                                       ? const RabbleSecondaryScreenProgressIndicator(
@@ -146,7 +147,8 @@ class _VerifyOtpViewState extends State<VerifyOtpView> {
                         return BehaviorSubjectBuilder<Map>(
                             subject: bloc.otpDataSubject$,
                             builder: (context, otpDataSnapshot) {
-                              print("otpDataSnapshot ${otpDataSnapshot.data.toString()}");
+                              print(
+                                  "otpDataSnapshot ${otpDataSnapshot.data.toString()}");
                               return Container(
                                   margin: PagePadding.horizontalSymmetric(5.w),
                                   child: RabbleButton.tertiaryFilled(
@@ -157,14 +159,20 @@ class _VerifyOtpViewState extends State<VerifyOtpView> {
                                     onPressed: !snapshot.data!
                                         ? null
                                         : () async {
+                                            FocusScope.of(context).unfocus();
+
                                             if (otpDataSnapshot.data!['type'] ==
                                                 '2') {
-
                                               bloc.verifyOtp(
-                                                  otpDataSnapshot.data!['number'],
-                                                  otpDataSnapshot.data!['sid'] ??
-                                                      '', otpDataSnapshot.data!['type'],context,data: otpDataSnapshot.data!['data']);
-
+                                                  otpDataSnapshot
+                                                      .data!['number'],
+                                                  otpDataSnapshot
+                                                          .data!['sid'] ??
+                                                      '',
+                                                  otpDataSnapshot.data!['type'],
+                                                  context,
+                                                  data: otpDataSnapshot
+                                                      .data!['data']);
                                             } else {
                                               bloc.verifyOtp(
                                                   otpDataSnapshot

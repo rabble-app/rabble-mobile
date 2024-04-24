@@ -100,7 +100,7 @@ export 'package:url_launcher/url_launcher.dart';
 export 'package:rabble/feature/forceUpdate/force_update.dart';
 export 'package:rabble/feature/producer/producer_view.dart';
 export 'package:rabble/feature/product/widget/product_list_widget.dart';
-export 'package:rabble/feature/product/widget/product_item_widget.dart';
+export 'package:rabble/feature/product/widget/shared_product_item_widget.dart';
 export 'package:rabble/feature/subscriber/widget/subscriber_item_widget.dart';
 export 'package:rabble/feature/subscriber/widget/subscriber_widget.dart';
 export 'package:rabble/core/widgets/dialog/rabble_dialog.dart';

@@ -33,7 +33,7 @@ class ProductTabCubit extends RabbleBaseCubit {
         fetchProductList(id);
       }
     }
- //   emit(RabbleBaseState.idle());
+    //   emit(RabbleBaseState.idle());
   }
 
   Future<void> fetchProductListForTeam(
@@ -46,6 +46,8 @@ class ProductTabCubit extends RabbleBaseCubit {
 
     if (res!.statusCode == 200 && res.data != null) {
       productListSubject$.sink.add(res.data!);
+
+      sortProductList(0);
     }
     emit(RabbleBaseState.idle());
   }
@@ -59,6 +61,7 @@ class ProductTabCubit extends RabbleBaseCubit {
 
     if (res!.statusCode == 200 && res.data != null) {
       productListSubject$.sink.add(res.data!);
+      sortProductList(0);
     }
     emit(RabbleBaseState.idle());
   }
@@ -68,7 +71,6 @@ class ProductTabCubit extends RabbleBaseCubit {
 
   Future<void> fetchAllProducts() async {
     List<ProductDetail> products = await dbHelper.getAllProducts();
-    print("products size ${products.length}");
 
     productList.sink.add(products);
 
@@ -116,5 +118,34 @@ class ProductTabCubit extends RabbleBaseCubit {
     print('Generated deep link: ${generatedLink.result.toString()}');
 
     return generatedLink.result.toString();
+  }
+
+  final BehaviorSubject<List<ProductDetail>> sharedProductList =
+      BehaviorSubject<List<ProductDetail>>.seeded([]);
+  final BehaviorSubject<List<ProductDetail>> singleProductList =
+      BehaviorSubject<List<ProductDetail>>.seeded([]);
+
+  Future<void> sortProductList(int index) async {
+    final products =
+        productListSubject$.hasValue && productListSubject$.value.isNotEmpty
+            ? productListSubject$.value[index].products
+            : [];
+    final singleProduct = <ProductDetail>[];
+    final portionedProduct = <ProductDetail>[];
+
+    for (ProductDetail product in products!) {
+
+      if (product.type == 'PORTIONED_SINGLE_PRODUCT') {
+
+        portionedProduct.add(product);
+      }
+
+      if (product.type == 'SINGLE') {
+        singleProduct.add(product);
+      }
+    }
+
+    sharedProductList.sink.add(portionedProduct);
+    singleProductList.sink.add(singleProduct);
   }
 }

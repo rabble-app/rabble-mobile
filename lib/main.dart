@@ -4,11 +4,21 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:rabble/config/export.dart';
 import 'package:upgrader/upgrader.dart';
 
+
+
+
+// Steps to go on production
+
+// 1 : uncomment kStripeReleasePublishKey key.
+// 2 : uncomment getForceVersion() method.
+// 3 : change dev environment to production.
+// 4 : check pusher keys on ChatRoomCubit
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Config.initialize(Flavor.DEV, DevConfig());
 
-  // Stripe.publishableKey = kStripeDebugPublishKey;
+//   Stripe.publishableKey = kStripeDebugPublishKey;
 
   if (kDebugMode) {
     Stripe.publishableKey = kStripeDebugPublishKey;
@@ -25,7 +35,8 @@ void main() async {
 
   //  FlutterBranchSdk.validateSDKIntegration();
 
-  await loadImage(AssetImage('assets/png/onboard1.png'));
+  await loadImage(AssetImage('assets/png/splash.png'));
+//  await loadImage(AssetImage('assets/png/onboard1.png'));
   await loadImage(AssetImage('assets/png/onboard2.png'));
   await loadImage(AssetImage('assets/png/onboard3.png'));
   await loadImage(AssetImage('assets/png/onboard4.png'));
@@ -109,3 +120,20 @@ Future<String> getForceVersion() async {
 
   return forceVersion;
 }
+// Put this in main function
+// await preloadSVGs([
+// 'assets/icon_comment.svg',
+// 'assets/icon_info.svg',
+// 'assets/icon_link.svg',
+// ]);
+
+
+// Future<void> preloadSVGs(List<String> assetPaths) async {
+//   for (final path in assetPaths) {
+//     final loader = SvgAssetLoader(path);
+//     await svg.cache.putIfAbsent(
+//       loader.cacheKey(null),
+//           () => loader.loadBytes(null),
+//     );
+//   }
+// }

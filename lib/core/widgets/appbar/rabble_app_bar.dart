@@ -6,6 +6,9 @@ class RabbleAppbar extends StatelessWidget {
   final List<Widget>? action;
   final Color? backgroundColor;
   final bool? hideLeading;
+  final bool? centerTitle;
+  final Widget? titleWidget;
+  final Widget? leading;
   final double? leadingWidth;
   final double? topMargin;
 
@@ -13,11 +16,14 @@ class RabbleAppbar extends StatelessWidget {
     Key? key,
     this.title,
     this.backTitle,
+    this.centerTitle,
+    this.titleWidget,
     this.action,
     this.backgroundColor,
     this.hideLeading,
     this.leadingWidth,
     this.topMargin,
+    this.leading,
   }) : super(key: key);
 
   @override
@@ -27,54 +33,54 @@ class RabbleAppbar extends StatelessWidget {
       backgroundColor: APPColors.appBlack,
       leading: hideLeading != null
           ? const SizedBox.shrink()
-          : InkWell(
-              onTap: () async {
-                bool hasRoutesToPop = Navigator.canPop(context);
-                if (hasRoutesToPop) {
-                  NavigatorHelper().pop();
-                } else {
-
-                  String status = await RabbleStorage.getLoginStatus() ?? "0";
-
-                  if (status == '1') {
-                    NavigatorHelper().navigateAnClearAll('/home');
+          : leading ??
+              InkWell(
+                onTap: () async {
+                  bool hasRoutesToPop = Navigator.canPop(context);
+                  if (hasRoutesToPop) {
+                    NavigatorHelper().pop();
                   } else {
-                    NavigatorHelper().navigateAnClearAll('/splash');
+                    NavigatorHelper().navigateAnClearAll('/home');
                   }
-                }
-              },
-              child: Padding(
-                padding: PagePadding.onlyLeft(
-                  3.w,
-                ),
-                child: Row(
-                  children: [
-                    Assets.svgs.arrowLeft.svg(height: 3.h),
-                    SizedBox(width: 1.w,),
-                    RabbleText.subHeaderText(
-                      text: backTitle ?? kBack,
-                      color: APPColors.appPrimaryColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12.sp,
-                    ),
-                  ],
+                },
+                child: Padding(
+                  padding: PagePadding.onlyLeft(
+                    3.w,
+                  ),
+                  child: Row(
+                    children: [
+                      Assets.svgs.arrowLeft.svg(height: 3.h),
+                      SizedBox(
+                        width: 1.w,
+                      ),
+                      RabbleText.subHeaderText(
+                        text: backTitle ?? kBack,
+                        color: APPColors.appPrimaryColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12.sp,
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-      leadingWidth: leadingWidth ?? 40.w,
+      leadingWidth: leadingWidth ?? 35.w,
       title: title != null
-          ? Container(
-              margin: PagePadding.onlyTop(topMargin ?? 0),
-              child: RabbleText.subHeaderText(
-                text: title,
-                color: APPColors.appPrimaryColor,
-                fontWeight: FontWeight.bold,
-                fontFamily: cGosha,
-                fontSize: 16.sp,
-              ),
-            )
+          ? titleWidget ??
+              Container(
+                margin: PagePadding.onlyTop(topMargin ?? 0),
+                child: RabbleText.subHeaderText(
+                  text: title,
+                  maxLines: 2,
+                  height: 1,
+                  overflow: TextOverflow.ellipsis,
+                  color: APPColors.appPrimaryColor,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: cGosha,
+                  fontSize: 16.sp,
+                ),
+              )
           : const SizedBox.shrink(),
-      centerTitle: true,
+      centerTitle: centerTitle ?? true,
       actions: action ?? [],
     );
   }

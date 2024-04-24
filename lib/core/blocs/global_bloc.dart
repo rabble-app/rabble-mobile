@@ -19,6 +19,7 @@ class GlobalBloc {
   final GlobalKey<ScaffoldMessengerState> mainScreenScaffoldKey =
       GlobalKey<ScaffoldMessengerState>(
           debugLabel: 'global:mainscreenscaffold');
+
   BehaviorSubject<int> cartItemQty = BehaviorSubject<int>.seeded(0);
 
   var stopwatch = Stopwatch(); //Creates a new StopWatch, not Stopwatch
@@ -29,6 +30,7 @@ class GlobalBloc {
   final recallApi = BehaviorSubject<bool>.seeded(false);
   final postalCodeChanged = BehaviorSubject<bool>.seeded(false);
   final isNotifcation = BehaviorSubject<bool>.seeded(false);
+  final isBackNotifcation = BehaviorSubject<bool>.seeded(false);
 
   Function(bool) get updateResetGoogleMapFlag => resetGoogleMap.add;
 

@@ -44,6 +44,7 @@ class _ChatRoomViewState extends State<ChatRoomView> {
             (BuildContext context, RabbleBaseState state, ChatRoomCubit bloc) {
           return Scaffold(
             backgroundColor: APPColors.appBlack,
+            resizeToAvoidBottomInset: true,
             body: ToucheDetector(
               child: Column(
                 children: <Widget>[
@@ -59,13 +60,16 @@ class _ChatRoomViewState extends State<ChatRoomView> {
                           memeberList:
                               snapshot.hasData ? snapshot.data!.members! : [],
                           hostId: snapshot.hasData ? snapshot.data!.hostId : '',
+                          teamId: data['teamId'],
                           callBack: () {
                             if (bloc.conversationListSubject$.hasValue) {
                               if (bloc
                                   .conversationListSubject$.value.isNotEmpty) {
-                                NavigatorHelper().pop(
-                                    result: bloc
-                                        .conversationListSubject$.value.last);
+                                ConversationData conversationData =
+                                    bloc.conversationListSubject$.value.first;
+                                conversationData.hosdId =
+                                    snapshot.data!.hostId ?? '';
+                                NavigatorHelper().pop(result: conversationData);
                               } else {
                                 NavigatorHelper().pop();
                               }
@@ -169,20 +173,19 @@ class _ChatRoomViewState extends State<ChatRoomView> {
                       builder: (context, snapshot) {
                         return Container(
                           height: snapshot.hasData
-                              ? snapshot.data!.length >= 45
-                                  ? context.allHeight * 0.2
-                                  : context.allHeight * 0.12
-                              : context.allHeight * 0.12,
+                              ? snapshot.data!.length >= 30
+                                  ? context.allHeight * 0.12
+                                  : context.allHeight * 0.07
+                              : context.allHeight * 0.07,
                           padding: PagePadding.all(1.h),
                           child: Container(
-                            margin: PagePadding.onlyBottom(3.w),
                             child: Padding(
                               padding: PagePadding.custom(1.w, 1.w, 0, 0),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
                                   Container(
-                                    width: context.allWidth * 0.82,
+                                    width: context.allWidth * 0.81,
                                     height: snapshot.hasData
                                         ? snapshot.data!.length >= 45
                                             ? context.allHeight * 0.1
@@ -224,8 +227,15 @@ class _ChatRoomViewState extends State<ChatRoomView> {
                                     width: 4.w,
                                   ),
                                   InkWell(
-                                    child: Assets.svgs.send
-                                        .svg(width: 1.8.h, height: 1.8.h),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Assets.svgs.send.svg(
+                                          width: 2.2.h,
+                                          height: 2.2.h,
+                                          color: snapshot.hasData
+                                              ? APPColors.appPrimaryColor
+                                              : APPColors.bgColor),
+                                    ),
                                     onTap: () {
                                       bloc.sendMessage(
                                           data['teamId'], data['teamName']);

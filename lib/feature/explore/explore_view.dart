@@ -1,4 +1,5 @@
 import 'package:rabble/config/export.dart';
+import 'package:rabble/feature/auth/login/login_modal_view.dart';
 import 'package:share_plus/share_plus.dart';
 
 class ExploreView extends StatefulWidget {
@@ -52,10 +53,10 @@ class _ExploreViewState extends State<ExploreView> with WidgetsBindingObserver {
                     return CubitProvider<RabbleBaseState, ExploreCubit>(
                         create: (context) => exploreCubit..fetchPostalCode(),
                         builder: (context, state, bloc) {
-                          return postalCodeSnap.data!.isEmpty
+                          return postalCodeSnap.data==null
                               ? Container(
                                   color: APPColors.bgColor,
-                                  child: PostalCodeEmptyWidget())
+                                  child: const PostalCodeEmptyWidget())
                               : BehaviorSubjectBuilder<List<BuyingTeamDetail>>(
                                   subject: bloc.allTeamListSubject$,
                                   builder: (context, snapshot) {
@@ -73,9 +74,17 @@ class _ExploreViewState extends State<ExploreView> with WidgetsBindingObserver {
                                                 SearchWidget(
                                                   title: kSearch,
                                                   searchCubit: SearchCubit(),
-                                                  callBack: () {
-                                                    NavigatorHelper().navigateTo(
-                                                        '/search_product_view');
+                                                  callBack: () async {
+                                                    String status = await RabbleStorage
+                                                        .getLoginStatus() ??
+                                                        "0";
+                                                    if (status != '0') {
+                                                      NavigatorHelper().navigateTo(
+                                                          '/search_product_view');
+                                                    }else {
+                                                      openLoginSheet();
+                                                    }
+
                                                   },
                                                 ),
                                                 SizedBox(height: 1.5.h),
@@ -110,7 +119,7 @@ class _ExploreViewState extends State<ExploreView> with WidgetsBindingObserver {
                                                     child: InkWell(
                                                       onTap: () {
                                                         Share.share(
-                                                            'Join Rabble, the team buying platform, to support small producers and reduce your community’s carbon footprint\nhttps://apps.apple.com/app/rabble/id6450045487',
+                                                            'Hey, I thought you might like Rabble, the team buying platform for high quality, sustainable products at heavily discounted prices\nhttps://apps.apple.com/app/rabble/id6450045487',
                                                             subject:
                                                                 'Share Rabble with your friends and local community');
                                                       },
@@ -327,7 +336,10 @@ class _ExploreViewState extends State<ExploreView> with WidgetsBindingObserver {
                   });
             }));
   }
-
+  void openLoginSheet() {
+    CustomBottomSheet.showLoginViewModelSheet(context, LoginModalView(), true,
+        isRemove: true);
+  }
   Future<void> getDeepLinkData() async {
     FlutterBranchSdk.getLatestReferringParams().then((value) {
       handleDeepLinkParameters(value);

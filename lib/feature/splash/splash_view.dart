@@ -1,5 +1,8 @@
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:rabble/config/export.dart';
 import 'dart:io' show Platform;
+
+import '../../main.dart';
 
 class SplashView extends StatefulWidget {
   static const String route = '/splash';
@@ -10,11 +13,15 @@ class SplashView extends StatefulWidget {
   SplashViewState createState() => SplashViewState();
 }
 
-class SplashViewState extends State<SplashView> {
+class SplashViewState extends State<SplashView>
+    with SingleTickerProviderStateMixin {
   late Timer _timer;
   late AuthCubit authCubit;
   StreamSubscription<Map>? streamSubscription;
   bool _branchProcessed = false;
+  Offset offset = Offset.zero;
+  late AnimationController _controller;
+  late Animation<Offset> _animation;
 
   @override
   void initState() {
@@ -22,6 +29,20 @@ class SplashViewState extends State<SplashView> {
     authCubit = AuthCubit();
 
     // Initialize Branch SDK
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 800),
+    );
+    _animation = Tween<Offset>(
+      begin: const Offset(0.0, -1.0), // Start from the top
+      end: const Offset(0.0, 0.0), // Stop at the center
+    ).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.bounceIn,
+      ),
+    );
+    _controller.forward();
 
     init();
   }
@@ -30,7 +51,7 @@ class SplashViewState extends State<SplashView> {
     if (_branchProcessed) return; // Don't execute if Branch already processed
 
     // Fallback mechanism if Branch doesn't respond in 5 seconds
-    Future.delayed(Duration(seconds: 3), () async {
+    Future.delayed(Duration(seconds: !_branchProcessed ? 3 : 5), () async {
       if (!_branchProcessed) {
         String status = await RabbleStorage.getLoginStatus() ?? "0";
         String onBoardStatus = await RabbleStorage.getOnBoardStatus() ?? '0';
@@ -44,7 +65,6 @@ class SplashViewState extends State<SplashView> {
             String isFromNotification =
                 await RabbleStorage.isFromNotification() ?? '0';
 
-            print("isFromNotification ${isFromNotification}");
             if (isFromNotification == '1') {
               NavigatorHelper().navigateAnClearAll('/notification_list_view');
             } else {
@@ -56,25 +76,46 @@ class SplashViewState extends State<SplashView> {
     });
   }
 
-  void handleDeepLinkParameters(Map<dynamic, dynamic> data) {
-    if (data['token'] != null) {
-      authCubit.verifyToken(data['token'].toString());
-    } else if (data.containsKey('~feature') && data['~feature'] == 'Share') {
-      Map map = {'teamId': data['\$canonical_identifier'], 'type': '0'};
-      NavigatorHelper().navigateToScreen('/threshold_view', arguments: map);
-    } else if (data.containsKey('~feature') &&
-        data['~feature'] == 'Share Producer') {
-      Map body = {
-        'type': false,
-        'id': data['\$canonical_identifier'],
-      };
+  Future<void> handleDeepLinkParameters(Map<dynamic, dynamic> data) async {
+    String forceVersion = await getForceVersion();
+    PackageInfo.fromPlatform().then((value) async {
+      String currentVersion = value.buildNumber;
 
-      NavigatorHelper().navigateToScreen('/producer', arguments: body);
-    }
+      if (int.parse(currentVersion) < int.parse(forceVersion)) {
+        NavigatorHelper().navigateAnClearAll('/force_update');
+      } else {
+        if (data['token'] != null) {
+          authCubit.verifyToken(data['token'].toString());
+        } else if (data.containsKey('~feature') &&
+            data['~feature'] == 'Share') {
+          Map map = {'teamId': data['\$canonical_identifier'], 'type': '0'};
+          NavigatorHelper()
+              .navigateAnClearAll('/threshold_view', arguments: map);
+        } else if (data.containsKey('~feature') &&
+            data['~feature'] == 'Share Producer') {
+          Map body = {
+            'type': false,
+            'id': data['\$canonical_identifier'],
+          };
+          await RabbleStorage.onBoarStatus("1");
+          NavigatorHelper().navigateAnClearAll('/producer', arguments: body);
+        } else if (data.containsKey('~feature') &&
+            data['~feature'] == 'Share Product') {
+          Map body = {
+            'productId': data['\$canonical_identifier'],
+            'producerId': data['\$canonical_url'],
+          };
+          await RabbleStorage.onBoarStatus("1");
+          NavigatorHelper().navigateAnClearAll('/detail', arguments: body);
+        }
+      }
+    });
   }
 
   @override
   void dispose() {
+    _controller.dispose();
+
     super.dispose();
   }
 
@@ -92,38 +133,34 @@ class SplashViewState extends State<SplashView> {
               body: FocusChild(
                 child: Container(
                   decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Color(0xff202405),
-                        Color(0xff000000),
-                        Color(0xff202405),
-                      ],
-                    ),
-                  ),
+                      image: DecorationImage(
+                          image: AssetImage('assets/png/splash.png'),
+                          fit: BoxFit.fill)),
                   child: SafeArea(
                     child: Center(
-                        child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        RabbleText.subHeaderText(
-                          text: 'RABBLE',
-                          fontSize: 62.sp,
-                          fontWeight: FontWeight.bold,
-                          color: APPColors.appPrimaryColor,
-                        ),
-                        SizedBox(
-                          height: 0.7.h,
-                        ),
-                        RabbleText.subHeaderText(
-                          text: 'The Team Buying Platform',
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.bold,
-                          color: APPColors.appPrimaryColor,
-                        ),
-                      ],
+                        child: SlideTransition(
+                      position: _animation,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          RabbleText.subHeaderText(
+                            text: 'RABBLE',
+                            fontSize: 62.sp,
+                            fontWeight: FontWeight.bold,
+                            color: APPColors.appPrimaryColor,
+                          ),
+                          SizedBox(
+                            height: 0.7.h,
+                          ),
+                          RabbleText.subHeaderText(
+                            text: 'The Team Buying Platform',
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.bold,
+                            color: APPColors.appPrimaryColor,
+                          ),
+                        ],
+                      ),
                     )),
                   ),
                 ),
@@ -131,16 +168,8 @@ class SplashViewState extends State<SplashView> {
         });
   }
 
-  void listenDynamicLinks() async {
-    streamSubscription = FlutterBranchSdk.initSession().listen((data) {
-      print('listenDynamicLinks - DeepLink Data: $data');
-    }, onError: (error) {
-      print('InitSesseion error: ${error.toString()}');
-    });
-  }
-
   void init() {
-    FlutterBranchSdk.initSession().listen((data) {
+    FlutterBranchSdk.listSession().listen((data) {
       print('Branch InitSession Error:1');
       if (data.containsKey('+clicked_branch_link') &&
           data['+clicked_branch_link'] == true) {

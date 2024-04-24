@@ -26,7 +26,7 @@ class AuthCubit extends RabbleBaseCubit with Validators {
     OnBoardModel(
         heading: 'RABBLE',
         subHeading: 'The Team Buying Platform',
-        image: 'assets/png/onboard1.png',
+        image: 'assets/png/splash.png',
         title: 'Buy as a Team',
         desc:
             'Combine orders with friends and neighbours to move up the supply chain and buy direct from farmer, producer or importer'),
@@ -54,9 +54,12 @@ class AuthCubit extends RabbleBaseCubit with Validators {
   ];
 
   BehaviorSubject<String> selectedCountryImage$ = BehaviorSubject<String>();
+
   BehaviorSubject<bool> focus$ = BehaviorSubject<bool>.seeded(false);
+
   BehaviorSubject<String> selectedCountryCode$ =
       BehaviorSubject<String>.seeded('44');
+
   BehaviorSubject<String> ErrorCode$ = BehaviorSubject<String>.seeded('');
 
   BehaviorSubject<bool> iSCompletedNumber$ =

@@ -2,8 +2,9 @@ import '../../../config/export.dart';
 
 class MessageItemWidget extends StatelessWidget {
   final TeamChatData teamChatData;
+  final ChatRoomCubit bloc;
 
-  const MessageItemWidget(this.teamChatData, {super.key});
+  const MessageItemWidget(this.teamChatData, this.bloc, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,9 @@ class MessageItemWidget extends StatelessWidget {
           'teamName': teamChatData.team!.name,
           'teamId': teamChatData.team!.id,
         };
-        NavigatorHelper().navigateTo('/chat_room', map);
+        NavigatorHelper().navigateTo('/chat_room', map).then((value){
+          bloc.fetchTeamChatList();
+        });
       },
       child: Padding(
         padding: PagePadding.custom(4.w, 4.w, 5.w, 0),
@@ -62,7 +65,7 @@ class MessageItemWidget extends StatelessWidget {
                         child: RabbleText.subHeaderText(
                           text: teamChatData.team!.chats!.isEmpty
                               ? 'Start the conversation'
-                              : '~ ${teamChatData.team!.chats!.last.user!.firstName}: ${teamChatData.team!.chats!.last.text}',
+                              : '${teamChatData.team!.chats!.last.user!.firstName}: ${teamChatData.team!.chats!.last.text}',
                           textAlign: TextAlign.start,
                           fontFamily: cPoppins,
                           color: APPColors.appBlack4,

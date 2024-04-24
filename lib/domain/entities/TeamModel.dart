@@ -176,6 +176,11 @@ class TeamData {
   List<RequestSendData>? _requests;
   List<ConversationData>? _chats;
 
+
+  set hostId(String? value) {
+    _hostId = value;
+  }
+
   Count? _count;
 
   TeamData copyWith({
@@ -221,6 +226,11 @@ class TeamData {
           count: count ?? _count);
 
   String? get id => _id;
+
+
+  set id(String? value) {
+    _id = value;
+  }
 
   String? get name => _name;
 
@@ -659,6 +669,8 @@ class User {
 
   User.fromLocalStorage(UserModel data) {
     _email = data.email ?? '';
+    _id = data.id ?? '';
+
     _firstName = data.firstName ?? '';
     _lastName = data.lastName ?? '';
     _imageUrl = data.imageUrl ?? '';
@@ -693,6 +705,11 @@ class User {
 
 
   String? get id => _id;
+
+
+  set id(String? value) {
+    _id = value;
+  }
 
   dynamic get email => _email;
 
