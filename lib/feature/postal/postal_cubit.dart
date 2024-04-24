@@ -1,4 +1,4 @@
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 import 'package:rabble/feature/branch/welcome_to_team_sheet.dart';
 import 'package:rxdart/rxdart.dart';
 

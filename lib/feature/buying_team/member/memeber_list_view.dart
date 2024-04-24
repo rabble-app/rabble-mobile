@@ -1,4 +1,4 @@
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 import 'package:rabble/feature/buying_team/widget/buying_team_item_shimmer.dart';
 import 'package:rabble/domain/entities/UserTeamModel.dart' as userTeamModel;
 

@@ -1,6 +1,6 @@
 import 'package:rabble/domain/entities/ProfilePictureModel.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 
 class MyRabbleAccountCubit extends RabbleBaseCubit with Validators {
   MyRabbleAccountCubit() : super(RabbleBaseState.idle()) {

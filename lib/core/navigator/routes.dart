@@ -1,4 +1,5 @@
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
+import 'package:rabble/feature/buying_team/setting/manage_member/manage_members_view.dart';
 
 import '../../feature/buying_team/all/existing_buying_team_view.dart';
 

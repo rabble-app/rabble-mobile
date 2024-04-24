@@ -1,4 +1,4 @@
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../product/widget/product_item_shimmer.dart';

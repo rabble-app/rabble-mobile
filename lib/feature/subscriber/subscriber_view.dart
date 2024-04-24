@@ -1,4 +1,4 @@
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 
 class SubscriberView extends StatelessWidget {
   const SubscriberView({Key? key}) : super(key: key);

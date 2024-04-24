@@ -1,7 +1,7 @@
 //This bloc will contain the db paths etc and other properties
 //Init Db will be there
 
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 import 'package:rabble/core/GlobalVariable.dart';
 import 'package:rabble/feature/basket/widget/clear_basket_sheet.dart';
 

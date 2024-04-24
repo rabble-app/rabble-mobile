@@ -1,4 +1,4 @@
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 class RemoveWidget extends StatelessWidget {
   final Function callBack;
   final Color? backgroundColor;

@@ -1,4 +1,4 @@
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 
 abstract class RabbleBaseCubit<T extends RabbleBaseState> extends Cubit<T> {
   RabbleBaseCubit(T state) : super(state);

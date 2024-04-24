@@ -1,4 +1,4 @@
-import '../../../config/export.dart';
+import '../../../core/config/export.dart';
 
 class EditFrequencyView extends StatelessWidget {
   const EditFrequencyView({Key? key}) : super(key: key);

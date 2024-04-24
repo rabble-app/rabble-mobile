@@ -1,4 +1,4 @@
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 
 class Empty extends StatelessWidget {
   const Empty({Key? key, this.msg}) : super(key: key);

@@ -1,4 +1,4 @@
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 import 'package:rabble/feature/auth/login/login_modal_view.dart';
 
 class QuantityWidget extends StatelessWidget {
@@ -16,15 +16,14 @@ class QuantityWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 21.w,
-      margin: PagePadding.onlyBottom(1.w),
+      width: 23.w,
       decoration: ContainerDecoration.boxDecoration(
           bg: APPColors.appBlack,
           border: APPColors.appBlack,
           width: 1,
           radius: 30),
       child: Padding(
-        padding: PagePadding.custom(2.w, 2.w, 1.5.w, 1.5.w),
+        padding: PagePadding.custom(2.w, 2.w, 0.5.w, 0.5.w),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -48,7 +47,7 @@ class QuantityWidget extends StatelessWidget {
                             isRemove: true);
                       }
                     },
-                    child: Assets.svgs.trash.svg(width: 4.w, height: 2.5.h))
+                    child: Assets.svgs.trash.svg(width: 3.w, height: 2.h))
                 : InkWell(
                     onTap: () async {
                       String status =
@@ -72,7 +71,7 @@ class QuantityWidget extends StatelessWidget {
                       }
                     },
                     child: Icon(
-                      Icons.remove,
+                      Icons.remove_outlined,
                       color: APPColors.appPrimaryColor,
                     ),
                   ),

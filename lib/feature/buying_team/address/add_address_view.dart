@@ -1,6 +1,6 @@
 import 'package:rabble/feature/buying_team/address/add_address_shimmer.dart';
 
-import '../../../config/export.dart';
+import '../../../core/config/export.dart';
 
 class AddAddressView extends StatelessWidget {
   AddAddressView({Key? key}) : super(key: key);

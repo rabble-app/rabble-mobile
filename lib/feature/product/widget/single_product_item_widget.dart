@@ -1,4 +1,4 @@
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 import 'package:rabble/feature/auth/login/login_modal_view.dart';
 import 'package:rabble/feature/product/product_detail/portioned_product_sheet.dart';
 

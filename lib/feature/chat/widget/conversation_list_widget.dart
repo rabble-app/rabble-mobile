@@ -1,6 +1,6 @@
 
 
-import '../../../config/export.dart';
+import '../../../core/config/export.dart';
 
 class ConversationListWidget extends StatelessWidget {
   final List<ConversationData> conversationList;

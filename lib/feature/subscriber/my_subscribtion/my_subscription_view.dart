@@ -1,4 +1,4 @@
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 import 'package:rabble/domain/entities/RequestSendModel.dart';
 
 import '../../../domain/entities/MySubscriptionModel.dart' as My;
@@ -99,7 +99,8 @@ class MySubscriptionsView extends StatelessWidget {
                                             .category!.name
                                         : '',
                                 nextDelivery:
-                                    'Next delivery ${data.team!.nextDeliveryDate != null ? '${int.parse(DateFormatUtil.countDays(data.team!.nextDeliveryDate!)) < 7 ? "in ${DateFormatUtil.countDays(data.team!.nextDeliveryDate!)} ${int.parse(DateFormatUtil.countDays(data.team!.nextDeliveryDate!)) < 2 ? "day" : "days"}" : DateFormatUtil.formatDate(data.team!.nextDeliveryDate!, 'dd MMM yyyy')} ' : 'date TBD'}',
+                                DateFormatUtil.getNextDeliveryDate(
+                                    data.team!.nextDeliveryDate, data.team!.frequency!.toInt()),
                                 producerName:
                                     '${data.team!.host!.firstName ?? ''} ${data.team!.host!.lastName ?? ''}',
                                 totalTeamMembers: data.team!.members == null

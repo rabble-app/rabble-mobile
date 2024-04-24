@@ -1,6 +1,6 @@
 import 'package:shimmer/shimmer.dart';
 
-import '../../../config/export.dart';
+import '../../../core/config/export.dart';
 
 class AddAddressShimmer extends StatelessWidget {
   const AddAddressShimmer({Key? key}) : super(key: key);

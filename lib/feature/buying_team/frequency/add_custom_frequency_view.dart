@@ -1,4 +1,4 @@
-import '../../../config/export.dart';
+import '../../../core/config/export.dart';
 
 class AddCustomFrequencyView extends StatelessWidget {
   const AddCustomFrequencyView({Key? key}) : super(key: key);

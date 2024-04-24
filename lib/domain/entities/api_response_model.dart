@@ -2,7 +2,7 @@
 
 
 
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 class ApiResponse<T> extends RabbleBaseModel {
   T data;
   String message;

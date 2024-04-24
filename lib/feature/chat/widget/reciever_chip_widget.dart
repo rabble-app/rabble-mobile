@@ -1,4 +1,4 @@
-import '../../../config/export.dart';
+import '../../../core/config/export.dart';
 
 class ReceiverChip extends StatelessWidget {
   final int index;

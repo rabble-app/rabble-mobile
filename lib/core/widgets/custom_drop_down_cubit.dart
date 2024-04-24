@@ -1,4 +1,4 @@
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 import 'package:rxdart/rxdart.dart';
 
 class CustomDropDownCubit extends RabbleBaseCubit with Validators {

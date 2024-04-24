@@ -1,4 +1,4 @@
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 class FocusChild extends StatelessWidget {
   const FocusChild({Key? key, required this.child}) : super(key: key);
 

@@ -1,4 +1,4 @@
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 import 'package:rabble/domain/entities/RequestSendModel.dart';
 
 class RequestTeamItemWidget extends StatelessWidget {

@@ -1,5 +1,4 @@
-import 'package:rabble/config/export.dart';
-import 'package:rabble/domain/entities/RequestSendModel.dart';
+import 'package:rabble/core/config/export.dart';
 import 'team_view_shimmer.dart';
 
 class TeamView extends StatelessWidget {
@@ -247,7 +246,7 @@ class TeamView extends StatelessWidget {
                                                                                                 width: 4.w,
                                                                                               ),
                                                                                               SizedBox(
-                                                                                                width: context.allWidth * 0.55,
+                                                                                                width: context.allWidth * 0.53,
                                                                                                 child: RabbleText.subHeaderText(
                                                                                                   textAlign: TextAlign.start,
                                                                                                   text: teamDataSnap.data!.chats!.isEmpty
@@ -258,6 +257,8 @@ class TeamView extends StatelessWidget {
                                                                                                           ? 'You: ${teamDataSnap.data!.chats!.last.text}'
                                                                                                           : '${teamDataSnap.data!.chats!.last.user!.firstName}: ${teamDataSnap.data!.chats!.last.text}',
                                                                                                   fontSize: 10.sp,
+                                                                                                  maxLines: 1,
+                                                                                                  overflow: TextOverflow.ellipsis,
                                                                                                   color: APPColors.appBlack4,
                                                                                                   fontWeight: FontWeight.w500,
                                                                                                   fontFamily: cPoppins,
@@ -305,7 +306,7 @@ class TeamView extends StatelessWidget {
                                                                                           ShippingCardCustom(
                                                                                             isTeamPage: true,
                                                                                             label: '',
-                                                                                            value: 'Next delivery ${currentOrderSnap.data!.deliveryDate != null ? '${int.parse(DateFormatUtil.countDays(currentOrderSnap.data!.deliveryDate!)) < 7 ? "in ${DateFormatUtil.countDays(currentOrderSnap.data!.deliveryDate!)} days" : DateFormatUtil.formatDate(currentOrderSnap.data!.deliveryDate!, 'dd MMM yyyy')} ' : 'date TBD'}',
+                                                                                            value: DateFormatUtil.getNextDeliveryDate(currentOrderSnap.data!.deliveryDate,  teamDataSnap.data!.frequency!.toInt()),
                                                                                             icon: Assets.svgs.truck_blue.svg(),
                                                                                           ),
                                                                                           ShippingCardCustom(

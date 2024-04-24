@@ -1,4 +1,4 @@
-import '../../../config/export.dart';
+import '../../../core/config/export.dart';
 
 class RabbleCustomizedIconButton extends StatelessWidget {
   const RabbleCustomizedIconButton({Key? key, required this.onTap, required this.labelPrefix1, required this.labelPrefix2, required this.icon,}) : super(key: key);

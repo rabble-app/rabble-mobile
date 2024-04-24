@@ -1,5 +1,5 @@
-import 'package:rabble/config/export.dart';
-import 'package:rabble/config/local_db_config.dart';
+import 'package:rabble/core/config/export.dart';
+import 'package:rabble/core/config/local_db_config.dart';
 import 'package:rabble/domain/entities/MoreProductModel.dart';
 import 'package:rabble/domain/entities/Owner.dart';
 import 'package:rabble/domain/entities/PartitionedProductUsersRecordModel.dart';

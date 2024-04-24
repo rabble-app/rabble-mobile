@@ -1,4 +1,5 @@
-import '../../config/export.dart';
+import 'package:rabble/core/config/export.dart';
+
 import 'TeamModel.dart';
 
 class ConversationModel {

@@ -1,4 +1,4 @@
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 import 'package:rabble/core/widgets/empty_state_widget.dart';
 
 class CheckoutView extends StatelessWidget {
@@ -15,7 +15,7 @@ class CheckoutView extends StatelessWidget {
               subject: bloc.productList,
               builder: (context, productList) {
                 return Scaffold(
-                  backgroundColor: APPColors.bg_app_primary,
+                  backgroundColor: APPColors.bgColor,
                   appBar: PreferredSize(
                       preferredSize: Size.fromHeight(8.h),
                       child: const RabbleAppbar(
@@ -42,11 +42,12 @@ class CheckoutView extends StatelessWidget {
                             children: [
                               Expanded(
                                 child: SingleChildScrollView(
+                                  physics: const ClampingScrollPhysics(),
                                   child: Column(
                                     children: [
                                       Container(
                                         color: APPColors.appYellow,
-                                        height: 7.h,
+                                        height: 5.h,
                                         child: Center(
                                           child: RabbleText.subHeaderText(
                                             text: kConfirmYourOrder,
@@ -58,11 +59,11 @@ class CheckoutView extends StatelessWidget {
                                         ),
                                       ),
                                       SizedBox(
-                                        height: 2.h,
+                                        height: 1.h,
                                       ),
                                       Container(
                                         margin: PagePadding.horizontalSymmetric(
-                                            4.w),
+                                            3.5.w),
                                         child: CartWidget(
                                           checkoutCubit: bloc,
                                         ),
@@ -85,114 +86,276 @@ class CheckoutView extends StatelessWidget {
                                               border: APPColors.appLightWhite,
                                               radius: 10,
                                               width: 1),
-                                      child: Padding(
-                                        padding: PagePadding.all(5.w),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            RabbleText.subHeaderText(
-                                              text: kOrderSummary,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 15.sp,
-                                              fontFamily: cGosha,
-                                              color: APPColors.appBlack4,
-                                            ),
-                                            SizedBox(
-                                              height: 1.h,
-                                            ),
-                                            Row(
+                                      child: Column(
+                                        children: [
+                                          Padding(
+                                            padding: PagePadding
+                                                .customHorizontalVerticalSymmetric(
+                                                    3.5.w, 4.w),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                                  MainAxisAlignment.start,
                                               children: [
                                                 RabbleText.subHeaderText(
-                                                  text: kSubTotal,
-                                                  fontSize: 11.sp,
+                                                  text: kOrderSummary,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 10.sp,
                                                   fontFamily: cPoppins,
-                                                  textAlign: TextAlign.start,
-                                                  fontWeight: FontWeight.normal,
-                                                  color:
-                                                      APPColors.appTextPrimary,
+                                                  color: APPColors.appBlack4,
                                                 ),
-                                                RabbleText.subHeaderText(
-                                                  text:
-                                                      '${DateFormatUtil.amountFormatter(double.parse(totalSumSnap.data.toString()))}',
-                                                  fontSize: 11.sp,
-                                                  fontFamily: cPoppins,
-                                                  textAlign: TextAlign.start,
-                                                  fontWeight: FontWeight.normal,
-                                                  color:
-                                                      APPColors.appTextPrimary,
+                                                SizedBox(
+                                                  height: 1.h,
                                                 ),
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              height: 1.h,
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                RabbleText.subHeaderText(
-                                                  text: kDeliveryfee,
-                                                  fontSize: 11.sp,
-                                                  fontFamily: cPoppins,
-                                                  textAlign: TextAlign.start,
-                                                  fontWeight: FontWeight.normal,
-                                                  color:
-                                                      APPColors.appTextPrimary,
-                                                ),
-                                                RabbleText.subHeaderText(
-                                                  text: '£0.00',
-                                                  fontSize: 11.sp,
-                                                  fontFamily: cPoppins,
-                                                  textAlign: TextAlign.start,
-                                                  fontWeight: FontWeight.normal,
-                                                  color:
-                                                      APPColors.appTextPrimary,
-                                                ),
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              height: 2.h,
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
                                                 Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
                                                   children: [
                                                     RabbleText.subHeaderText(
-                                                      text: kTotalPriceWithVat,
+                                                      text: kSubTotal,
+                                                      fontSize: 9.sp,
+                                                      fontFamily: cPoppins,
                                                       fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 14.sp,
+                                                          FontWeight.w500,
+                                                      textAlign:
+                                                          TextAlign.start,
+                                                      color: APPColors
+                                                          .appTextPrimary,
                                                     ),
                                                     RabbleText.subHeaderText(
-                                                      text: kvAT,
-                                                      height: 1.5,
+                                                      text: DateFormatUtil
+                                                          .amountFormatter(double
+                                                              .parse(totalSumSnap
+                                                                  .data
+                                                                  .toString())),
+                                                      fontSize: 9.sp,
+                                                      fontFamily: cPoppins,
                                                       fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 8.sp,
+                                                          FontWeight.w500,
+                                                      textAlign:
+                                                          TextAlign.start,
+                                                      color: APPColors
+                                                          .appTextPrimary,
                                                     ),
                                                   ],
                                                 ),
-                                                SizedBox(width: 5.w),
-                                                RabbleText.subHeaderText(
-                                                  text:
-                                                      '${DateFormatUtil.amountFormatter(double.parse(totalSumSnap.data.toString()))}',
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 14.sp,
+                                                SizedBox(
+                                                  height: 0.5.h,
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    RabbleText.subHeaderText(
+                                                      text: kDeliveryfee,
+                                                      fontSize: 9.sp,
+                                                      fontFamily: cPoppins,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      textAlign:
+                                                          TextAlign.start,
+                                                      color: APPColors
+                                                          .appTextPrimary,
+                                                    ),
+                                                    RabbleText.subHeaderText(
+                                                      text: '£0.00',
+                                                      textAlign:
+                                                          TextAlign.start,
+                                                      fontSize: 9.sp,
+                                                      fontFamily: cPoppins,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: APPColors
+                                                          .appTextPrimary,
+                                                    ),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  height: 0.5.h,
+                                                ),
+                                                BehaviorSubjectBuilder<double>(
+                                                    subject: bloc.totalDiscount,
+                                                    initialData: 0.0,
+                                                    builder:
+                                                        (context, snapshot) {
+                                                      return Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          RabbleText
+                                                              .subHeaderText(
+                                                            text: kDiscount,
+                                                            fontSize: 9.sp,
+                                                            fontFamily:
+                                                                cPoppins,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            textAlign:
+                                                                TextAlign.start,
+                                                            color: APPColors
+                                                                .appBlue,
+                                                          ),
+                                                          RabbleText
+                                                              .subHeaderText(
+                                                            text:
+                                                                '-£${snapshot.data}',
+                                                            textAlign:
+                                                                TextAlign.start,
+                                                            fontSize: 9.sp,
+                                                            fontFamily:
+                                                                cPoppins,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color: APPColors
+                                                                .appBlue,
+                                                          ),
+                                                        ],
+                                                      );
+                                                    }),
+                                                SizedBox(
+                                                  height: 2.h,
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        RabbleText
+                                                            .subHeaderText(
+                                                          text:
+                                                              kTotalPriceWithVat,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontSize: 13.sp,
+                                                          color: APPColors
+                                                              .appBlack,
+                                                          fontFamily: cPoppins,
+                                                        ),
+                                                        RabbleText
+                                                            .subHeaderText(
+                                                          text: kvAT,
+                                                          height: 1.5,
+                                                          fontFamily: cPoppins,
+                                                          color: APPColors
+                                                              .appTextPrimary,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontSize: 8.sp,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    SizedBox(width: 5.w),
+                                                    BehaviorSubjectBuilder<
+                                                            double>(
+                                                        subject:
+                                                            bloc.totalDiscount,
+                                                        initialData: 0.0,
+                                                        builder: (context,
+                                                            snapshot) {
+                                                          return Row(
+                                                            children: [
+                                                              BehaviorSubjectBuilder<double>(
+                                                                subject: bloc.totalSumRRP,
+                                                                builder: (context, rrpSnap) {
+                                                                  return RabbleText
+                                                                      .subHeaderText(
+                                                                    text:
+                                                                        DateFormatUtil.amountFormatter(double.parse(rrpSnap.data.toString())),
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+                                                                    fontSize: 13.sp,
+                                                                    fontFamily:
+                                                                        cPoppins,
+                                                                    textDecoration:
+                                                                        TextDecoration
+                                                                            .lineThrough,
+                                                                    color: APPColors
+                                                                        .bg_grey27,
+                                                                  );
+                                                                }
+                                                              ),
+                                                              SizedBox(
+                                                                  width: 3.w),
+                                                              RabbleText
+                                                                  .subHeaderText(
+                                                                text:
+                                                                    '${DateFormatUtil.amountFormatter(double.parse(totalSumSnap.data.toString()))}',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                fontSize: 13.sp,
+                                                                fontFamily:
+                                                                    cPoppins,
+                                                              ),
+                                                            ],
+                                                          );
+                                                        }),
+                                                  ],
                                                 ),
                                               ],
-                                            )
-                                          ],
-                                        ),
+                                            ),
+                                          ),
+                                          Container(
+                                            color: APPColors.appPrimaryColor2,
+                                            padding: PagePadding
+                                                .customHorizontalVerticalSymmetric(
+                                                    2.h, 1.3.h),
+                                            child: Row(
+                                              children: [
+                                                Assets.svgs.save.svg(),
+                                                SizedBox(
+                                                  width: 1.w,
+                                                ),
+                                                RabbleText.subHeaderText(
+                                                  text: 'Saving',
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 10.sp,
+                                                  color: APPColors.appBlack4,
+                                                  fontFamily: cPoppins,
+                                                ),
+                                                SizedBox(
+                                                  width: 1.w,
+                                                ),
+                                                BehaviorSubjectBuilder<double>(
+                                                    subject: bloc.totalDiscount,
+                                                    initialData: 0.0,
+                                                    builder:
+                                                        (context, snapshot) {
+                                                      return RabbleText
+                                                          .subHeaderText(
+                                                        text:
+                                                            '£${snapshot.data}',
+                                                        fontSize: 10.sp,
+                                                        fontFamily: cPoppins,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        textAlign:
+                                                            TextAlign.start,
+                                                        color:
+                                                            APPColors.appGreen4,
+                                                      );
+                                                    }),
+                                                SizedBox(
+                                                  width: 1.w,
+                                                ),
+                                                RabbleText.subHeaderText(
+                                                  text: 'with Rabble',
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 10.sp,
+                                                  color: APPColors.appBlack4,
+                                                  fontFamily: cPoppins,
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        ],
                                       ),
                                     );
                                   }),

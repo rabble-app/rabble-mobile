@@ -1,17 +1,17 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:rabble/config/config.dart';
-import 'package:rabble/config/export.dart';
-import 'package:rabble/config/parser.dart';
+import 'package:rabble/core/config/config.dart';
+import 'package:rabble/core/config/export.dart';
+import 'package:rabble/core/config/parser.dart';
 import 'package:rabble/core/blocs/global_bloc.dart';
 import 'package:rabble/core/dio_retry.dart';
 import 'package:rabble/core/pagination.dart';
 import 'package:rabble/core/util/errors.dart';
+import 'package:rabble/core/widgets/app_error_sheet.dart';
 import 'package:rabble/core/widgets/generic_http_error_snackbars.dart';
 import 'package:rabble/domain/entities/rabble_enum.dart';
 
-import '../core/widgets/app_error_sheet.dart';
 
 /// If we introduce a new version of the API, we need to make that source a part of this file else we wont be able to access the private base methods listed here;
 part 'source.dart';

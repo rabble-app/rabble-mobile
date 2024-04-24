@@ -1,4 +1,4 @@
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 import 'package:rabble/domain/entities/TeamDetailChatModel.dart';
 
 class ChatRoomAppbar extends StatelessWidget {

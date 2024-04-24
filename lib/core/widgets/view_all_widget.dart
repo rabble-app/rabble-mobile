@@ -1,4 +1,4 @@
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 
 class ViewAllWidget extends StatelessWidget {
   final Function? callback;

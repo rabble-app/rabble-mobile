@@ -1,4 +1,4 @@
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 
 class CartWidget extends StatelessWidget {
   final CheckoutCubit checkoutCubit;
@@ -20,6 +20,7 @@ class CartWidget extends StatelessWidget {
                 return CartItemWidget(
                   isLast: snapshot.data!.length - 1 == index,
                   itemName: item.name!,
+                  imageUrl: item.imageUrl ?? '',
                   price: DateFormatUtil.amountFormatter(
                       double.parse(item.price.toString())),
                   producerName: item.producerName!,

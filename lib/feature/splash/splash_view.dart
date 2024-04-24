@@ -1,5 +1,5 @@
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 import 'dart:io' show Platform;
 
 import '../../main.dart';

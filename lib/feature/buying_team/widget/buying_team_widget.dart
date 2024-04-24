@@ -1,5 +1,6 @@
 import 'package:http/http.dart';
-import 'package:rabble/config/export.dart';
+import 'package:intl/intl.dart';
+import 'package:rabble/core/config/export.dart';
 import 'package:rabble/domain/entities/UserTeamModel.dart';
 import 'package:rabble/feature/buying_team/widget/buying_team_item_shimmer.dart';
 
@@ -131,8 +132,8 @@ class _BuyingTeamWidgetState extends State<BuyingTeamWidget> {
                             data.producer!.categories!.first.category != null
                         ? data.producer!.categories!.first.category!.name
                         : '',
-                    nextDelivery:
-                        'Next delivery ${data.nextDeliveryDate != null ? '${int.parse(DateFormatUtil.countDays(data.nextDeliveryDate!)) < 7 ? "in ${DateFormatUtil.countDays(data.nextDeliveryDate!)} ${int.parse(DateFormatUtil.countDays(data.nextDeliveryDate!)) < 2 ? "day" : "days"}" : DateFormatUtil.formatDate(data.nextDeliveryDate!, 'dd MMM yyyy')} ' : 'date TBD'}',
+                    nextDelivery: DateFormatUtil.getNextDeliveryDate(
+                        data.nextDeliveryDate, data.frequency!.toInt()),
                     producerName:
                         '${data.host!.firstName ?? ''} ${data.host!.lastName ?? ''}',
                     totalTeamMembers: data.members == null
@@ -221,8 +222,8 @@ class _BuyingTeamWidgetState extends State<BuyingTeamWidget> {
                         data.producer!.categories!.first.category != null
                     ? data.producer!.categories!.first.category!.name
                     : '',
-                nextDelivery:
-                    'Next delivery ${data.nextDeliveryDate != null ? '${int.parse(DateFormatUtil.countDays(data.nextDeliveryDate!)) < 7 ? "in ${int.parse(DateFormatUtil.countDays(data.nextDeliveryDate!)) < 2 ? "day" : "days"}" : DateFormatUtil.formatDate(data.nextDeliveryDate!, 'dd MMM yyyy')} ' : 'date TBD'}',
+                nextDelivery: DateFormatUtil.getNextDeliveryDate(
+                    data.nextDeliveryDate, data.frequency!.toInt()),
                 producerName:
                     '${data.host!.firstName ?? ''} ${data.host!.lastName ?? ''}',
                 totalTeamMembers: data.members == null
@@ -281,8 +282,8 @@ class _BuyingTeamWidgetState extends State<BuyingTeamWidget> {
                               data.producer!.categories!.first.category != null
                           ? data.producer!.categories!.first.category!.name
                           : '',
-                      nextDelivery:
-                      'Next delivery ${data.nextDeliveryDate != null ? '${int.parse(DateFormatUtil.countDays(data.nextDeliveryDate!)) < 7 ? "in ${DateFormatUtil.countDays(data.nextDeliveryDate!)} ${int.parse(DateFormatUtil.countDays(data.nextDeliveryDate!)) < 2 ? "day" : "days"}" : DateFormatUtil.formatDate(data.nextDeliveryDate!, 'dd MMM yyyy')} ' : 'date TBD'}',
+                      nextDelivery: DateFormatUtil.getNextDeliveryDate(
+                          data.nextDeliveryDate, data.frequency!.toInt()),
                       producerName:
                           '${data.host!.firstName ?? ''} ${data.host!.lastName ?? ''}',
                       totalTeamMembers: data.members == null
@@ -366,4 +367,7 @@ class _BuyingTeamWidgetState extends State<BuyingTeamWidget> {
       return '';
     }
   }
+
+
+
 }

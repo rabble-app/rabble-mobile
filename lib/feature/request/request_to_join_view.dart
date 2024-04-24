@@ -1,4 +1,4 @@
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 
 class RequestToJoin extends StatelessWidget {
   const RequestToJoin({Key? key}) : super(key: key);

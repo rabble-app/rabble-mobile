@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 import 'package:upgrader/upgrader.dart';
 
 
@@ -17,6 +17,7 @@ import 'package:upgrader/upgrader.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Config.initialize(Flavor.DEV, DevConfig());
+  setupInjection();
 
 //   Stripe.publishableKey = kStripeDebugPublishKey;
 

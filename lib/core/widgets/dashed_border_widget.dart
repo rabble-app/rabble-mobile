@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 
 class DashedRect extends StatelessWidget {
   final Color color;

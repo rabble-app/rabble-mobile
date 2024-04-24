@@ -83,6 +83,8 @@ class $AssetsSVGGen {
 
   SvgGenImage get faqs => const SvgGenImage('assets/svg/FAQs.svg');
 
+  SvgGenImage get save => const SvgGenImage('assets/svg/save.svg');
+
   SvgGenImage get star => const SvgGenImage('assets/svg/star.svg');
 
   SvgGenImage get terms => const SvgGenImage('assets/svg/terms.svg');

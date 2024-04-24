@@ -1,4 +1,4 @@
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 import 'package:rabble/domain/entities/UserTeamModel.dart';
 import 'package:rabble/feature/buying_team/widget/buying_team_item_shimmer.dart';
 
@@ -79,14 +79,8 @@ class OrderHistoryView extends StatelessWidget {
                                   busniessName: data.producer!.businessName,
                                   frequency: Conversation.getFrequencyText(
                                       data.frequency!.toInt()),
-                                  nextDelivery:
-                                  'Next delivery ${data.nextDeliveryDate != null
-                                      ? '${int.parse(DateFormatUtil.countDays(
-                                      data.nextDeliveryDate!)) < 7
-                                      ? "in ${DateFormatUtil.countDays(
-                                      data.nextDeliveryDate!)} ${int.parse(DateFormatUtil.countDays(data.nextDeliveryDate!)) < 2 ? "day" : "days"}"
-                                      : DateFormatUtil.formatDate(data.nextDeliveryDate!, 'dd MMM yyyy')} '
-                                      : 'date TBD'}',
+                                  nextDelivery: DateFormatUtil.getNextDeliveryDate(
+                                      data.nextDeliveryDate, data.frequency!.toInt()),
                                   producerName: '${data.producer!.businessName}',
                                   hostName: "",
                                   isHost: data.hostId == bloc.userDataSubject$.value.id,

@@ -1,4 +1,4 @@
-import '../../../config/export.dart';
+import '../../../core/config/export.dart';
 import '../../../core/widgets/avatar_square_widget.dart';
 
 class SubscriptionBasketWidget extends StatelessWidget {

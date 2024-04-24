@@ -1,5 +1,5 @@
 import 'package:lottie/lottie.dart';
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 
 class EmptyStateWidget extends StatelessWidget {
   final String heading;

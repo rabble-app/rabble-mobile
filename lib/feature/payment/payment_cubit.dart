@@ -1,5 +1,5 @@
 import 'package:intl/intl.dart';
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 import 'package:rabble/domain/entities/ApplyPayModel.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter_stripe/flutter_stripe.dart' as stripe;

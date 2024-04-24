@@ -1,4 +1,4 @@
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 import 'package:rabble/domain/entities/PartionedProductsData.dart';
 import 'package:rabble/feature/product/product_detail/portioned_product_sheet.dart';
 
@@ -255,6 +255,9 @@ class ProductDetail {
     _orderUnit = json['orderUnit'] ?? '';
     _unitsOfMeasure = json['unitsOfMeasure'] ?? '';
     _totalThresholdQuantity = json['totalThresholdQuantity'] ?? 0;
+    _rrp = json['rrp'] ?? 0;
+    _imageUrl = json['imageUrl'] ?? '';
+
 
   }
 
@@ -272,6 +275,9 @@ class ProductDetail {
     _orderUnit = json['orderUnit'] ?? '';
     _unitsOfMeasure = json['unitsOfMeasure'] ?? '';
     _totalThresholdQuantity = json['totalThresholdQuantity']  ?? 0;
+    _rrp = json['rrp'] ?? 0;
+    _imageUrl = json['imageUrl'] ?? '';
+
   }
 
   String? _id;
@@ -401,6 +407,8 @@ class ProductDetail {
     map['orderUnit'] = orderUnit ?? '';
     map['unitsOfMeasure'] = unitsOfMeasure ?? '';
     map['totalThresholdQuantity'] = totalThresholdQuantity ?? 0;
+    map['rrp'] = rrp ?? 0;
+    map['imageUrl'] = imageUrl ?? '';
 
     return map;
   }

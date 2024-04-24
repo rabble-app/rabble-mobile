@@ -1,4 +1,4 @@
-import 'package:rabble/config/export.dart';
+import 'package:rabble/core/config/export.dart';
 
 class ProductListCubit extends RabbleBaseCubit {
   ProductListCubit(this.id) : super(RabbleBaseState.idle()) {
