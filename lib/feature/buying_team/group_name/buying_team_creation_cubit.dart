@@ -116,7 +116,6 @@ class BuyingTeamCreateCubit extends RabbleBaseCubit with Validators {
     if (addNewAddressRes!.status == 201 || addNewAddressRes.status == 200) {
       NavigatorHelper().navigateTo('/select_payment_method_view');
     }
-
     emit(RabbleBaseState.idle());
   }
 

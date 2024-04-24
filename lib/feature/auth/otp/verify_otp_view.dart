@@ -96,7 +96,7 @@ class _VerifyOtpViewState extends State<VerifyOtpView> {
                                 child: RabbleButton.tertiaryFilled(
                                   buttonSize: ButtonSize.large,
                                   bgColor: APPColors.appWhite,
-                                  onPressed: !snapshot.hasData
+                                  onPressed: !snapshot.hasData || state.tertiaryBusy
                                       ? null
                                       : () async {
                                           bloc.sendOtp(data);
@@ -156,7 +156,7 @@ class _VerifyOtpViewState extends State<VerifyOtpView> {
                                     bgColor: snapshot.data!
                                         ? APPColors.appPrimaryColor
                                         : APPColors.bg_grey25,
-                                    onPressed: !snapshot.data!
+                                    onPressed: !snapshot.data! || state.secondaryBusy
                                         ? null
                                         : () async {
                                             FocusScope.of(context).unfocus();

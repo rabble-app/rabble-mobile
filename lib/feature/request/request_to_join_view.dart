@@ -19,7 +19,9 @@ class RequestToJoin extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: (){
-                      NavigatorHelper().pop();
+                      if(!state.secondaryBusy) {
+                        NavigatorHelper().pop();
+                      }
                     },
                     child: Container(
                       width: 100.w,
@@ -172,10 +174,10 @@ class RequestToJoin extends StatelessWidget {
                         bgColor: snapshot.data!
                             ? APPColors.appPrimaryColor
                             : APPColors.bg_grey25,
-                        onPressed: () {
+                        onPressed: state.secondaryBusy ? null : () {
                           bloc.requestToJoin(data.id!);
                         },
-                        child: bloc.state.secondaryBusy
+                        child: state.secondaryBusy
                             ? Container(
                                 padding: PagePadding.horizontalSymmetric(5.w),
                                 child: const Center(
@@ -187,7 +189,7 @@ class RequestToJoin extends StatelessWidget {
                             : RabbleText.subHeaderText(
                                 text: kRequestToJoin,
                                 fontSize: 14.sp,
-                                fontFamily: 'Gosha',
+                                fontFamily: cGosha,
                                 color: snapshot.data!
                                     ? APPColors.appBlack
                                     : APPColors.bg_grey27,

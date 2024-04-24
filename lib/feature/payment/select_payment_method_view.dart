@@ -211,7 +211,6 @@ class _SelectPaymentMethodViewState extends State<SelectPaymentMethodView>
           //       });
           // }
 
-
           if (state.tertiaryBusy) {
             return BehaviorSubjectBuilder<Map>(
                 subject: bloc.messageSubject$,
@@ -268,6 +267,7 @@ class _SelectPaymentMethodViewState extends State<SelectPaymentMethodView>
                                   BuyingTeamCreationService().groupNameSubject$,
                               builder: (context, snapshot) {
                                 return CreationTeamAppbar(
+                                  canGoBack: !state.secondaryBusy,
                                   backTitle: kBackToBasket,
                                   title: snapshot.data,
                                   barPercentage: 4,
@@ -629,6 +629,8 @@ class _SelectPaymentMethodViewState extends State<SelectPaymentMethodView>
                         builder: (context, snapshot) {
                           return CreationTeamAppbar(
                             backTitle: kBackToBasket,
+                            canGoBack: !state.secondaryBusy,
+
                             title: snapshot.data,
                             barPercentage: 4,
                           );
@@ -990,12 +992,12 @@ class _SelectPaymentMethodViewState extends State<SelectPaymentMethodView>
                                           height: 2.h,
                                         ),
                                         Container(
-                                          decoration: ContainerDecoration.boxDecoration(
-                                            border: APPColors.appBlue,
-                                            bg: APPColors.bg_grey34,
-                                            width: 1,
-                                            radius: 8
-                                          ),
+                                          decoration:
+                                              ContainerDecoration.boxDecoration(
+                                                  border: APPColors.appBlue,
+                                                  bg: APPColors.bg_grey34,
+                                                  width: 1,
+                                                  radius: 8),
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: Row(
@@ -1009,17 +1011,22 @@ class _SelectPaymentMethodViewState extends State<SelectPaymentMethodView>
                                                   width: 10,
                                                 ),
                                                 Container(
-                                                  width: context.allWidth*0.79,
-                                                  child: RabbleText.subHeaderText(
-                                                    text: bloc.getNextOrderDate(BuyingTeamCreationService()
-                                                        .creationDataSubject$
-                                                        .value[mFrequency] !=
-                                                        null
-                                                        ? BuyingTeamCreationService()
-                                                        .creationDataSubject$
-                                                        .value[mFrequency] ??
-                                                        ''
-                                                        : 0),
+                                                  width:
+                                                      context.allWidth * 0.79,
+                                                  child:
+                                                      RabbleText.subHeaderText(
+                                                    text: bloc.getNextOrderDate(
+                                                        BuyingTeamCreationService()
+                                                                        .creationDataSubject$
+                                                                        .value[
+                                                                    mFrequency] !=
+                                                                null
+                                                            ? BuyingTeamCreationService()
+                                                                        .creationDataSubject$
+                                                                        .value[
+                                                                    mFrequency] ??
+                                                                ''
+                                                            : 0),
                                                     textAlign: TextAlign.start,
                                                     fontFamily: cPoppins,
                                                     fontWeight: FontWeight.w500,
@@ -1062,31 +1069,31 @@ class _SelectPaymentMethodViewState extends State<SelectPaymentMethodView>
                     ? BehaviorSubjectBuilder<CardData>(
                         subject: bloc.paymentMethodSelectedSubject$,
                         builder: (context, snapshot) {
-                          return bloc.state.secondaryBusy
-                              ? Container(
-                                  width: 20.w,
-                                  height: 15.h,
-                                  padding: PagePadding.horizontalSymmetric(5.w),
-                                  child: const Center(
-                                    child:
-                                        RabbleSecondaryScreenProgressIndicator(
-                                      enabled: true,
-                                    ),
-                                  ),
-                                )
-                              : Container(
-                                  margin: PagePadding.all(4.w),
-                                  child: RabbleButton.tertiaryFilled(
-                                    bgColor: snapshot.hasData
-                                        ? APPColors.appPrimaryColor
-                                        : APPColors.bg_grey25,
-                                    onPressed: () {
-                                      if (bloc.deadlineCountSubject$.value <=
-                                          0) {
-                                        bloc.uploadBasketForNewUser();
-                                      }
-                                    },
-                                    child: RabbleText.subHeaderText(
+                          return Container(
+                            margin: PagePadding.all(4.w),
+                            child: RabbleButton.tertiaryFilled(
+                              bgColor: snapshot.hasData
+                                  ? APPColors.appPrimaryColor
+                                  : APPColors.bg_grey25,
+                              onPressed: state.secondaryBusy? null :  () {
+                                if (bloc.deadlineCountSubject$.value <= 0) {
+                                  bloc.uploadBasketForNewUser();
+                                }
+                              },
+                              child: state.secondaryBusy
+                                  ? Container(
+                                      width: 20.w,
+                                      height: 15.h,
+                                      padding:
+                                          PagePadding.horizontalSymmetric(5.w),
+                                      child: const Center(
+                                        child:
+                                            RabbleSecondaryScreenProgressIndicator(
+                                          enabled: true,
+                                        ),
+                                      ),
+                                    )
+                                  : RabbleText.subHeaderText(
                                       text: kContinue,
                                       fontSize: 14.sp,
                                       fontFamily: 'Gosha',
@@ -1095,8 +1102,8 @@ class _SelectPaymentMethodViewState extends State<SelectPaymentMethodView>
                                           : APPColors.bg_grey27,
                                       fontWeight: FontWeight.bold,
                                     ),
-                                  ),
-                                );
+                            ),
+                          );
                         })
                     : BehaviorSubjectBuilder<CardData>(
                         subject: bloc.paymentMethodSelectedSubject$,
@@ -1130,8 +1137,9 @@ class _SelectPaymentMethodViewState extends State<SelectPaymentMethodView>
           }
         });
   }
+
   final StreamController<bool> _over18Stream =
-  StreamController<bool>.broadcast();
+      StreamController<bool>.broadcast();
 
   dynamic toggleSwitch(bool val) {
     if (val) {

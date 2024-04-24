@@ -2,7 +2,12 @@ import '../../../core/config/export.dart';
 
 class TeamMemberDetailView extends StatelessWidget {
   TeamMemberDetailView(
-      {Key? key, this.data, this.callBackRemove, this.teamName, required this.isHost, this.orderId})
+      {Key? key,
+      this.data,
+      this.callBackRemove,
+      this.teamName,
+      required this.isHost,
+      this.orderId})
       : super(key: key);
   final Members? data;
   final bool isHost;
@@ -12,8 +17,9 @@ class TeamMemberDetailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    List<String> text = data !=null? '${data!.user!.firstName} ${data!.user!.lastName}'.split(' ') : teamName!.split(' ');
+    List<String> text = data != null
+        ? '${data!.user!.firstName} ${data!.user!.lastName}'.split(' ')
+        : teamName!.split(' ');
 
     String firstCharName1 = '';
     String firstCharName2 = '';
@@ -25,7 +31,7 @@ class TeamMemberDetailView extends StatelessWidget {
       firstCharName2 = text.length > 1 ? text[1] : " "; // Change 2 to 1
 
       combination =
-      '${firstCharName1.length > 0 ? firstCharName1[0] : '' ?? ''}${firstCharName2.length > 0 ? firstCharName2[0] : '' ?? ''}';
+          '${firstCharName1.length > 0 ? firstCharName1[0] : '' ?? ''}${firstCharName2.length > 0 ? firstCharName2[0] : '' ?? ''}';
     }
 
     return CubitProvider<RabbleBaseState, BuyingTeamCubit>(
@@ -45,7 +51,9 @@ class TeamMemberDetailView extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
-                      NavigatorHelper().pop();
+                      if (!state.secondaryBusy && !state.tertiaryBusy) {
+                        NavigatorHelper().pop();
+                      }
                     },
                     child: Container(
                       alignment: Alignment.centerLeft,
@@ -134,57 +142,63 @@ class TeamMemberDetailView extends StatelessWidget {
                   SizedBox(
                     height: 3.h,
                   ),
-                  state.secondaryBusy
-                      ? const Center(
-                          child: RabbleSecondaryScreenProgressIndicator(
-                            enabled: true,
-                          ),
-                        )
-                      : Center(
-                          child: Container(
-                            margin: PagePadding.custom(0, 0, 0, 2.w),
-                            child: RabbleButton.tertiaryFilled(
-                              buttonSize: ButtonSize.large,
-                              bgColor: APPColors.appPrimaryColor,
-                              onPressed: () async {
+                  Center(
+                    child: Container(
+                      margin: PagePadding.custom(0, 0, 0, 2.w),
+                      child: RabbleButton.tertiaryFilled(
+                        buttonSize: ButtonSize.large,
+                        bgColor: APPColors.appPrimaryColor,
+                        onPressed: state.secondaryBusy
+                            ? null
+                            : () async {
                                 await bloc.nudgeTeamMember(
-                                    teamName!, data!.user!.phone!,orderId!);
+                                    teamName!, data!.user!.phone!, orderId!);
                               },
-                              child: RabbleText.subHeaderText(
+                        child: state.secondaryBusy
+                            ? const Center(
+                                child: RabbleSecondaryScreenProgressIndicator(
+                                  enabled: true,
+                                ),
+                              )
+                            : RabbleText.subHeaderText(
                                 text: kNudgeToUpdate,
                                 fontSize: 12.sp,
                                 fontFamily: 'Gosha',
                                 color: APPColors.appBlack,
                                 fontWeight: FontWeight.bold,
                               ),
-                            ),
-                          ),
-                        ),
+                      ),
+                    ),
+                  ),
                   SizedBox(
                     height: 1.h,
                   ),
-                  !isHost?   InkWell(
-                    onTap: () async {
-                      await bloc.removeFromTeam(data!.id!);
-                      callBackRemove!.call(data!);
-                    },
-                    child: state.tertiaryBusy
-                        ? const Center(
-                            child: RabbleSecondaryScreenProgressIndicator(
-                              enabled: true,
-                            ),
-                          )
-                        : Center(
-                            child: RabbleText.subHeaderText(
-                              text: kRemoveFromTeam,
-                              fontSize: 12.sp,
-                              height: 1.4,
-                              fontFamily: cGosha,
-                              fontWeight: FontWeight.bold,
-                              color: APPColors.appRedLight,
-                            ),
-                          ),
-                  ):const SizedBox.shrink(),
+                  !isHost
+                      ? InkWell(
+                          onTap: state.tertiaryBusy
+                              ? null
+                              : () async {
+                                  await bloc.removeFromTeam(data!.id!);
+                                  callBackRemove!.call(data!);
+                                },
+                          child: state.tertiaryBusy
+                              ? const Center(
+                                  child: RabbleSecondaryScreenProgressIndicator(
+                                    enabled: true,
+                                  ),
+                                )
+                              : Center(
+                                  child: RabbleText.subHeaderText(
+                                    text: kRemoveFromTeam,
+                                    fontSize: 12.sp,
+                                    height: 1.4,
+                                    fontFamily: cGosha,
+                                    fontWeight: FontWeight.bold,
+                                    color: APPColors.appRedLight,
+                                  ),
+                                ),
+                        )
+                      : const SizedBox.shrink(),
                   SizedBox(
                     height: 2.5.h,
                   ),

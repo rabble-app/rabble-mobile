@@ -26,6 +26,7 @@ class AddAddressView extends StatelessWidget {
                                 BuyingTeamCreationService().groupNameSubject$,
                             builder: (context, snapshot) {
                               return CreationTeamAppbar(
+                                canGoBack: !state.secondaryBusy,
                                 backTitle: kBack,
                                 title: snapshot.data,
                                 barPercentage: 5,
@@ -284,7 +285,9 @@ class AddAddressView extends StatelessWidget {
                                                 ? APPColors.bg_grey27
                                                 : APPColors.appBlack,
                                             textAlign: TextAlign.start,
-                                            fontSize:snapshot.data!.isEmpty? 10.sp : 12.sp,
+                                            fontSize: snapshot.data!.isEmpty
+                                                ? 10.sp
+                                                : 12.sp,
                                             fontWeight: FontWeight.w400,
                                             fontFamily: cPoppins,
                                             letterSpacing: 0.6,
@@ -329,7 +332,9 @@ class AddAddressView extends StatelessWidget {
                                                 ? APPColors.bg_grey27
                                                 : APPColors.appBlack,
                                             textAlign: TextAlign.start,
-                                            fontSize:snapshot.data!.isEmpty? 10.sp : 12.sp,
+                                            fontSize: snapshot.data!.isEmpty
+                                                ? 10.sp
+                                                : 12.sp,
                                             fontWeight: FontWeight.w400,
                                             fontFamily: cPoppins,
                                             letterSpacing: 0.6,
@@ -350,31 +355,32 @@ class AddAddressView extends StatelessWidget {
                             initialData: false,
                             builder: (BuildContext context,
                                 AsyncSnapshot<bool> snapshot) {
-                              return bloc.state.secondaryBusy
-                                  ? Container(
-                                      padding:
-                                          PagePadding.horizontalSymmetric(5.w),
-                                      child: const Center(
-                                        child:
-                                            RabbleSecondaryScreenProgressIndicator(
-                                          enabled: true,
-                                        ),
-                                      ),
-                                    )
-                                  : Container(
-                                      margin:
-                                          PagePadding.custom(4.w, 4.w, 4.w, 0),
-                                      child: RabbleButton.tertiaryFilled(
-                                        buttonSize: ButtonSize.large,
-                                        bgColor: snapshot.data!
-                                            ? APPColors.appPrimaryColor
-                                            : APPColors.bg_grey25,
-                                        onPressed: () {
-                                          if (snapshot.data!) {
-                                            bloc.addNewAddress();
-                                          }
-                                        },
-                                        child: RabbleText.subHeaderText(
+                              return Container(
+                                margin: PagePadding.custom(4.w, 4.w, 4.w, 0),
+                                child: RabbleButton.tertiaryFilled(
+                                  buttonSize: ButtonSize.large,
+                                  bgColor: snapshot.data!
+                                      ? APPColors.appPrimaryColor
+                                      : APPColors.bg_grey25,
+                                  onPressed:
+                                      !snapshot.data! || state.secondaryBusy
+                                          ? null
+                                          : () {
+                                              bloc.addNewAddress();
+                                            },
+                                  child: state.secondaryBusy
+                                      ? Container(
+                                          padding:
+                                              PagePadding.horizontalSymmetric(
+                                                  5.w),
+                                          child: const Center(
+                                            child:
+                                                RabbleSecondaryScreenProgressIndicator(
+                                              enabled: true,
+                                            ),
+                                          ),
+                                        )
+                                      : RabbleText.subHeaderText(
                                           text: kContinue,
                                           fontSize: 14.sp,
                                           fontFamily: 'Gosha',
@@ -383,8 +389,8 @@ class AddAddressView extends StatelessWidget {
                                               : APPColors.bg_grey27,
                                           fontWeight: FontWeight.bold,
                                         ),
-                                      ),
-                                    );
+                                ),
+                              );
                             }),
                         SizedBox(
                           height: 3.h,

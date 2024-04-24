@@ -336,7 +336,7 @@ class _AuthWidgetState extends State<AuthWidget> {
                                     bgColor: snapshot.data!
                                         ? APPColors.appPrimaryColor
                                         : APPColors.bg_grey25,
-                                    onPressed: !snapshot.data!
+                                    onPressed: !snapshot.data! || state.secondaryBusy
                                         ? null
                                         : () {
                                             authCubit.sendOtp(widget.type);

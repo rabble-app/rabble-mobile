@@ -40,7 +40,9 @@ class PersonaliseGroupView extends StatelessWidget {
                             ),
                             InkWell(
                               onTap: () {
-                                NavigatorHelper().pop();
+                                 if(!state.secondaryBusy) {
+                                   NavigatorHelper().pop();
+                                 }
                               },
                               child: Container(
                                 alignment: Alignment.centerLeft,
@@ -162,55 +164,53 @@ class PersonaliseGroupView extends StatelessWidget {
                         Expanded(
                           child: Align(
                             alignment: Alignment.bottomCenter,
-                            child: bloc.state.secondaryBusy
-                                ? Container(
-                                    padding:
-                                        PagePadding.horizontalSymmetric(5.w),
-                                    margin: PagePadding.onlyTop(5.w),
-                                    child: const Center(
-                                      child:
-                                          RabbleSecondaryScreenProgressIndicator(
-                                        enabled: true,
-                                      ),
-                                    ),
-                                  )
-                                : RabbleButton.tertiaryFilled(
-                                    bgColor: APPColors.appPrimaryColor,
-                                    onPressed: () async {
-                                      if (isEdit != null && isEdit!) {
-                                        Map<String, dynamic> body = {
-                                          'description':
-                                              _groupController.text.isEmpty
-                                                  ? teamDesc
-                                                  : _groupController.text
-                                        };
+                            child: RabbleButton.tertiaryFilled(
+                              bgColor: APPColors.appPrimaryColor,
+                              onPressed: state.secondaryBusy? null : () async {
+                                if (isEdit != null && isEdit!) {
+                                  Map<String, dynamic> body = {
+                                    'description': _groupController.text.isEmpty
+                                        ? teamDesc
+                                        : _groupController.text
+                                  };
 
-                                        var res = await bloc.updateTeamData(
-                                            teamId!, body);
-                                        if (res) {
-                                          NavigatorHelper().pop(
-                                              result:
-                                                  _groupController.text.isEmpty
-                                                      ? teamDesc
-                                                      : _groupController.text);
-                                        }
-                                      } else {
-                                        BuyingTeamCreationService().addTeamCreationData(
-                                            mDescription,
-                                            _groupController.text.isEmpty
-                                                ? bloc.getHintPersonalization(
-                                                    BuyingTeamCreationService()
-                                                        .creationDataSubject$
-                                                        .value[mProducerName],
-                                                    BuyingTeamCreationService()
-                                                        .creationDataSubject$
-                                                        .value[mFrequency])
-                                                : _groupController.text);
-                                        NavigatorHelper()
-                                            .navigateTo('/add_address_view');
-                                      }
-                                    },
-                                    child: RabbleText.subHeaderText(
+                                  var res =
+                                      await bloc.updateTeamData(teamId!, body);
+                                  if (res) {
+                                    NavigatorHelper().pop(
+                                        result: _groupController.text.isEmpty
+                                            ? teamDesc
+                                            : _groupController.text);
+                                  }
+                                } else {
+                                  BuyingTeamCreationService()
+                                      .addTeamCreationData(
+                                          mDescription,
+                                          _groupController.text.isEmpty
+                                              ? bloc.getHintPersonalization(
+                                                  BuyingTeamCreationService()
+                                                      .creationDataSubject$
+                                                      .value[mProducerName],
+                                                  BuyingTeamCreationService()
+                                                      .creationDataSubject$
+                                                      .value[mFrequency])
+                                              : _groupController.text);
+                                  NavigatorHelper()
+                                      .navigateTo('/add_address_view');
+                                }
+                              },
+                              child: state.secondaryBusy
+                                  ? Container(
+                                      padding:
+                                          PagePadding.horizontalSymmetric(5.w),
+                                      child: const Center(
+                                        child:
+                                            RabbleSecondaryScreenProgressIndicator(
+                                          enabled: true,
+                                        ),
+                                      ),
+                                    )
+                                  : RabbleText.subHeaderText(
                                       text: isEdit != null && isEdit!
                                           ? kSaveUpdate
                                           : kContinue,
@@ -219,7 +219,7 @@ class PersonaliseGroupView extends StatelessWidget {
                                       color: APPColors.appBlack,
                                       fontWeight: FontWeight.bold,
                                     ),
-                                  ),
+                            ),
                           ),
                         ),
                         SizedBox(

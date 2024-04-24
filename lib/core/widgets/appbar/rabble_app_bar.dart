@@ -11,6 +11,7 @@ class RabbleAppbar extends StatelessWidget {
   final Widget? leading;
   final double? leadingWidth;
   final double? topMargin;
+  final bool canGoBack;
 
   const RabbleAppbar({
     Key? key,
@@ -23,7 +24,7 @@ class RabbleAppbar extends StatelessWidget {
     this.hideLeading,
     this.leadingWidth,
     this.topMargin,
-    this.leading,
+    this.leading, this.canGoBack = true,
   }) : super(key: key);
 
   @override
@@ -35,7 +36,7 @@ class RabbleAppbar extends StatelessWidget {
           ? const SizedBox.shrink()
           : leading ??
               InkWell(
-                onTap: () async {
+                onTap: !canGoBack? null : () async {
                   bool hasRoutesToPop = Navigator.canPop(context);
                   if (hasRoutesToPop) {
                     NavigatorHelper().pop();

@@ -374,63 +374,69 @@ class CheckoutView extends StatelessWidget {
                           child: RabbleButton.tertiaryFilled(
                             buttonSize: ButtonSize.large,
                             bgColor: APPColors.appPrimaryColor,
-                            onPressed: () async {
-                              BuyingTeamCreationService().addTeamCreationData(
-                                  mProducerId,
-                                  productList.data!.first.producerId);
+                            onPressed: state.secondaryBusy
+                                ? null
+                                : () async {
+                                    BuyingTeamCreationService()
+                                        .addTeamCreationData(mProducerId,
+                                            productList.data!.first.producerId);
 
-                              BuyingTeamCreationService()
-                                  .addPaymentData(mamount, bloc.totalSum.value);
-                              BuyingTeamCreationService()
-                                  .addPaymentData(mcurrency, "GBP");
+                                    BuyingTeamCreationService().addPaymentData(
+                                        mamount, bloc.totalSum.value);
+                                    BuyingTeamCreationService()
+                                        .addPaymentData(mcurrency, "GBP");
 
-                              BuyingTeamCreationService().addTeamCreationData(
-                                  mProducerName,
-                                  productList.data!.first.producerName);
+                                    BuyingTeamCreationService()
+                                        .addTeamCreationData(
+                                            mProducerName,
+                                            productList
+                                                .data!.first.producerName);
 
-                              if (bloc.isEmpty.value) {
-                                var tempData =
-                                    await RabbleStorage.getinivitationData();
+                                    if (bloc.isEmpty.value) {
+                                      var tempData = await RabbleStorage
+                                          .getinivitationData();
 
-                                if (tempData != null) {
-                                  InvitationData invitationData =
-                                      InvitationData.fromJson(
-                                          json.decode(tempData));
-                                  BuyingTeamCreationService()
-                                      .addTeamCreationData(
-                                          mName, invitationData.teamName);
+                                      if (tempData != null) {
+                                        InvitationData invitationData =
+                                            InvitationData.fromJson(
+                                                json.decode(tempData));
+                                        BuyingTeamCreationService()
+                                            .addTeamCreationData(
+                                                mName, invitationData.teamName);
 
-                                  BuyingTeamCreationService()
-                                      .groupNameSubject$
-                                      .sink
-                                      .add(invitationData.teamName!);
+                                        BuyingTeamCreationService()
+                                            .groupNameSubject$
+                                            .sink
+                                            .add(invitationData.teamName!);
 
-                                  BuyingTeamCreationService()
-                                      .isAuthSubject$
-                                      .add(true);
+                                        BuyingTeamCreationService()
+                                            .isAuthSubject$
+                                            .add(true);
 
-                                  BuyingTeamCreationService()
-                                      .teamIdSubject$
-                                      .sink
-                                      .add(invitationData.teamId!);
-                                }
+                                        BuyingTeamCreationService()
+                                            .teamIdSubject$
+                                            .sink
+                                            .add(invitationData.teamId!);
+                                      }
 
-                                NavigatorHelper()
-                                    .navigateTo('/select_payment_method_view');
-                              } else {
-                                bloc.checkTeamExist(
-                                    context,
-                                    bloc.productList.value.first.producerName!,
-                                    bloc.productList.value.first.producerId!);
-                              }
-                            },
-                            child: bloc.state.secondaryBusy
+                                      NavigatorHelper().navigateTo(
+                                          '/select_payment_method_view');
+                                    } else {
+                                      bloc.checkTeamExist(
+                                          context,
+                                          bloc.productList.value.first
+                                              .producerName!,
+                                          bloc.productList.value.first
+                                              .producerId!);
+                                    }
+                                  },
+                            child: state.secondaryBusy
                                 ? const Center(
-                                  child:
-                                      RabbleSecondaryScreenProgressIndicator(
-                                    enabled: true,
-                                  ),
-                                )
+                                    child:
+                                        RabbleSecondaryScreenProgressIndicator(
+                                      enabled: true,
+                                    ),
+                                  )
                                 : RabbleText.subHeaderText(
                                     text: bloc.isEmpty.value
                                         ? 'Proceed to Payment'

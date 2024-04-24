@@ -134,7 +134,7 @@ class _UserNameViewState extends State<UserNameView> {
                                     bgColor: snapshot.data!
                                         ? APPColors.appPrimaryColor
                                         : APPColors.bg_grey25,
-                                    onPressed: !snapshot.hasData
+                                    onPressed: !snapshot.hasData || state.secondaryBusy
                                         ? null
                                         : () async {
                                             var res = await bloc.addProfileData(

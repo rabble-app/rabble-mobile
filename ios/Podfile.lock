@@ -997,7 +997,7 @@ SPEC CHECKSUMS:
   FirebaseInstallations: 9387bf15abfc69a714f54e54f74a251264fdb79b
   FirebaseMessaging: 1367b28c0c83a63072af4a711328fcc2e6899902
   FirebaseSharedSwift: e8fe8d63d434266a1b2c7f02807d5b64462e1851
-  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_branch_sdk: c4afa275d74d6739b0b474a79fb7c1a1d422d6a8
   flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
   flutter_secure_storage: 23fc622d89d073675f2eaa109381aefbcf5a49be
@@ -1036,4 +1036,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: b9d7cb68d455bcc9bdd522799f3b11722509406d
 
-COCOAPODS: 1.12.1
+COCOAPODS: 1.15.0

@@ -18,7 +18,9 @@ class EditNextShipmentDateView extends StatelessWidget {
                   width: 100.w,
                   height: 12.h,
                   color: APPColors.appBlack,
-                  padding: PagePadding.onlyTop(4.h,),
+                  padding: PagePadding.onlyTop(
+                    4.h,
+                  ),
                   child: Row(
                     children: [
                       SizedBox(
@@ -26,7 +28,9 @@ class EditNextShipmentDateView extends StatelessWidget {
                       ),
                       InkWell(
                         onTap: () {
-                          NavigatorHelper().pop();
+                          if(!state.secondaryBusy) {
+                            NavigatorHelper().pop();
+                          }
                         },
                         child: Container(
                           alignment: Alignment.centerLeft,
@@ -113,9 +117,13 @@ class EditNextShipmentDateView extends StatelessWidget {
                                   width: 2.w,
                                 ),
                                 RabbleText.subHeaderText(
-                                  text:teamData['teamNextDate'].toString().isNotEmpty?
-                                  DateFormatUtil.formatDate(
-                                      teamData['teamNextDate'], 'dd MMM yyyy') :'',
+                                  text: teamData['teamNextDate']
+                                          .toString()
+                                          .isNotEmpty
+                                      ? DateFormatUtil.formatDate(
+                                          teamData['teamNextDate'],
+                                          'dd MMM yyyy')
+                                      : '',
                                   color: APPColors.appBlack,
                                   fontSize: 10.sp,
                                   fontFamily: cPoppins,
@@ -147,38 +155,42 @@ class EditNextShipmentDateView extends StatelessWidget {
                           BehaviorSubjectBuilder(
                               subject: bloc.selectedDateFormat$,
                               builder: (context, snapshot) {
-                                return state.secondaryBusy
-                                    ? const Center(
-                                        child:
-                                            RabbleSecondaryScreenProgressIndicator(
-                                          enabled: true,
-                                        ),
-                                      )
-                                    : RabbleButton.tertiaryFilled(
-                                        buttonSize: ButtonSize.large,
-                                        bgColor: APPColors.appPrimaryColor,
-                                        onPressed: () {
-                                          if (!snapshot.hasData)
+                                return RabbleButton.tertiaryFilled(
+                                  buttonSize: ButtonSize.large,
+                                  bgColor: APPColors.appPrimaryColor,
+                                  onPressed: state.secondaryBusy
+                                      ? null
+                                      : () {
+                                          if (!snapshot.hasData) {
                                             NavigatorHelper().pop();
-                                          else {
+                                          } else {
                                             Map<String, dynamic> body = {
                                               'nextDeliveryDate': snapshot.data!
                                                   .toIso8601String()
                                             };
-                                            bloc.updateTeamData(
-                                                teamData['teamId']!, body).then((value){
+                                            bloc
+                                                .updateTeamData(
+                                                    teamData['teamId']!, body)
+                                                .then((value) {
                                               NavigatorHelper().pop();
                                             });
                                           }
                                         },
-                                        child: RabbleText.subHeaderText(
+                                  child: state.secondaryBusy
+                                      ? const Center(
+                                          child:
+                                              RabbleSecondaryScreenProgressIndicator(
+                                            enabled: true,
+                                          ),
+                                        )
+                                      : RabbleText.subHeaderText(
                                           text: kSaveUpdate,
                                           fontSize: 14.sp,
                                           fontFamily: 'Gosha',
                                           color: APPColors.appBlack,
                                           fontWeight: FontWeight.bold,
                                         ),
-                                      );
+                                );
                               }),
                           SizedBox(
                             height: 2.h,

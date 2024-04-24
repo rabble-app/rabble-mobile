@@ -12,7 +12,8 @@ class SettingView extends StatelessWidget {
             backgroundColor: APPColors.bgColor,
             appBar: PreferredSize(
                 preferredSize: Size.fromHeight(8.h),
-                child: const RabbleAppbar(
+                child:  RabbleAppbar(
+                  canGoBack: !state.tertiaryBusy,
                   backgroundColor: APPColors.bg_app_primary,
                   title: kSetting,
                 )),
