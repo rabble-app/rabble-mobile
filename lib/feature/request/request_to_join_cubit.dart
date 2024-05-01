@@ -22,7 +22,7 @@ class RequestToJoinCubit extends RabbleBaseCubit with Validators {
   Future<void> requestToJoin(String teamId) async {
     emit(RabbleBaseState.secondaryBusy());
     var userData =
-        await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+        await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
     UserModel userModel = UserModel.fromJson(jsonDecode(userData));
 
     Map<String, dynamic> body = {

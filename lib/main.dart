@@ -102,7 +102,7 @@ Future<void> loadImage(ImageProvider provider) {
 }
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  RabbleStorage.setFromNotification('1');
+  RabbleStorage().setFromNotification('1');
   NavigatorHelper().navigateTo('/splash');
 }
 

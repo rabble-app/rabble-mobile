@@ -27,7 +27,7 @@ class ProductDetailCubit extends RabbleBaseCubit {
         : [];
 
     var userData =
-    await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+    await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
     UserModel userModel = UserModel.fromJson(jsonDecode(userData));
 
     tempList.add(TempBoxData('${userModel.firstName} ${userModel.lastName}'));
@@ -42,7 +42,7 @@ class ProductDetailCubit extends RabbleBaseCubit {
   Future<void> fetchProductDetail(String productId, String? producerId) async {
     emit(RabbleBaseState.primaryBusy());
 
-    dynamic tempData = await RabbleStorage.getinivitationData();
+    dynamic tempData = await RabbleStorage().getinivitationData();
     InvitationData? invitationData;
     if (tempData != null) {
       invitationData = InvitationData.fromJson(json.decode(tempData));
@@ -284,10 +284,10 @@ class ProductDetailCubit extends RabbleBaseCubit {
   BehaviorSubject<UserModel> userDataSubject$ = BehaviorSubject<UserModel>();
 
   Future<void> fetchUserData() async {
-    String status = await RabbleStorage.getLoginStatus() ?? "0";
+    String status = await RabbleStorage().getLoginStatus() ?? "0";
     if (status != '0') {
       var userData =
-          await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+          await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
       UserModel userModel = UserModel.fromJson(jsonDecode(userData));
 
       userDataSubject$.sink.add(userModel);

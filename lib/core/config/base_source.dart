@@ -727,7 +727,7 @@ abstract class BaseSource {
               !options.extra[RabbleDioOption.AuthorizationOAuth.value] &&
               useAuthentication) {
             try {
-              final accessToken = await RabbleStorage.getToken();
+              final accessToken = await RabbleStorage().getToken();
 
               options.headers['Authorization'] = 'Bearer $accessToken';
 

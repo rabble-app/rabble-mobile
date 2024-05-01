@@ -393,8 +393,7 @@ class CheckoutView extends StatelessWidget {
                                                 .data!.first.producerName);
 
                                     if (bloc.isEmpty.value) {
-                                      var tempData = await RabbleStorage
-                                          .getinivitationData();
+                                      var tempData = await RabbleStorage().getinivitationData();
 
                                       if (tempData != null) {
                                         InvitationData invitationData =

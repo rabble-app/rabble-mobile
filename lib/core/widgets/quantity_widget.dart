@@ -32,9 +32,9 @@ class QuantityWidget extends StatelessWidget {
                 ? InkWell(
                     onTap: () async {
                       String status =
-                          await RabbleStorage.getLoginStatus() ?? "0";
+                          await RabbleStorage().getLoginStatus() ?? "0";
                       if (status != '0') {
-                        String postalCode = await RabbleStorage.getPostalCode();
+                        String postalCode = await RabbleStorage().getPostalCode();
 
                         if (postalCode.isEmpty) {
                           NavigatorHelper().navigateTo('/add_postal_code_view');
@@ -51,9 +51,9 @@ class QuantityWidget extends StatelessWidget {
                 : InkWell(
                     onTap: () async {
                       String status =
-                          await RabbleStorage.getLoginStatus() ?? "0";
+                          await RabbleStorage().getLoginStatus() ?? "0";
                       if (status != '0') {
-                        String postalCode = await RabbleStorage.getPostalCode();
+                        String postalCode = await RabbleStorage().getPostalCode();
 
                         if (postalCode.isEmpty) {
                           NavigatorHelper().navigateTo('/add_postal_code_view');
@@ -84,9 +84,9 @@ class QuantityWidget extends StatelessWidget {
             ),
             InkWell(
               onTap: () async {
-                String status = await RabbleStorage.getLoginStatus() ?? "0";
+                String status = await RabbleStorage().getLoginStatus() ?? "0";
                 if (status != '0') {
-                  String postalCode = await RabbleStorage.getPostalCode();
+                  String postalCode = await RabbleStorage().getPostalCode();
 
                   if (postalCode.isEmpty) {
                     NavigatorHelper().navigateTo('/add_postal_code_view');

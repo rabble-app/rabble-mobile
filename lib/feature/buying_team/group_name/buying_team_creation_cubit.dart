@@ -86,7 +86,7 @@ class BuyingTeamCreateCubit extends RabbleBaseCubit with Validators {
   Future<void> addNewAddress() async {
     emit(RabbleBaseState.secondaryBusy());
     var userData =
-        await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+        await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
     UserModel userModel = UserModel.fromJson(jsonDecode(userData));
     Map<String, String>? body;
     if (isAlreadyAddress) {
@@ -140,7 +140,7 @@ class BuyingTeamCreateCubit extends RabbleBaseCubit with Validators {
   Future<void> fetchMyAddress() async {
     emit(RabbleBaseState.primaryBusy());
     var userData =
-        await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+        await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
     UserModel userModel = UserModel.fromJson(jsonDecode(userData));
 
     CustomerAddress? myAddress = await userRepo.fetchMyAddress(

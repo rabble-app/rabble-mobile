@@ -167,7 +167,7 @@ class _BuyingTeamWidgetState extends State<BuyingTeamWidget> {
                         };
                         BuyingTeamCreationService().addTeamCreationData(
                             mFrequency, data.frequency.toInt());
-                        RabbleStorage.setInivitationData(json.encode(
+                        RabbleStorage().setInivitationData(json.encode(
                             InvitationData(
                                 producerInfo: data.producer,
                                 teamId: data.id,
@@ -320,7 +320,7 @@ class _BuyingTeamWidgetState extends State<BuyingTeamWidget> {
                             )
                           };
 
-                          RabbleStorage.setInivitationData(json.encode(
+                          RabbleStorage().setInivitationData(json.encode(
                               InvitationData(
                                   producerInfo: data.producer,
                                   teamId: data.id,

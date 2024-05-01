@@ -64,7 +64,7 @@ class ChatRoomCubit extends RabbleBaseCubit with Validators {
 
   Future<void> fetchUserData() async {
     var userData =
-        await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+        await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
     UserModel userModel = UserModel.fromJson(jsonDecode(userData));
     myDataSubject$.sink.add(userModel);
   }

@@ -8,13 +8,13 @@ class HomeCubit extends RabbleBaseCubit {
       BehaviorSubject<List<NotificationData>>.seeded([]);
 
   Future<void> fetchNotifications() async {
-    String status = await RabbleStorage.getLoginStatus() ?? "0";
+    String status = await RabbleStorage().getLoginStatus() ?? "0";
     if (status != '0') {
       emit(RabbleBaseState.primaryBusy());
       globalBloc.isNotifcation.sink.add(false);
 
       var userData =
-          await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+          await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
       UserModel userModel = UserModel.fromJson(jsonDecode(userData));
 
       NotificationModel? res = await userRepo.fetchMyNotifications(

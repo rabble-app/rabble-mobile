@@ -156,7 +156,7 @@ class SettingView extends StatelessWidget {
                     callBackDelete: () async {
                       bool res = await bloc.deleteMyAccount();
                       if (res) {
-                        RabbleStorage.userAccountDeletion();
+                        RabbleStorage().userAccountDeletion();
                       }
                     },
                   ), true, isRemove: true);

@@ -431,11 +431,11 @@ class SharedProductItemWidget extends StatelessWidget {
                               : GestureDetector(
                                   onTap: () async {
                                     String status =
-                                        await RabbleStorage.getLoginStatus() ??
+                                        await RabbleStorage().getLoginStatus() ??
                                             "0";
 
                                     String postalCode =
-                                        await RabbleStorage.getPostalCode() ?? '';
+                                        await RabbleStorage().getPostalCode() ?? '';
 
                                     if (status != '0') {
                                       if (postalCode.isEmpty) {

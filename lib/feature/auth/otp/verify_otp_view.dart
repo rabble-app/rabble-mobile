@@ -25,12 +25,14 @@ class _VerifyOtpViewState extends State<VerifyOtpView> {
 
   @override
   Widget build(BuildContext context) {
-    var data = ModalRoute.of(context)!.settings.arguments as Map;
+    var data = ModalRoute.of(context)!.settings.arguments != null
+        ? ModalRoute.of(context)!.settings.arguments as Map
+        : {};
 
     verifyOtpCubit.otpDataSubject$.sink.add(data);
 
     return CubitProvider<RabbleBaseState, VerifyOtpCubit>(
-      create: (context) => verifyOtpCubit,
+      create: (context) => verifyOtpCubit..countdownTimer(),
       builder: (context, state, bloc) {
         return ToucheDetector(
           child: Scaffold(
@@ -57,7 +59,7 @@ class _VerifyOtpViewState extends State<VerifyOtpView> {
                       hintCharacter: '0',
                       hintStyle: TextStyle(
                         fontSize: 12.sp,
-                        fontFamily: 'Poppin',
+                        fontFamily: cPoppins,
                         color: APPColors.bg_grey25,
                         fontWeight: FontWeight.bold,
                       ),
@@ -94,13 +96,18 @@ class _VerifyOtpViewState extends State<VerifyOtpView> {
                             ? Container(
                                 margin: PagePadding.horizontalSymmetric(5.w),
                                 child: RabbleButton.tertiaryFilled(
+                                  key: const Key('resend_otp_button'),
+                                  // Add this line to assign the key
+                                  // Add this line to assign the key
+
                                   buttonSize: ButtonSize.large,
                                   bgColor: APPColors.appWhite,
-                                  onPressed: !snapshot.hasData || state.tertiaryBusy
-                                      ? null
-                                      : () async {
-                                          bloc.sendOtp(data);
-                                        },
+                                  onPressed:
+                                      !snapshot.hasData || state.tertiaryBusy
+                                          ? null
+                                          : () async {
+                                              bloc.sendOtp(data);
+                                            },
                                   child: bloc.state.tertiaryBusy
                                       ? const RabbleSecondaryScreenProgressIndicator(
                                           enabled: true,
@@ -108,12 +115,15 @@ class _VerifyOtpViewState extends State<VerifyOtpView> {
                                       : RabbleText.subHeaderText(
                                           text: kResendCode,
                                           fontSize: 14.sp,
-                                          fontFamily: 'Gosha',
+                                          fontFamily: cGosha,
                                           color: APPColors.appBlue,
                                           fontWeight: FontWeight.bold,
                                         ),
                                 ))
                             : Center(
+                                key: const Key('resend_otp_button'),
+                                // Add this line to assign the key
+
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -121,14 +131,14 @@ class _VerifyOtpViewState extends State<VerifyOtpView> {
                                     RabbleText.subHeaderText(
                                       text: kResendCodeIn,
                                       fontSize: 14.sp,
-                                      fontFamily: 'Gosha',
+                                      fontFamily: cGosha,
                                       color: APPColors.appBlack,
                                       fontWeight: FontWeight.bold,
                                     ),
                                     RabbleText.subHeaderText(
                                       text: '(${snapshot.data})',
                                       fontSize: 14.sp,
-                                      fontFamily: 'Gosha',
+                                      fontFamily: cGosha,
                                       color: APPColors.appBlack,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -147,16 +157,16 @@ class _VerifyOtpViewState extends State<VerifyOtpView> {
                         return BehaviorSubjectBuilder<Map>(
                             subject: bloc.otpDataSubject$,
                             builder: (context, otpDataSnapshot) {
-                              print(
-                                  "otpDataSnapshot ${otpDataSnapshot.data.toString()}");
                               return Container(
                                   margin: PagePadding.horizontalSymmetric(5.w),
                                   child: RabbleButton.tertiaryFilled(
+                                    key: const Key('verify_button'),
                                     buttonSize: ButtonSize.large,
                                     bgColor: snapshot.data!
                                         ? APPColors.appPrimaryColor
                                         : APPColors.bg_grey25,
-                                    onPressed: !snapshot.data! || state.secondaryBusy
+                                    onPressed: !snapshot.data! ||
+                                            state.secondaryBusy
                                         ? null
                                         : () async {
                                             FocusScope.of(context).unfocus();
@@ -191,7 +201,7 @@ class _VerifyOtpViewState extends State<VerifyOtpView> {
                                         : RabbleText.subHeaderText(
                                             text: kVerify,
                                             fontSize: 14.sp,
-                                            fontFamily: 'Gosha',
+                                            fontFamily: cGosha,
                                             color: snapshot.data!
                                                 ? APPColors.appBlack
                                                 : APPColors.bg_grey27,
@@ -206,99 +216,6 @@ class _VerifyOtpViewState extends State<VerifyOtpView> {
           ),
         );
       },
-    );
-  }
-
-  Widget otpBoxWidget(
-    int isRound,
-    TextEditingController controller,
-  ) {
-    return SizedBox(
-      width: 9.w,
-      child: TextField(
-        maxLength: 1,
-        controller: controller,
-        keyboardType: TextInputType.number,
-        textAlign: TextAlign.center,
-        style: const TextStyle(color: APPColors.appBlack),
-        onChanged: (value) {
-          _handleTextChange(0, value);
-        },
-        decoration: InputDecoration(
-          counter: const Offstage(),
-          border: OutlineInputBorder(
-            borderSide: BorderSide.none,
-            borderRadius: isRound == 1
-                ? const BorderRadius.only(
-                    topLeft: Radius.circular(6.0),
-                    bottomLeft: Radius.circular(6.0),
-                  )
-                : isRound == 3
-                    ? const BorderRadius.only(
-                        topRight: Radius.circular(6.0),
-                        bottomRight: Radius.circular(6.0),
-                      )
-                    : const BorderRadius.all(Radius.circular(0)),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: APPColors.bg_grey12,
-              width: 1.0,
-              style: BorderStyle.solid,
-            ),
-            borderRadius: isRound == 1
-                ? const BorderRadius.only(
-                    topLeft: Radius.circular(6.0),
-                    bottomLeft: Radius.circular(6.0),
-                  )
-                : isRound == 3
-                    ? const BorderRadius.only(
-                        topRight: Radius.circular(6.0),
-                        bottomRight: Radius.circular(6.0),
-                      )
-                    : const BorderRadius.all(Radius.circular(0)),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: APPColors.bg_grey12,
-              width: 1.0,
-              style: BorderStyle.solid,
-            ),
-            borderRadius: isRound == 1
-                ? const BorderRadius.only(
-                    topLeft: Radius.circular(6.0),
-                    bottomLeft: Radius.circular(6.0),
-                  )
-                : isRound == 3
-                    ? const BorderRadius.only(
-                        topRight: Radius.circular(4.0),
-                        bottomRight: Radius.circular(4.0),
-                      )
-                    : const BorderRadius.all(Radius.circular(0)),
-          ),
-        ),
-      ),
-    );
-  }
-
-  final List<String> _otp = List.filled(6, '');
-
-  void _handleTextChange(int index, String value) {
-    setState(() {
-      _otp[index] = value;
-      if (value.isNotEmpty && index < 6) {
-        FocusScope.of(context).nextFocus();
-      } else {
-        FocusScope.of(context).previousFocus();
-      }
-    });
-  }
-
-  Widget otpBorder() {
-    return Container(
-      height: 50.0,
-      width: 0.5,
-      color: Colors.grey[300],
     );
   }
 }

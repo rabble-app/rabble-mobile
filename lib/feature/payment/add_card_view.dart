@@ -356,7 +356,7 @@ class AddNewCardView extends StatelessWidget {
   Future<String> createPaymentMethodId(String cardNumber,
       String cardExpiryMonth, String cardExpiryYear, String cardCvc) async {
     var userData =
-        await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+        await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
     UserModel userModel = UserModel.fromJson(jsonDecode(userData));
 
     stripe.CardDetails card = stripe.CardDetails(

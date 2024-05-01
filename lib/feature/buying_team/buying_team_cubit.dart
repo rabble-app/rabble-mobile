@@ -18,7 +18,7 @@ class BuyingTeamCubit extends RabbleBaseCubit with Validators {
   final postalCodeSubject = BehaviorSubject<String>.seeded('');
 
   Future<void> fetchPostalCode() async {
-    var postalCode = await RabbleStorage.getPostalCode();
+    var postalCode = await RabbleStorage().getPostalCode();
     if (postalCode != null) {
       PostalCodeService().postalCodeGlobalSubject.sink.add(postalCode!);
       postalCodeSubject.sink.add(postalCode!);

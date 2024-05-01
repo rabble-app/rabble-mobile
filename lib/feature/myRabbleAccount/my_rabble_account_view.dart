@@ -216,7 +216,7 @@ class MyRabbleAccountView extends StatelessWidget {
                                   Center(
                                     child: InkWell(
                                       onTap: () {
-                                        RabbleStorage.logout(context);
+                                        RabbleStorage().logout(context);
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),

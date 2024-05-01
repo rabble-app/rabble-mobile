@@ -51,7 +51,7 @@ class CreationTeamAppbar extends StatelessWidget {
                       NavigatorHelper().pop();
                     }
                   } else {
-                    String status = await RabbleStorage.getLoginStatus() ?? "0";
+                    String status = await RabbleStorage().getLoginStatus() ?? "0";
 
                     if (status == '1') {
                       NavigatorHelper().navigateAnClearAll('/home');

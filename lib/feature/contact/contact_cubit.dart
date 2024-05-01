@@ -133,7 +133,7 @@ class ContactCubit extends RabbleBaseCubit with Validators {
     emit(RabbleBaseState.secondaryBusy());
     var deepLink = await generateDeepLink(teamData);
 
-    var data = await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+    var data = await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
     Map<String, dynamic> response = json.decode(data.toString().trim());
 
     UserModel userData = UserModel.fromJson(response);

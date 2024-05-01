@@ -15,46 +15,45 @@ class SplashView extends StatefulWidget {
 
 class SplashViewState extends State<SplashView>
     with SingleTickerProviderStateMixin {
-  late Timer _timer;
   late AuthCubit authCubit;
   StreamSubscription<Map>? streamSubscription;
-  bool _branchProcessed = false;
+  bool branchProcessed = false;
   Offset offset = Offset.zero;
-  late AnimationController _controller;
-  late Animation<Offset> _animation;
+  late AnimationController controller;
+  late Animation<Offset> animation;
 
   @override
   void initState() {
     super.initState();
     authCubit = AuthCubit();
 
-    // Initialize Branch SDK
-    _controller = AnimationController(
+    controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 800),
     );
-    _animation = Tween<Offset>(
+    animation = Tween<Offset>(
       begin: const Offset(0.0, -1.0), // Start from the top
       end: const Offset(0.0, 0.0), // Stop at the center
     ).animate(
       CurvedAnimation(
-        parent: _controller,
+        parent: controller,
         curve: Curves.bounceIn,
       ),
     );
-    _controller.forward();
+    controller.forward();
 
+    // Initialize Branch SDK
     init();
   }
 
   Future<void> routeBasedOnLocalStorage() async {
-    if (_branchProcessed) return; // Don't execute if Branch already processed
+    if (branchProcessed) return; // Don't execute if Branch already processed
 
     // Fallback mechanism if Branch doesn't respond in 5 seconds
-    Future.delayed(Duration(seconds: !_branchProcessed ? 3 : 5), () async {
-      if (!_branchProcessed) {
-        String status = await RabbleStorage.getLoginStatus() ?? "0";
-        String onBoardStatus = await RabbleStorage.getOnBoardStatus() ?? '0';
+    Future.delayed(Duration(seconds: !branchProcessed ? 3 : 5), () async {
+      if (!branchProcessed) {
+        String status = await RabbleStorage().getLoginStatus() ?? '0';
+        String onBoardStatus = await RabbleStorage().getOnBoardStatus() ?? '0';
 
         if (onBoardStatus == '0') {
           NavigatorHelper().navigateAnClearAll('/onboard');
@@ -63,7 +62,7 @@ class SplashViewState extends State<SplashView>
             NavigatorHelper().navigateAnClearAll('/login');
           } else {
             String isFromNotification =
-                await RabbleStorage.isFromNotification() ?? '0';
+                await RabbleStorage().isFromNotification() ?? '0';
 
             if (isFromNotification == '1') {
               NavigatorHelper().navigateAnClearAll('/notification_list_view');
@@ -77,6 +76,7 @@ class SplashViewState extends State<SplashView>
   }
 
   Future<void> handleDeepLinkParameters(Map<dynamic, dynamic> data) async {
+
     String forceVersion = await getForceVersion();
     PackageInfo.fromPlatform().then((value) async {
       String currentVersion = value.buildNumber;
@@ -97,7 +97,7 @@ class SplashViewState extends State<SplashView>
             'type': false,
             'id': data['\$canonical_identifier'],
           };
-          await RabbleStorage.onBoarStatus("1");
+          await RabbleStorage().onBoarStatus("1");
           NavigatorHelper().navigateAnClearAll('/producer', arguments: body);
         } else if (data.containsKey('~feature') &&
             data['~feature'] == 'Share Product') {
@@ -105,7 +105,7 @@ class SplashViewState extends State<SplashView>
             'productId': data['\$canonical_identifier'],
             'producerId': data['\$canonical_url'],
           };
-          await RabbleStorage.onBoarStatus("1");
+          await RabbleStorage().onBoarStatus("1");
           NavigatorHelper().navigateAnClearAll('/detail', arguments: body);
         }
       }
@@ -114,14 +114,15 @@ class SplashViewState extends State<SplashView>
 
   @override
   void dispose() {
-    _controller.dispose();
+    controller.dispose();
+    animation.removeListener(() {});
 
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (!_branchProcessed) {
+    if (!branchProcessed) {
       routeBasedOnLocalStorage();
     }
 
@@ -139,7 +140,7 @@ class SplashViewState extends State<SplashView>
                   child: SafeArea(
                     child: Center(
                         child: SlideTransition(
-                      position: _animation,
+                      position: animation,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -168,20 +169,25 @@ class SplashViewState extends State<SplashView>
         });
   }
 
-  void init() {
+  Future<void> init() async {
+    await FlutterBranchSdk.init(
+        useTestKey: false, enableLogging: true, disableTracking: false);
+
     FlutterBranchSdk.listSession().listen((data) {
       print('Branch InitSession Error:1');
       if (data.containsKey('+clicked_branch_link') &&
           data['+clicked_branch_link'] == true) {
-        _branchProcessed = true; // Indicate that Branch has responded
+        branchProcessed = true; // Indicate that Branch has responded
         handleDeepLinkParameters(data);
       }
     }, onError: (error) {
-      _branchProcessed = true;
+      branchProcessed = true;
       print('Branch InitSession Error: $error');
       routeBasedOnLocalStorage();
     });
 
     setState(() {});
   }
+
+
 }

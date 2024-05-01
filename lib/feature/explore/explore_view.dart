@@ -75,8 +75,7 @@ class _ExploreViewState extends State<ExploreView> with WidgetsBindingObserver {
                                                   title: kSearch,
                                                   searchCubit: SearchCubit(),
                                                   callBack: () async {
-                                                    String status = await RabbleStorage
-                                                        .getLoginStatus() ??
+                                                    String status = await RabbleStorage().getLoginStatus() ??
                                                         "0";
                                                     if (status != '0') {
                                                       NavigatorHelper().navigateTo(
@@ -202,7 +201,7 @@ class _ExploreViewState extends State<ExploreView> with WidgetsBindingObserver {
                                                                     .add(!shareSnapshot
                                                                         .data!);
                                                                 RabbleStorage
-                                                                    .setStatusShareWidget(
+                                                                  ().setStatusShareWidget(
                                                                         '1');
                                                               },
                                                               child: const Icon(

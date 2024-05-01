@@ -61,7 +61,7 @@ class PaymentCubit extends RabbleBaseCubit with Validators {
   Future<void> fetchMyCards() async {
     emit(RabbleBaseState.primaryBusy());
     var userData =
-        await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+        await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
     UserModel userModel = UserModel.fromJson(jsonDecode(userData));
 
     BuyingTeamCreationService()
@@ -89,7 +89,7 @@ class PaymentCubit extends RabbleBaseCubit with Validators {
   }
 
   Future<void> getDeadline() async {
-    var tempData = await RabbleStorage.getinivitationData();
+    var tempData = await RabbleStorage().getinivitationData();
 
     if (tempData != null) {
       InvitationData invitationData =
@@ -115,7 +115,7 @@ class PaymentCubit extends RabbleBaseCubit with Validators {
     emit(RabbleBaseState.secondaryBusy());
 
     var userData =
-        await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+        await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
     UserModel userModel = UserModel.fromJson(jsonDecode(userData));
 
     Map<String, dynamic> body = {
@@ -143,8 +143,8 @@ class PaymentCubit extends RabbleBaseCubit with Validators {
       if (primaryCardRes!.status == 200) {
         UserModel userData = UserModel.fromJson(primaryCardRes.data);
 
-        await RabbleStorage.storeDynamicValue(
-            RabbleStorage.userKey, jsonEncode(userData));
+        await RabbleStorage()
+            .storeDynamicValue(RabbleStorage().userKey, jsonEncode(userData));
       }
     }
 
@@ -318,7 +318,7 @@ class PaymentCubit extends RabbleBaseCubit with Validators {
         await stripe.Stripe.instance.createApplePayToken(paymentResult);
 
     var userData =
-        await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+        await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
     UserModel userModel = UserModel.fromJson(jsonDecode(userData));
 
     Map<String, dynamic> body = {
@@ -399,7 +399,7 @@ class PaymentCubit extends RabbleBaseCubit with Validators {
 
   Future<void> uploadBasket(TeamCreationModel createBuyingTeamRes) async {
     var userData =
-        await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+        await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
     UserModel userModel = UserModel.fromJson(jsonDecode(userData));
 
     List<ProductDetail> bulkBasketItems =
@@ -426,7 +426,7 @@ class PaymentCubit extends RabbleBaseCubit with Validators {
       'deadlineReached': false,
     };
 
-    RabbleStorage.deleteKey(RabbleStorage.inivitationData);
+    RabbleStorage().deleteKey(RabbleStorage().inivitationData);
 
     BulkUploadedModel? bulkUploadTeamRes =
         await buyingTeamRepo.uploadProducts(dataToUpload, () {
@@ -450,7 +450,6 @@ class PaymentCubit extends RabbleBaseCubit with Validators {
       });
       dbHelper.truncateCartItems();
       clearDataAndNavigateToTeamPage(createBuyingTeamRes.data!.id!, '0');
-
 
       // if (bulkBasketItems
       //     .any((element) => element.type == 'PORTIONED_SINGLE_PRODUCT')) {
@@ -691,10 +690,10 @@ class PaymentCubit extends RabbleBaseCubit with Validators {
   Future<void> uploadBasketForNewUser() async {
     emit(RabbleBaseState.secondaryBusy());
     var userData =
-        await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+        await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
     UserModel userModel = UserModel.fromJson(jsonDecode(userData));
 
-    var tempData = await RabbleStorage.getinivitationData();
+    var tempData = await RabbleStorage().getinivitationData();
 
     if (tempData != null) {
       InvitationData invitationData =
@@ -724,7 +723,7 @@ class PaymentCubit extends RabbleBaseCubit with Validators {
         'deadlineReached': deadlineCountSubject$.value <= 0 ? true : false,
       };
 
-      RabbleStorage.deleteKey(RabbleStorage.inivitationData);
+      RabbleStorage().deleteKey(RabbleStorage().inivitationData);
 
       BulkUploadedModel? bulkUploadTeamRes =
           await buyingTeamRepo.uploadProducts(dataToUpload, () {
@@ -741,7 +740,7 @@ class PaymentCubit extends RabbleBaseCubit with Validators {
 
       if (bulkUploadTeamRes!.statusCode == 201) {
         dbHelper.truncateCartItems();
-        RabbleStorage.deleteKey(RabbleStorage.inivitationData);
+        RabbleStorage().deleteKey(RabbleStorage().inivitationData);
         clearDataAndNavigateToTeamPage(
             BuyingTeamCreationService().teamIdSubject$.value, '0');
 

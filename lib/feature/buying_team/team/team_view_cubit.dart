@@ -37,7 +37,7 @@ class TeamViewCubit extends RabbleBaseCubit with Validators {
     });
     if (fetchTeamRes!.statusCode == 200 && fetchTeamRes.data != null) {
       var userData =
-          await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+          await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
       UserModel userModel = userData != null
           ? UserModel.fromJson(jsonDecode(userData))
           : UserModel(id: '-1');
@@ -70,7 +70,7 @@ class TeamViewCubit extends RabbleBaseCubit with Validators {
 
   Future<void> fetchCurrentOrderData() async {
     var userData =
-        await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+        await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
     UserModel userModel = userData != null
         ? UserModel.fromJson(jsonDecode(userData))
         : UserModel(id: '-1');

@@ -2,6 +2,8 @@
 //packages
 export 'dart:async';
 export 'dart:io';
+export 'package:mockito/annotations.dart';
+
 export 'dart:math';
 export 'package:sizer/sizer.dart';
 export 'package:flutter/material.dart';

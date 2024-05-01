@@ -93,7 +93,7 @@ class DBHelper {
 
           // Then add the new item
 
-          RabbleStorage.deleteKey(RabbleStorage.inivitationData);
+          RabbleStorage().deleteKey(RabbleStorage().inivitationData);
           BuyingTeamCreationService().groupNameSubject$.sink.add('');
 
           int res = await dbClient.insert(

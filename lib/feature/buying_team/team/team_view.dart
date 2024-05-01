@@ -20,7 +20,7 @@ class TeamView extends StatelessWidget {
                   onPopInvoked: (bool status) async {
                     if (data['type'] != null && data['type'] == '0') {
                       String status =
-                          await RabbleStorage.getLoginStatus() ?? "0";
+                          await RabbleStorage().getLoginStatus() ?? "0";
 
                       if (status == '1') {
                         NavigatorHelper().navigateAnClearAll('/home');
@@ -552,7 +552,7 @@ class TeamView extends StatelessWidget {
                                                                                           ),
                                                                                           onPressed: () async {
                                                                                             if (requestSnap.data == null) {
-                                                                                              String status = await RabbleStorage.getLoginStatus() ?? "0";
+                                                                                              String status = await RabbleStorage().getLoginStatus() ?? "0";
 
                                                                                               if (status == '1') {
                                                                                                 NavigatorHelper().navigateTo('/request_to_join_view', teamDataSnap.data).then((value) {

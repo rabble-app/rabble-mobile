@@ -4,9 +4,7 @@ import 'package:rxdart/rxdart.dart';
 import '../../branch/welcome_to_team_sheet.dart';
 
 class VerifyOtpCubit extends RabbleBaseCubit with Validators {
-  VerifyOtpCubit() : super(RabbleBaseState.idle()) {
-    countdownTimer();
-  }
+  VerifyOtpCubit() : super(RabbleBaseState.idle());
 
   BehaviorSubject<String> selectedCountryImage$ = BehaviorSubject<String>();
 
@@ -49,12 +47,12 @@ class VerifyOtpCubit extends RabbleBaseCubit with Validators {
       UserModel userData = UserModel.fromJson(loginRes.data);
 
       if (type == '0') {
-        await RabbleStorage.storeToken(userData.token!);
-        await RabbleStorage.storePostalCode(userData.postalCode ?? '');
-        await RabbleStorage.loginStatus('1');
-        await RabbleStorage.onBoarStatus('1');
-        await RabbleStorage.storeDynamicValue(
-            RabbleStorage.userKey, jsonEncode(userData));
+        await RabbleStorage().storeToken(userData.token!);
+        await RabbleStorage().storePostalCode(userData.postalCode ?? '');
+        await RabbleStorage().loginStatus('1');
+        await RabbleStorage().onBoarStatus('1');
+        await RabbleStorage()
+            .storeDynamicValue(RabbleStorage().userKey, jsonEncode(userData));
 
         if (userData.firstName != null && userData.lastName != null) {
           NavigatorHelper().navigateAnClearAll(
@@ -67,12 +65,12 @@ class VerifyOtpCubit extends RabbleBaseCubit with Validators {
         }
       } else if (type == '1') {
         UserModel userData = UserModel.fromJson(loginRes.data);
-        await RabbleStorage.storeToken(userData.token!);
-        await RabbleStorage.storePostalCode(userData.postalCode ?? '');
-        await RabbleStorage.loginStatus('1');
-        await RabbleStorage.onBoarStatus('1');
-        await RabbleStorage.storeDynamicValue(
-            RabbleStorage.userKey, jsonEncode(userData));
+        await RabbleStorage().storeToken(userData.token!);
+        await RabbleStorage().storePostalCode(userData.postalCode ?? '');
+        await RabbleStorage().loginStatus('1');
+        await RabbleStorage().onBoarStatus('1');
+        await RabbleStorage()
+            .storeDynamicValue(RabbleStorage().userKey, jsonEncode(userData));
 
         if (userData.firstName != null && userData.lastName != null) {
           NavigatorHelper().navigateAnClearAll(
@@ -85,12 +83,12 @@ class VerifyOtpCubit extends RabbleBaseCubit with Validators {
         }
       } else {
         UserModel userData = UserModel.fromJson(loginRes.data);
-        await RabbleStorage.storeToken(userData.token!);
-        await RabbleStorage.storePostalCode(userData.postalCode ?? '');
-        await RabbleStorage.loginStatus('1');
-        await RabbleStorage.onBoarStatus('1');
-        await RabbleStorage.storeDynamicValue(
-            RabbleStorage.userKey, jsonEncode(userData));
+        await RabbleStorage().storeToken(userData.token!);
+        await RabbleStorage().storePostalCode(userData.postalCode ?? '');
+        await RabbleStorage().loginStatus('1');
+        await RabbleStorage().onBoarStatus('1');
+        await RabbleStorage()
+            .storeDynamicValue(RabbleStorage().userKey, jsonEncode(userData));
 
         if (userData.firstName != null && userData.lastName != null) {
           Map<String, dynamic> body = {
@@ -184,5 +182,11 @@ class VerifyOtpCubit extends RabbleBaseCubit with Validators {
       }
     }
     emit(RabbleBaseState.idle());
+  }
+
+  @override
+  Future<void> close() {
+    _timerCountdown?.cancel(); // Cancel timer in close method
+    return super.close();
   }
 }

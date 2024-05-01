@@ -11,7 +11,7 @@ class NotificationTabCubit extends RabbleBaseCubit {
     emit(RabbleBaseState.primaryBusy());
 
     var userData =
-        await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+        await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
     UserModel userModel = UserModel.fromJson(jsonDecode(userData));
 
     NotificationModel? res = await userRepo.fetchMyNotifications(
@@ -32,7 +32,7 @@ class NotificationTabCubit extends RabbleBaseCubit {
     globalBloc.isNotifcation.sink.add(false);
 
     var userData =
-        await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+        await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
     UserModel userModel = UserModel.fromJson(jsonDecode(userData));
 
     await userRepo.readMyNotifications(

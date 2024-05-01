@@ -52,7 +52,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                           child: RabbleAppbar(
                             leadingWidth: 10.w,
                             centerTitle: false,
-                            titleWidget:RabbleText.subHeaderText(
+                            titleWidget: RabbleText.subHeaderText(
                               text: kProductDetail,
                               overflow: TextOverflow.ellipsis,
                               color: APPColors.appPrimaryColor,
@@ -64,9 +64,9 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                             ),
                             leading: InkWell(
                               onTap: () {
-                                if(NavigatorHelper().canPop()) {
+                                if (NavigatorHelper().canPop()) {
                                   NavigatorHelper().pop();
-                                }else{
+                                } else {
                                   NavigatorHelper().navigateTo('/home');
                                 }
                               },
@@ -824,14 +824,14 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                                                             InkWell(
                                                               onTap: () async {
                                                                 String status =
-                                                                    await RabbleStorage
+                                                                    await RabbleStorage()
                                                                             .getLoginStatus() ??
                                                                         "0";
                                                                 if (status !=
                                                                     '0') {
                                                                   String
                                                                       postalCode =
-                                                                      await RabbleStorage
+                                                                      await RabbleStorage()
                                                                           .getPostalCode();
 
                                                                   if (postalCode
@@ -950,7 +950,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                                                               onTap: () async {
                                                                 String
                                                                     postalCode =
-                                                                    await RabbleStorage
+                                                                    await RabbleStorage()
                                                                         .getPostalCode();
 
                                                                 if (postalCode
@@ -1040,13 +1040,13 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                                                             .appPrimaryColor,
                                                         onPressed: () async {
                                                           String status =
-                                                              await RabbleStorage
+                                                              await RabbleStorage()
                                                                       .getLoginStatus() ??
                                                                   "0";
 
                                                           if (status != '0') {
                                                             String postalCode =
-                                                                await RabbleStorage
+                                                                await RabbleStorage()
                                                                     .getPostalCode();
 
                                                             if (postalCode

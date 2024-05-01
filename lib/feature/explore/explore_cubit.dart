@@ -10,10 +10,10 @@ class ExploreCubit extends RabbleBaseCubit {
   BehaviorSubject<UserModel> userDataSubject$ = BehaviorSubject<UserModel>();
 
   Future<void> fetchPostalCode() async {
-    String status = await RabbleStorage.getLoginStatus() ?? "0";
+    String status = await RabbleStorage().getLoginStatus() ?? "0";
     if (status != '0') {
-      var postalCode = await RabbleStorage.getPostalCode();
-      var visibleShare = await RabbleStorage.getStatusShareWidget() ?? '0';
+      var postalCode = await RabbleStorage().getPostalCode();
+      var visibleShare = await RabbleStorage().getStatusShareWidget() ?? '0';
       if (postalCode != null) {
         PostalCodeService().postalCodeGlobalSubject.sink.add(postalCode!);
         postalCodeSubject.sink.add(postalCode!);
@@ -26,7 +26,7 @@ class ExploreCubit extends RabbleBaseCubit {
       }
 
       var userData =
-          await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+          await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
       UserModel userModel = UserModel.fromJson(jsonDecode(userData));
       userDataSubject$.sink.add(userModel);
       if (userModel.postalCode != null && userModel.postalCode!.isNotEmpty) {

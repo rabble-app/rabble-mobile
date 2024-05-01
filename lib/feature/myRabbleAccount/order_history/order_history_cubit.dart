@@ -13,7 +13,7 @@ class OrderHistoryCubit extends RabbleBaseCubit with Validators {
 
   Future<void> fetchUserData() async {
     var userData =
-        await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+        await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
     UserModel userModel = UserModel.fromJson(jsonDecode(userData));
 
     userDataSubject$.sink.add(userModel);
