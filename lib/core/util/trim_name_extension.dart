@@ -1,21 +1,16 @@
 extension NameExtensions on String {
+  String get initials {
+    if (isEmpty) return '';
 
-  String getName() {
-    List<String> text = split(' ');
+    final List<String> words = trim().split(' ');
+    final StringBuffer initials = StringBuffer();
 
-    String firstCharName1 = '';
-    String firstCharName2 = '';
-
-    String combination = '';
-
-    if (text.isNotEmpty) {
-      firstCharName1 = text[0];
-      firstCharName2 = text.length > 1 ? text[1] : ' ';
-
-      combination = firstCharName2.isNotEmpty
-          ? firstCharName1[0] + firstCharName2[0]
-          : firstCharName1[0];
+    for (final String word in words) {
+      if (word.isNotEmpty) {
+        initials.write(word[0]);
+      }
     }
-    return combination;
+
+    return initials.toString();
   }
 }

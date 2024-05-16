@@ -3,6 +3,8 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
 
     <application
@@ -81,6 +83,8 @@
         <meta-data android:name="io.branch.sdk.BranchKey" android:value="key_live_hFamvc9lj4PRkil4rQKsDmlbrBj7bb7n" />
         <meta-data android:name="io.branch.sdk.BranchKey.test" android:value="key_test_cundEc8jlWLQpho2CTJvoogiDskZhpV8" />
         <meta-data android:name="io.branch.sdk.TestMode" android:value="false" />     <!-- Set to true to use Branch_Test_Key (useful when simulating installs and/or switching between debug and production flavors) -->
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCLfXSZvVLHTT2gJ80FNpBr_X20SAXM3bQ"/>
 
    </application>
 </manifest>

@@ -22,20 +22,9 @@ class MemberProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> text = data !=null? '${data!.user!.firstName} ${data!.user!.lastName}'.split(' ') : teamName!.split(' ');
-
-    String firstCharName1 = '';
-    String firstCharName2 = '';
-
-    String combination = '';
-
-    if (text.isNotEmpty) {
-      firstCharName1 = text[0];
-      firstCharName2 = text.length > 1 ? text[1] : " "; // Change 2 to 1
-
-      combination =
-          '${firstCharName1.length > 0 ? firstCharName1[0] : '' ?? ''}${firstCharName2.length > 0 ? firstCharName2[0] : '' ?? ''}';
-    }
+    String? combination = data != null
+        ? '${data!.user!.firstName} ${data!.user!.lastName}'.initials
+        : teamName?.initials;
 
     return Container(
       margin: PagePadding.onlyTop(2.h),
@@ -43,17 +32,16 @@ class MemberProfileView extends StatelessWidget {
         children: [
           Row(
             children: [
-              data!=null && data!.user!.imageUrl!.isNotEmpty
+              data != null && data!.user!.imageUrl!.isNotEmpty
                   ? SizedBox(
-                width: MediaQuery.of(context).size.width * 0.12,
-                height: MediaQuery.of(context).size.width * 0.12,
-
-                child: RabbleImageLoader(
+                      width: MediaQuery.of(context).size.width * 0.12,
+                      height: MediaQuery.of(context).size.width * 0.12,
+                      child: RabbleImageLoader(
                         imageUrl: data!.user!.imageUrl!,
                         isRound: true,
                         roundValue: 18,
                       ),
-                  )
+                    )
                   : Container(
                       width: MediaQuery.of(context).size.width * 0.12,
                       height: MediaQuery.of(context).size.width * 0.12,
@@ -77,7 +65,9 @@ class MemberProfileView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   RabbleText.subHeaderText(
-                    text: data!=null? '${data!.user!.firstName} ${data!.user!.lastName!.length >= 1 ? isHost ? data!.user!.lastName : data!.user!.lastName![0] : ''}.':'${teamName}.',
+                    text: data != null
+                        ? '${data!.user!.firstName} ${data!.user!.lastName!.length >= 1 ? isHost ? data!.user!.lastName : data!.user!.lastName![0] : ''}.'
+                        : '${teamName}.',
                     color: APPColors.appBlack4,
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w600,

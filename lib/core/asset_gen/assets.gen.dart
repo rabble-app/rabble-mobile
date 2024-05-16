@@ -8,54 +8,97 @@ class $AssetsSVGGen {
       const SvgGenImage('assets/svg/place_holder.svg');
 
   SvgGenImage get pin => const SvgGenImage('assets/svg/pin.svg');
+  SvgGenImage get qrcode => const SvgGenImage('assets/svg/qrcode.svg');
+
+  SvgGenImage get pin_filled => const SvgGenImage('assets/svg/pin_filled.svg');
+
   SvgGenImage get home => const SvgGenImage('assets/svg/home.svg');
-  SvgGenImage get portioned_icon => const SvgGenImage('assets/svg/portioned_icon.svg');
+  SvgGenImage get danger_filled => const SvgGenImage('assets/svg/danger_filled.svg');
+  SvgGenImage get boxTick => const SvgGenImage('assets/svg/box-tick.svg');
+
+  SvgGenImage get portioned_icon =>
+      const SvgGenImage('assets/svg/portioned_icon.svg');
 
   SvgGenImage get host => const SvgGenImage('assets/svg/host.svg');
-  SvgGenImage get search_view => const SvgGenImage('assets/svg/search_view.svg');
+
+  SvgGenImage get hub_box => const SvgGenImage('assets/svg/hub_box.svg');
+
+  SvgGenImage get hub_box_2 => const SvgGenImage('assets/svg/hub_box_2.svg');
+
+  SvgGenImage get search_view =>
+      const SvgGenImage('assets/svg/search_view.svg');
+
   SvgGenImage get info => const SvgGenImage('assets/svg/info.svg');
+
   SvgGenImage get arrowDown => const SvgGenImage('assets/svg/arrow-down.svg');
+
   SvgGenImage get danger => const SvgGenImage('assets/svg/danger.svg');
+
   SvgGenImage get arrowUp => const SvgGenImage('assets/svg/arrow-up.svg');
 
   SvgGenImage get myTeamTab => const SvgGenImage('assets/svg/myTeamTab.svg');
-  SvgGenImage get myTeamTab_selected => const SvgGenImage('assets/svg/myTeamTab_selected.svg');
-  SvgGenImage get memberTeamTab_selected => const SvgGenImage('assets/svg/memberTeamTab_selected.svg');
 
+  SvgGenImage get myTeamTab_selected =>
+      const SvgGenImage('assets/svg/myTeamTab_selected.svg');
+
+  SvgGenImage get memberTeamTab_selected =>
+      const SvgGenImage('assets/svg/memberTeamTab_selected.svg');
 
   SvgGenImage get host_empty => const SvgGenImage('assets/svg/host_empty.svg');
 
-  SvgGenImage get member_empty => const SvgGenImage('assets/svg/member_empty.svg');
+  SvgGenImage get member_empty =>
+      const SvgGenImage('assets/svg/member_empty.svg');
+
   SvgGenImage get gpay => const SvgGenImage('assets/svg/gpay.svg');
 
-  SvgGenImage get search_bottom => const SvgGenImage('assets/svg/search_bottom.svg');
+  SvgGenImage get search_bottom =>
+      const SvgGenImage('assets/svg/search_bottom.svg');
+
   SvgGenImage get tabhome => const SvgGenImage('assets/svg/tabhome.svg');
+
   SvgGenImage get tabteam => const SvgGenImage('assets/svg/tabteam.svg');
+
   SvgGenImage get tabteam0 => const SvgGenImage('assets/svg/tabteam0.svg');
+
   SvgGenImage get tabprofile => const SvgGenImage('assets/svg/tabprofile.svg');
-  SvgGenImage get tabmessages => const SvgGenImage('assets/svg/tabmessages.svg');
 
+  SvgGenImage get tabmessages =>
+      const SvgGenImage('assets/svg/tabmessages.svg');
 
-  SvgGenImage get search_bottom_selected => const SvgGenImage('assets/svg/search_bottom_selected.svg');
-  SvgGenImage get tabteam_selected => const SvgGenImage('assets/svg/tabteam_selected.svg');
-  SvgGenImage get tabprofile_selected => const SvgGenImage('assets/svg/tabprofile_selected.svg');
-  SvgGenImage get tabmessages_selected => const SvgGenImage('assets/svg/tabmessages_selected.svg');
+  SvgGenImage get search_bottom_selected =>
+      const SvgGenImage('assets/svg/search_bottom_selected.svg');
 
+  SvgGenImage get tabteam_selected =>
+      const SvgGenImage('assets/svg/tabteam_selected.svg');
+
+  SvgGenImage get tabprofile_selected =>
+      const SvgGenImage('assets/svg/tabprofile_selected.svg');
+
+  SvgGenImage get tabmessages_selected =>
+      const SvgGenImage('assets/svg/tabmessages_selected.svg');
 
   SvgGenImage get request => const SvgGenImage('assets/svg/request.svg');
-  SvgGenImage get send => const SvgGenImage('assets/svg/send.svg');
-  SvgGenImage get arrow_right => const SvgGenImage('assets/svg/arrow-right.svg');
-  SvgGenImage get manage_team_empty => const SvgGenImage('assets/svg/manage_team_empty.svg');
 
-  SvgGenImage get empty_postcode => const SvgGenImage('assets/svg/empty_postcode.svg');
+  SvgGenImage get send => const SvgGenImage('assets/svg/send.svg');
+
+  SvgGenImage get arrow_right =>
+      const SvgGenImage('assets/svg/arrow-right.svg');
+
+  SvgGenImage get manage_team_empty =>
+      const SvgGenImage('assets/svg/manage_team_empty.svg');
+
+  SvgGenImage get empty_postcode =>
+      const SvgGenImage('assets/svg/empty_postcode.svg');
 
   SvgGenImage get direct_notification =>
       const SvgGenImage('assets/svg/direct-notification.svg');
 
   SvgGenImage get cart => const SvgGenImage('assets/svg/cart.svg');
 
-
   SvgGenImage get truck => const SvgGenImage('assets/svg/truck.svg');
+
+  SvgGenImage get truck_filled =>
+      const SvgGenImage('assets/svg/truck_filled.svg');
 
   SvgGenImage get search => const SvgGenImage('assets/svg/search.svg');
 
@@ -73,7 +116,6 @@ class $AssetsSVGGen {
       const SvgGenImage('assets/svg/dollarsaved2.svg');
 
   SvgGenImage get arrowLeft => const SvgGenImage('assets/svg/arrow-left.svg');
-
 
   SvgGenImage get user => const SvgGenImage('assets/svg/user.svg');
 
@@ -123,22 +165,29 @@ class $AssetsSVGGen {
   SvgGenImage get master => const SvgGenImage('assets/svg/master.svg');
 
   SvgGenImage get up => const SvgGenImage('assets/svg/up.svg');
+
   SvgGenImage get jcbCard => const SvgGenImage('assets/svg/jcb.svg');
+
   SvgGenImage get ae => const SvgGenImage('assets/svg/ae.svg');
+
   SvgGenImage get discover => const SvgGenImage('assets/svg/discover.svg');
 
   SvgGenImage get userEdit => const SvgGenImage('assets/svg/user-edit.svg');
 
-  SvgGenImage get basket_empty => const SvgGenImage('assets/svg/basket_empty.svg');
+  SvgGenImage get basket_empty =>
+      const SvgGenImage('assets/svg/basket_empty.svg');
 
-  SvgGenImage get notification_empty => const SvgGenImage('assets/svg/notification_empty.svg');
+  SvgGenImage get notification_empty =>
+      const SvgGenImage('assets/svg/notification_empty.svg');
 
-  SvgGenImage get request_empty => const SvgGenImage('assets/svg/request_empty.svg');
+  SvgGenImage get request_empty =>
+      const SvgGenImage('assets/svg/request_empty.svg');
 
-  SvgGenImage get history_empty => const SvgGenImage('assets/svg/history_empty.svg');
-  SvgGenImage get no_notification_bedge => const SvgGenImage('assets/svg/no_notification_bedge.svg');
+  SvgGenImage get history_empty =>
+      const SvgGenImage('assets/svg/history_empty.svg');
 
-
+  SvgGenImage get no_notification_bedge =>
+      const SvgGenImage('assets/svg/no_notification_bedge.svg');
 
   SvgGenImage get multi_profileuser =>
       const SvgGenImage('assets/svg/multi_profile-user.svg');
@@ -161,13 +210,12 @@ class $AssetsSVGGen {
 
   SvgGenImage get truck_blue => const SvgGenImage('assets/svg/truck_blue.svg');
 
-  SvgGenImage get message_empty => const SvgGenImage('assets/svg/message_empty.svg');
+  SvgGenImage get message_empty =>
+      const SvgGenImage('assets/svg/message_empty.svg');
 
   SvgGenImage get multiUser => const SvgGenImage('assets/svg/multi_user.svg');
 
   SvgGenImage get usertag => const SvgGenImage('assets/svg/user-tag.svg');
-
-
 
   SvgGenImage get user_bottom =>
       const SvgGenImage('assets/svg/user_bottom.svg');
@@ -195,15 +243,11 @@ class $AssetsPNGGen {
 
   PngGenImage get onboard4 => const PngGenImage('assets/png/onboard4.png');
 
-
-
   PngGenImage get location => const PngGenImage('assets/png/location.png');
 
   PngGenImage get truck => const PngGenImage('assets/png/truck.png');
 
-
   PngGenImage get bag => const PngGenImage('assets/png/bag.png');
-
 
   PngGenImage get preventedVans =>
       const PngGenImage('assets/png/prevented_vans.png');
@@ -211,15 +255,23 @@ class $AssetsPNGGen {
   PngGenImage get amountSaved =>
       const PngGenImage('assets/png/amount_saved.png');
 
-
-
   PngGenImage get teamhost => const PngGenImage('assets/png/teamhost.png');
+
   PngGenImage get loginImage => const PngGenImage('assets/png/loginImage.png');
+
   PngGenImage get otpImage => const PngGenImage('assets/png/otpImage.png');
-  PngGenImage get singupImage => const PngGenImage('assets/png/singupImage.png');
-  PngGenImage get detailImage => const PngGenImage('assets/png/detailImage.png');
 
+  PngGenImage get singupImage =>
+      const PngGenImage('assets/png/singupImage.png');
 
+  PngGenImage get detailImage =>
+      const PngGenImage('assets/png/detailImage.png');
+
+  PngGenImage get sale => const PngGenImage('assets/png/sale.png');
+
+  PngGenImage get sustaible => const PngGenImage('assets/png/sustaible.png');
+
+  PngGenImage get waste => const PngGenImage('assets/png/waste.png');
 }
 
 class Assets {

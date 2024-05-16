@@ -149,7 +149,7 @@ class TeamView extends StatelessWidget {
                                                                       child:
                                                                           Column(
                                                                         children: [
-                                                                          MemberDescriptionViewComplete(
+                                                                          HostInfoWidget(
                                                                             showMemmbers:
                                                                                 bloc.showMembers(teamDataSnap.data!),
                                                                             avatar:

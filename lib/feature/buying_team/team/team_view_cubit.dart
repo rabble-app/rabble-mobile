@@ -6,7 +6,7 @@ import '../../../domain/entities/RequestSendModel.dart';
 
 class TeamViewCubit extends RabbleBaseCubit with Validators {
   TeamViewCubit({required this.teamId}) : super(RabbleBaseState.idle()) {
-    if(teamId.isNotEmpty) {
+    if (teamId.isNotEmpty) {
       fetchTeamDetail();
     }
   }
@@ -21,7 +21,6 @@ class TeamViewCubit extends RabbleBaseCubit with Validators {
 
   BehaviorSubject<RequestSendData> isMyRequest =
       BehaviorSubject<RequestSendData>();
-
 
   BehaviorSubject<bool> isUpdate = BehaviorSubject<bool>.seeded(false);
 
@@ -79,7 +78,7 @@ class TeamViewCubit extends RabbleBaseCubit with Validators {
         await buyingTeamRepo.fetchCurrentOrderDetail(teamId, errorCallBack: () {
       emit(RabbleBaseState.idle());
     });
-    if (fetchTeamRes!.statusCode == 200) {
+    if (fetchTeamRes!.statusCode == 200 && fetchTeamRes.data != null) {
       currentOrderSubject$.sink.add(fetchTeamRes.data!);
 
       if (fetchTeamRes.data!.partionedProducts != null &&
@@ -105,7 +104,6 @@ class TeamViewCubit extends RabbleBaseCubit with Validators {
           t.add(tempList);
           allTempBoxList.sink.add(t);
         }
-
       }
     }
     emit(RabbleBaseState.idle());
@@ -242,9 +240,9 @@ class TeamViewCubit extends RabbleBaseCubit with Validators {
   }
 
   bool showMembers(TeamData teamData) {
-
     return teamData.members!.isNotEmpty &&
-        teamData.members!.any((Members element) => element.userId == teamData.hostId);
+        teamData.members!
+            .any((Members element) => element.userId == teamData.hostId);
   }
 
   getMyOrder(List<Basket> list, String? id) {
@@ -254,4 +252,5 @@ class TeamViewCubit extends RabbleBaseCubit with Validators {
   bool getQuantity(List<Basket> list, String? userId) {
     return list
         .any((element) => element.quantity! > 0 && userId == element.userId);
-  }}
+  }
+}

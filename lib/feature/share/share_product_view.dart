@@ -149,7 +149,7 @@ class ShareProductView extends StatelessWidget {
                         ? Center(
                             child: RabbleText.subHeaderText(
                               text: purchaseUser.length > index
-                                  ? purchaseUser[index].userName!.getName()
+                                  ? purchaseUser[index].userName!.initials
                                   : '',
                               fontWeight: FontWeight.bold,
                               color: totalItems - purchaseUser.length == 0

@@ -446,13 +446,13 @@ class ApiProvider extends Source {
   }
 
   Future<ProducerModel> fetchProducerList(
-    int offset, {
+    int offset, String postalCode,{
     throwOnError = true,
     snackBarOnError = true,
     VoidCallback? errorCallBack,
   }) async {
     final res = await get<ProducerModel>(
-        constructUrl('${nUser}producers?offset=$offset'),
+        constructUrl('${nUser}producers?offset=$offset&postalCode=$postalCode'),
         throwOnError: throwOnError,
         snackbarOnError: snackBarOnError,
         errorCallBack: errorCallBack);

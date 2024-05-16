@@ -1,5 +1,3 @@
-import 'package:rabble/core/util/trim_name_extension.dart';
-import 'package:rabble/feature/share/share_product_view.dart';
 
 import '../../core/config/export.dart';
 import '../../domain/entities/PartionedProductsData.dart';
@@ -72,7 +70,7 @@ class PortionedProductBoxListWidget extends StatelessWidget {
                   ? Center(
                       child: RabbleText.subHeaderText(
                         text: purchaseUser.length > index
-                            ? purchaseUser[index].userName!.getName()
+                            ? purchaseUser[index].userName!.initials
                             : '',
                         fontWeight: FontWeight.bold,
                         color: APPColors.appPrimaryColor,
@@ -336,7 +334,7 @@ class _PortionedProductListWidgetState
                                 child: RabbleText.subHeaderText(
                                   text: widget.purchaseUser.length > index
                                       ? widget.purchaseUser[index].userName!
-                                          .getName()
+                                          .initials
                                       : '',
                                   fontWeight: FontWeight.bold,
                                   color: widget.totalItems -

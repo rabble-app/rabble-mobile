@@ -50,6 +50,7 @@ dependencies:
   markdown: any
   flutter_secure_storage: any
   http: any
+  google_maps_flutter:
   permission_handler: any
   firebase_messaging: any
   firebase_core: any
@@ -79,6 +80,7 @@ dependencies:
   crypto: ^3.0.3
   get_it: ^7.6.7
   dots_indicator: ^3.0.0
+  geolocator:
 
 
 

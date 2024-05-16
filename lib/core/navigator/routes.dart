@@ -1,5 +1,8 @@
 import 'package:rabble/core/config/export.dart';
 import 'package:rabble/feature/buying_team/setting/manage_member/manage_members_view.dart';
+import 'package:rabble/feature/hub/all_partner_teams_view.dart';
+import 'package:rabble/feature/hub/partner_team_view.dart';
+import 'package:rabble/feature/qrcode/qr_code_view.dart';
 
 import '../../feature/buying_team/all/existing_buying_team_view.dart';
 
@@ -171,6 +174,13 @@ class Routes {
 
     defineRoute(router, '/ExistingBuyingTeamsView',
         RouteHandlers.makeHandler(() => ExistingBuyingTeamsView()));
+
+    defineRoute(router, '/AllPartnersTeams',
+        RouteHandlers.makeHandler(() => AllPartnersTeamsView()));
+    defineRoute(router, '/PartnerTeam',
+        RouteHandlers.makeHandler(() => PartnerTeamView()));
+    defineRoute(router, '/qrCode',
+        RouteHandlers.makeHandler(() => QrCodeView()));
   }
 
   static void defineRoute(
