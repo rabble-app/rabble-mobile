@@ -171,7 +171,7 @@ class SplashViewState extends State<SplashView>
 
   Future<void> init() async {
     await FlutterBranchSdk.init(
-        useTestKey: false, enableLogging: true, disableTracking: false);
+         enableLogging: true, disableTracking: false);
 
     FlutterBranchSdk.listSession().listen((data) {
       print('Branch InitSession Error:1');

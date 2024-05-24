@@ -86,7 +86,6 @@ class CollectionDetailWidget extends StatelessWidget {
                                             fontSize: 11.sp,
                                           ),
                                           const KiloMeterWidget(
-                                            kiloMeters: '20 meters away',
                                             color: APPColors.appBlack,
                                           )
                                         ],

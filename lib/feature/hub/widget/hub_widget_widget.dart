@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:rabble/core/config/export.dart';
 import 'package:rabble/core/widgets/km_widget.dart';
+import 'package:rabble/domain/entities/mock/mock_hub_model.dart';
 
 class HubWidget extends StatelessWidget {
   final String? teamId,
@@ -19,6 +20,7 @@ class HubWidget extends StatelessWidget {
   final VoidCallback callBackIfUpdated;
   final OrderHistoryData? historyData;
   final bool? isHost;
+  final MockHubModel  mockData;
 
   const HubWidget(
       {Key? key,
@@ -35,7 +37,7 @@ class HubWidget extends StatelessWidget {
       required this.callBackIfUpdated,
       this.historyData,
       this.isHost,
-      this.postalCode})
+      this.postalCode, required this.mockData})
       : super(key: key);
 
   @override
@@ -73,7 +75,7 @@ class HubWidget extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const KiloMeterWidget(kiloMeters: '20 meters away'),
+                          KiloMeterWidget(mockHubModel: mockData,),
                           Container(
                             height: 3.h,
                             width: context.allWidth * 0.16,

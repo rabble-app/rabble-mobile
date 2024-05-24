@@ -12,6 +12,7 @@ import 'package:rabble/domain/entities/TeamDetailChatModel.dart';
 import 'package:rabble/domain/entities/TeamModel.dart';
 import 'package:rabble/domain/entities/UserBasketModel.dart';
 import 'package:rabble/domain/entities/UserTeamModel.dart';
+import 'package:rabble/domain/entities/distance_model.dart';
 import 'dart:math' as math; // Import the math library
 
 import '../domain/entities/MySubscriptionModel.dart';
@@ -446,7 +447,8 @@ class ApiProvider extends Source {
   }
 
   Future<ProducerModel> fetchProducerList(
-    int offset, String postalCode,{
+    int offset,
+    String postalCode, {
     throwOnError = true,
     snackBarOnError = true,
     VoidCallback? errorCallBack,
@@ -842,7 +844,6 @@ class ApiProvider extends Source {
     snackBarOnError = true,
     VoidCallback? errorCallBack,
   }) async {
-
 //    body['amount'] = body['amount'].round();
 
     final res = await post<ChargeModel>(
@@ -955,6 +956,26 @@ class ApiProvider extends Source {
         errorCallBack: errorCallBack);
 
     return res!.data;
+  }
+
+  Future<DistanceModel> calculateDistance(
+    String postalCodeTo,
+    String postalCodeFrom, {
+    VoidCallback? errorCallBack,
+  }) async {
+    String request =
+        'https://api.getAddress.io/distance/$postalCodeTo/$postalCodeFrom?api-key=oh93u09r10uI2D42JSkU1w38759';
+    final http.Response response = await client.get(Uri.parse(request));
+    late DistanceModel distanceModel;
+
+    print(request.toString());
+    if (response.statusCode == 200) {
+      distanceModel = DistanceModel.fromJson(json.decode(response.body));
+    } else {
+      distanceModel = DistanceModel();
+    }
+
+    return distanceModel;
   }
 
   void cancelRequest() {

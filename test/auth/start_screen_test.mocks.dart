@@ -1698,6 +1698,24 @@ class MockFirebaseFirestore extends _i1.Mock implements _i5.FirebaseFirestore {
       );
 
   @override
+  String get databaseId => (super.noSuchMethod(
+        Invocation.getter(#databaseId),
+        returnValue: _i6.dummyValue<String>(
+          this,
+          Invocation.getter(#databaseId),
+        ),
+      ) as String);
+
+  @override
+  set databaseId(String? _databaseId) => super.noSuchMethod(
+        Invocation.setter(
+          #databaseId,
+          _databaseId,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
   set settings(_i4.Settings? settings) => super.noSuchMethod(
         Invocation.setter(
           #settings,
@@ -1795,6 +1813,7 @@ class MockFirebaseFirestore extends _i1.Mock implements _i5.FirebaseFirestore {
     String? host,
     int? port, {
     bool? sslEnabled = false,
+    bool? automaticHostMapping = true,
   }) =>
       super.noSuchMethod(
         Invocation.method(
@@ -1803,7 +1822,10 @@ class MockFirebaseFirestore extends _i1.Mock implements _i5.FirebaseFirestore {
             host,
             port,
           ],
-          {#sslEnabled: sslEnabled},
+          {
+            #sslEnabled: sslEnabled,
+            #automaticHostMapping: automaticHostMapping,
+          },
         ),
         returnValueForMissingStub: null,
       );

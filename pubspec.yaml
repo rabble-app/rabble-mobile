@@ -65,28 +65,28 @@ dependencies:
   contacts_service: any
   cached_network_image: any
   image_picker: any
-  flutter_branch_sdk: ^7.0.1
-  pay: ^1.1.0
+  flutter_branch_sdk: ^8.0.2
+  pay: ^2.0.0
   shimmer: ^3.0.0
-  share_plus: ^7.0.2
+  share_plus: ^9.0.0
   upgrader: any
-  flutter_stripe: ^9.4.0
+  flutter_stripe: ^10.1.1
   lottie: any
   insta_image_viewer: any
   webview_flutter: any
   cloud_firestore: any
   package_info_plus: any
-  pusher_channels_flutter: ^2.2.0
+  pusher_channels_flutter: ^2.2.1
   crypto: ^3.0.3
   get_it: ^7.6.7
   dots_indicator: ^3.0.0
-  geolocator:
-
 
 
 
 dependency_overrides:
   photo_manager: ^3.0.0-dev.2
+  js: ^0.7.1
+
 
 
 dev_dependencies:
@@ -98,7 +98,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^3.0.1
+  flutter_lints: ^4.0.0
   mockito: ^5.4.4
   build_runner: ^2.4.9
 
