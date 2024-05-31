@@ -4,9 +4,9 @@ import 'package:rabble/core/config/export.dart';
 class CustomBottomNavigation extends StatelessWidget {
   const CustomBottomNavigation(
       {Key? key,
-      required this.currentIndex,
-      required this.list,
-      required this.onTap})
+        required this.currentIndex,
+        required this.list,
+        required this.onTap})
       : super(key: key);
 
   final int currentIndex;
@@ -58,8 +58,7 @@ class CustomBottomNavigation extends StatelessWidget {
     );
   }
 
-  InkWell item(
-      BuildContext context, String path, int index, String title) {
+  InkWell item(BuildContext context, String path, int index, String title) {
     return InkWell(
         key: ValueKey(index), // Assign a ValueKey based on the index
         onTap: () {
@@ -68,24 +67,27 @@ class CustomBottomNavigation extends StatelessWidget {
         child: SizedBox(
           width: 16.w,
           height: MediaQuery.of(context).size.height * 0.057,
-
-
           child: Column(
+            mainAxisSize: MainAxisSize.max,
             children: [
-              SvgPicture.asset(
-                path,
+              Flexible(
+                child: SvgPicture.asset(
+                  path,
+                ),
               ),
               SizedBox(
                 height: 0.2.h,
               ),
-              RabbleText.subHeaderText(
-                text: title,
-                color: currentIndex == index
-                    ? APPColors.appPrimaryColor
-                    : APPColors.bg_grey27,
-                fontWeight: FontWeight.w600,
-                fontFamily: cPoppins,
-                fontSize: 7.5.sp,
+              Flexible(
+                child: RabbleText.subHeaderText(
+                  text: title,
+                  color: currentIndex == index
+                      ? APPColors.appPrimaryColor
+                      : APPColors.bg_grey27,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: cPoppins,
+                  fontSize: 7.5.sp,
+                ),
               )
             ],
           ),

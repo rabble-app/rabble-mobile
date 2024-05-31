@@ -44,7 +44,6 @@ class HubListWidget extends StatelessWidget {
                               nextDelivery: 'Delivers every week',
                               isVertical: false,
                               mockData: MockHubModel.getMockHubs()[index],
-
                               callBack: () {
                                 NavigatorHelper().navigateTo('/PartnerTeam');
                               },
