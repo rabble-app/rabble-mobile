@@ -21,6 +21,8 @@ class SplashViewState extends State<SplashView>
   Offset offset = Offset.zero;
   late AnimationController controller;
   late Animation<Offset> animation;
+  late StreamSubscription sub;
+  late Timer timer;
 
   @override
   void initState() {
@@ -50,7 +52,8 @@ class SplashViewState extends State<SplashView>
     if (branchProcessed) return; // Don't execute if Branch already processed
 
     // Fallback mechanism if Branch doesn't respond in 5 seconds
-    Future.delayed(Duration(seconds: !branchProcessed ? 3 : 5), () async {
+
+    timer =  Timer(Duration(seconds: !branchProcessed ? 3 : 5), () async {
       if (!branchProcessed) {
         String status = await RabbleStorage().getLoginStatus() ?? '0';
         String onBoardStatus = await RabbleStorage().getOnBoardStatus() ?? '0';
@@ -76,7 +79,6 @@ class SplashViewState extends State<SplashView>
   }
 
   Future<void> handleDeepLinkParameters(Map<dynamic, dynamic> data) async {
-
     String forceVersion = await getForceVersion();
     PackageInfo.fromPlatform().then((value) async {
       String currentVersion = value.buildNumber;
@@ -116,6 +118,7 @@ class SplashViewState extends State<SplashView>
   void dispose() {
     controller.dispose();
     animation.removeListener(() {});
+    timer.cancel();
 
     super.dispose();
   }
@@ -170,8 +173,7 @@ class SplashViewState extends State<SplashView>
   }
 
   Future<void> init() async {
-    await FlutterBranchSdk.init(
-         enableLogging: true, disableTracking: false);
+    await FlutterBranchSdk.init(enableLogging: true, disableTracking: false);
 
     FlutterBranchSdk.listSession().listen((data) {
       print('Branch InitSession Error:1');
@@ -188,6 +190,4 @@ class SplashViewState extends State<SplashView>
 
     setState(() {});
   }
-
-
 }

@@ -3,9 +3,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:rabble/core/config/export.dart';
 
 class MyRabbleAccountCubit extends RabbleBaseCubit with Validators {
-  MyRabbleAccountCubit() : super(RabbleBaseState.idle()) {
-    fetchMyData();
-  }
+  MyRabbleAccountCubit() : super(RabbleBaseState.idle());
 
   BehaviorSubject<bool> focus$ = BehaviorSubject<bool>.seeded(false);
 
@@ -16,13 +14,13 @@ class MyRabbleAccountCubit extends RabbleBaseCubit with Validators {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController surNameController = TextEditingController();
 
-  final BehaviorSubject<String> _nameC = BehaviorSubject<String>();
+  final BehaviorSubject<String> _nameC = BehaviorSubject<String>.seeded('');
 
   Function(String) get nameC => _nameC.sink.add;
 
   Stream<String> get nameStream => _nameC.transform(validateEmpty);
 
-  final BehaviorSubject<String> _surnameC = BehaviorSubject<String>();
+  final BehaviorSubject<String> _surnameC = BehaviorSubject<String>.seeded('');
 
   Function(String) get surnameC => _surnameC.sink.add;
 

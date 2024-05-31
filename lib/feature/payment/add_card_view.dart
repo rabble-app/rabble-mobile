@@ -252,31 +252,33 @@ class AddNewCardView extends StatelessWidget {
                                         ),
                                       );
                                     }),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    RabbleText.subHeaderText(
-                                      text: 'Set as primary payment method',
-                                      height: 1.3,
-                                      textAlign: TextAlign.start,
-                                      color: APPColors.appBlack4,
-                                      fontSize: 11.sp,
-                                      fontFamily: cPoppins,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                    SizedBox(
-                                      width: 1.w,
-                                    ),
-                                    RabbleText.subHeaderText(
-                                      text:
-                                          'We will use this payment method for all your orders',
-                                      fontFamily: cPoppins,
-                                      fontSize: 8.5.sp,
-                                      color: APPColors.bg_grey27,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ],
+                                Flexible(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      RabbleText.subHeaderText(
+                                        text: 'Set as primary payment method',
+                                        height: 1.3,
+                                        textAlign: TextAlign.start,
+                                        color: APPColors.appBlack4,
+                                        fontSize: 11.sp,
+                                        fontFamily: cPoppins,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                      SizedBox(
+                                        width: 1.w,
+                                      ),
+                                      RabbleText.subHeaderText(
+                                        text:
+                                            'We will use this payment method for all your orders',
+                                        fontFamily: cPoppins,
+                                        fontSize: 8.5.sp,
+                                        color: APPColors.bg_grey27,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),

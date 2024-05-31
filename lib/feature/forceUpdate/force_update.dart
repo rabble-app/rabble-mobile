@@ -11,14 +11,12 @@ class ForceUpdate extends StatelessWidget {
           child: Scaffold(
             backgroundColor: APPColors.appBlack,
             body: FocusChild(
-              child: Container(
-                color: APPColors.appBlack,
-                child: Center(
-                    child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    ShaderMask(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Flexible(
+                    child: ShaderMask(
                         shaderCallback: (Rect bounds) {
                           return LinearGradient(
                             colors: [
@@ -30,38 +28,34 @@ class ForceUpdate extends StatelessWidget {
                           ).createShader(bounds);
                         },
                         child: Assets.png.loginImage.png()),
-                    SizedBox(height: 10.h,),
-                    Center(
-                      child: RabbleText.subHeaderText(
-                        text: 'RABBLE',
-                        fontSize: 62.sp,
-                        fontWeight: FontWeight.bold,
-                        color: APPColors.appPrimaryColor,
-                      ),
+                  ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  Center(
+                    child: RabbleText.subHeaderText(
+                      text: 'RABBLE',
+                      fontSize: 62.sp,
+                      fontWeight: FontWeight.bold,
+                      color: APPColors.appPrimaryColor,
                     ),
-                    SizedBox(
-                      height: 0.7.h,
+                  ),
+                  SizedBox(
+                    height: 0.7.h,
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(5),
+                    margin: EdgeInsets.only(left: 3.h, right: 3.h),
+                    child: RabbleText.subHeaderText(
+                      text: sUpdateMsg,
+                      fontSize: 12.sp,
+                      height: 1.7,
+                      fontFamily: cPoppins,
+                      fontWeight: FontWeight.w400,
+                      color: APPColors.appPrimaryColor,
                     ),
-                    Container(
-                      padding: const EdgeInsets.all(5),
-                      margin: EdgeInsets.only(left: 3.h, right: 3.h),
-                      child: RabbleText.subHeaderText(
-                        text: sUpdateMsg,
-                        fontSize: 12.sp,
-                        height: 1.7,
-                        fontFamily: cPoppins,
-                        fontWeight: FontWeight.w400,
-                        color: APPColors.appPrimaryColor,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 1.h,
-                    ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                  ],
-                )),
+                  ),
+                ],
               ),
             ),
             bottomNavigationBar: Padding(
@@ -70,16 +64,13 @@ class ForceUpdate extends StatelessWidget {
                 onTap: () {
                   _launchUrl();
                 },
-                child: SizedBox(
-                  width: 70.w,
-                  child: RabbleButton.primaryFilled(
-                    child: RabbleText.subHeaderText(
-                      text: 'Update',
-                      fontSize: 17.sp,
-                      fontFamily: cGosha,
-                      color: APPColors.appBlack,
-                      fontWeight: FontWeight.bold,
-                    ),
+                child: RabbleButton.primaryFilled(
+                  child: RabbleText.subHeaderText(
+                    text: 'Update',
+                    fontSize: 17.sp,
+                    fontFamily: cGosha,
+                    color: APPColors.appBlack,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),

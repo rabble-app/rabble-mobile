@@ -1,38 +1,60 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
 import 'package:rabble/core/config/export.dart';
+import 'package:rabble/feature/myRabbleAccount/my_rabble_account_cubit.dart';
 
+import 'my_rabble_account_test.mocks.dart';
+
+@GenerateMocks([MyRabbleAccountCubit])
 void main() {
   setUpAll(() {
     Config.initialize(Flavor.DEV, DevConfig());
+    SizerUtil.setScreenSize(
+        const BoxConstraints(
+          maxWidth: 500,
+          maxHeight: 1000,
+        ),
+        Orientation.portrait);
   });
   group('EditPaymentView widget', () {
-    testWidgets(kAppFile, (WidgetTester tester) async {
-      // Build the splash screen widget.
-      await tester.pumpWidget(const App());
+    testWidgets('User with image URL', (WidgetTester tester) async {
+      final mockCubit = MockMyRabbleAccountCubit();
+      when(mockCubit.userDataSubject$)
+          .thenAnswer((_) => BehaviorSubject<UserModel>.seeded(UserModel(
+                firstName: 'John',
+                lastName: 'Doe',
+                phone: '1234567890',
+                imageUrl: 'https://example.com/user.png',
+              )));
 
-      // Verify that the app is built successfully.
-      expect(find.byType(MaterialApp), findsOneWidget);
-    });
-
-    testWidgets('MyRabbleAccountView should display recently viewed products',
-        (WidgetTester tester) async {
-      await tester.pumpWidget(RabbleTheme(
-          data: RabbleTheme.themeData,
+      await tester.pumpWidget(
+        Provider<MyRabbleAccountCubit>.value(
+          value: mockCubit,
           child: const MaterialApp(
             home: MyRabbleAccountView(),
-          )));
+          ),
+        ),
+      );
 
-      // Find the widget that displays the recently viewed products heading
-      final headingWidget = find.text('Recently Viewed');
+      expect(find.byType(CircularAvatarWidget), findsNothing);
+      expect(find.byType(Image), findsNothing);
+    });
 
-      // Expect the heading widget to be displayed
-      expect(headingWidget, findsOneWidget);
+    testWidgets('User data loading', (WidgetTester tester) async {
+      final mockCubit = MockMyRabbleAccountCubit();
+      when(mockCubit.userDataSubject$)
+          .thenAnswer((_) => BehaviorSubject<UserModel>()); // Empty stream
 
-      // Find the widget that displays the recently viewed products
-      final productsWidget = find.byType(ProductWidget);
+      await tester.pumpWidget(
+        Provider<MyRabbleAccountCubit>.value(
+          value: mockCubit,
+          child: const MaterialApp(
+            home: MyRabbleAccountView(),
+          ),
+        ),
+      );
 
-      // Expect the products widget to be displayed
-      expect(productsWidget, findsOneWidget);
+      expect(find.byType(RabbleFullScreenProgressIndicator), findsOneWidget);
     });
   });
 }

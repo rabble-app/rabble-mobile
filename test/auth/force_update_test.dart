@@ -14,44 +14,42 @@ void main() {
   });
   group('ForceUpdate Widget Tests', () {
     testWidgets('Widget renders without errors', (WidgetTester tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          home: ForceUpdate(),
-        ),
-      );
+      await tester.pumpWidget(MaterialApp(
+        home: RabbleTheme(
+            data: RabbleTheme.themeData, child: const ForceUpdate()),
+      ));
       expect(find.byType(ForceUpdate), findsOneWidget);
     });
 
-    testWidgets('Text content is displayed correctly', (WidgetTester tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          home: ForceUpdate(),
-        ),
-      );
+    testWidgets('Text content is displayed correctly',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(MaterialApp(
+        home: RabbleTheme(
+            data: RabbleTheme.themeData, child: const ForceUpdate()),
+      ));
       expect(find.text('RABBLE'), findsOneWidget); // Verify heading text
       expect(find.text(sUpdateMsg), findsOneWidget); // Verify subheading text
     });
 
     testWidgets('Update button is displayed', (WidgetTester tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          home: ForceUpdate(),
-        ),
-      );
-      expect(find.text('Update'), findsOneWidget); // Verify "Update" button text
+      await tester.pumpWidget(MaterialApp(
+        home: RabbleTheme(
+            data: RabbleTheme.themeData, child: const ForceUpdate()),
+      ));
+      expect(
+          find.text('Update'), findsOneWidget); // Verify "Update" button text
     });
 
-    testWidgets('Update button onTap callback is triggered', (WidgetTester tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          home: ForceUpdate(),
-        ),
-      );
+    testWidgets('Update button onTap callback is triggered',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(MaterialApp(
+        home: RabbleTheme(
+            data: RabbleTheme.themeData, child: const ForceUpdate()),
+      ));
 
       // Tap the "Update" button
       await tester.tap(find.text('Update'));
       await tester.pump();
-
     });
   });
 }

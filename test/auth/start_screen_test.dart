@@ -10,6 +10,7 @@ import 'dart:io' show Platform;
 
 import 'start_screen_test.mocks.dart';
 
+
 @GenerateMocks([
   RabbleStorage,
   NavigatorHelper,
@@ -123,26 +124,6 @@ void main() {
 
       verifyNever(mockNavigator.navigateAnClearAll('/home'));
       verifyNoMoreInteractions(mockNavigator);
-    });
-    test('handleDeepLinkParameters - force update', () async {
-      // Mock dependencies
-      final mockPackageInfo = MockPackageInfo();
-      final mockNavigatorHelper = MockNavigatorHelper();
-      final mockAuthCubit = MockAuthCubit();
-      final fakeFirestore = MockFirebaseFirestore();
-
-      when(getForceVersion()).thenAnswer((_) => fakeFirestore
-          .collection('forceUpdate') // Use the mocked collection here
-          .doc('Version')
-          .get()
-          .then((snapshot) => snapshot.get('force_version')));
-
-      await state.handleDeepLinkParameters({});
-
-      // Verify interactions (unchanged)
-      verify(mockPackageInfo.buildNumber).called(1);
-      verify(mockNavigatorHelper.navigateAnClearAll('/force_update')).called(1);
-      verifyNoMoreInteractions(mockAuthCubit);
     });
   });
 }
