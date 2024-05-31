@@ -1,6 +1,6 @@
 # rabble
 
-This project Rabble customer app.
+This project is for Rabble customer.
 
 ## Getting Started
 
