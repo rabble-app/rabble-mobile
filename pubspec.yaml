@@ -1,5 +1,5 @@
 name: rabble
-description: This project is coding assasment of Rabble
+description: Rabble Project
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -17,7 +17,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.8.9+89
+version: 1.9.3+93
 
 environment:
   sdk: '>=2.18.4 <3.0.0'
@@ -50,6 +50,7 @@ dependencies:
   markdown: any
   flutter_secure_storage: any
   http: any
+  google_maps_flutter:
   permission_handler: any
   firebase_messaging: any
   firebase_core: any
@@ -64,26 +65,28 @@ dependencies:
   contacts_service: any
   cached_network_image: any
   image_picker: any
-  flutter_branch_sdk: ^7.0.1
-  pay: ^1.1.0
+  flutter_branch_sdk: ^8.0.2
+  pay: ^2.0.0
   shimmer: ^3.0.0
-  share_plus: ^7.0.2
+  share_plus: ^9.0.0
   upgrader: any
-  flutter_stripe: ^9.4.0
+  flutter_stripe: ^10.1.1
   lottie: any
   insta_image_viewer: any
   webview_flutter: any
   cloud_firestore: any
   package_info_plus: any
-  pusher_channels_flutter: ^2.2.0
+  pusher_channels_flutter: ^2.2.1
   crypto: ^3.0.3
   get_it: ^7.6.7
-
+  dots_indicator: ^3.0.0
 
 
 
 dependency_overrides:
   photo_manager: ^3.0.0-dev.2
+  js: ^0.7.1
+
 
 
 dev_dependencies:
@@ -95,8 +98,9 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^3.0.1
-  mockito: any
+  flutter_lints: ^4.0.0
+  mockito: ^5.4.4
+  build_runner: ^2.4.9
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

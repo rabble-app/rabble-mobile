@@ -15,7 +15,7 @@ class TeamRequestTabCubit extends RabbleBaseCubit {
     emit(RabbleBaseState.primaryBusy());
 
     var userData =
-        await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+        await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
     UserModel userModel = UserModel.fromJson(jsonDecode(userData));
 
     RequestSendModel? res = await userRepo.fetchMyRequest(

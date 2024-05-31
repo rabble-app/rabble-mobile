@@ -27,7 +27,7 @@ class CheckoutCubit extends RabbleBaseCubit {
     globalBloc.cartItemQty.sink.add(products.length);
 
     if (products.isNotEmpty) {
-      var tempData = await RabbleStorage.getinivitationData();
+      var tempData = await RabbleStorage().getinivitationData();
 
       if (tempData != null) {
         InvitationData invitationData =
@@ -317,7 +317,7 @@ class CheckoutCubit extends RabbleBaseCubit {
 
   Future<void> fetchUserData() async {
     var userData =
-        await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+        await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
     UserModel userModel = UserModel.fromJson(jsonDecode(userData));
     userDataSubject$.sink.add(userModel);
   }

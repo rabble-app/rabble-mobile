@@ -1,6 +1,7 @@
 import 'package:intl/intl.dart';
 import 'package:rabble/core/config/export.dart';
 import 'package:rabble/domain/entities/ApplyPayModel.dart';
+import 'package:rabble/feature/share/smart_share_product_view.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter_stripe/flutter_stripe.dart' as stripe;
 
@@ -60,7 +61,7 @@ class PaymentCubit extends RabbleBaseCubit with Validators {
   Future<void> fetchMyCards() async {
     emit(RabbleBaseState.primaryBusy());
     var userData =
-        await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+        await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
     UserModel userModel = UserModel.fromJson(jsonDecode(userData));
 
     BuyingTeamCreationService()
@@ -88,7 +89,7 @@ class PaymentCubit extends RabbleBaseCubit with Validators {
   }
 
   Future<void> getDeadline() async {
-    var tempData = await RabbleStorage.getinivitationData();
+    var tempData = await RabbleStorage().getinivitationData();
 
     if (tempData != null) {
       InvitationData invitationData =
@@ -114,7 +115,7 @@ class PaymentCubit extends RabbleBaseCubit with Validators {
     emit(RabbleBaseState.secondaryBusy());
 
     var userData =
-        await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+        await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
     UserModel userModel = UserModel.fromJson(jsonDecode(userData));
 
     Map<String, dynamic> body = {
@@ -142,8 +143,8 @@ class PaymentCubit extends RabbleBaseCubit with Validators {
       if (primaryCardRes!.status == 200) {
         UserModel userData = UserModel.fromJson(primaryCardRes.data);
 
-        await RabbleStorage.storeDynamicValue(
-            RabbleStorage.userKey, jsonEncode(userData));
+        await RabbleStorage()
+            .storeDynamicValue(RabbleStorage().userKey, jsonEncode(userData));
       }
     }
 
@@ -317,7 +318,7 @@ class PaymentCubit extends RabbleBaseCubit with Validators {
         await stripe.Stripe.instance.createApplePayToken(paymentResult);
 
     var userData =
-        await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+        await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
     UserModel userModel = UserModel.fromJson(jsonDecode(userData));
 
     Map<String, dynamic> body = {
@@ -398,7 +399,7 @@ class PaymentCubit extends RabbleBaseCubit with Validators {
 
   Future<void> uploadBasket(TeamCreationModel createBuyingTeamRes) async {
     var userData =
-        await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+        await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
     UserModel userModel = UserModel.fromJson(jsonDecode(userData));
 
     List<ProductDetail> bulkBasketItems =
@@ -425,7 +426,7 @@ class PaymentCubit extends RabbleBaseCubit with Validators {
       'deadlineReached': false,
     };
 
-    RabbleStorage.deleteKey(RabbleStorage.inivitationData);
+    RabbleStorage().deleteKey(RabbleStorage().inivitationData);
 
     BulkUploadedModel? bulkUploadTeamRes =
         await buyingTeamRepo.uploadProducts(dataToUpload, () {
@@ -448,12 +449,15 @@ class PaymentCubit extends RabbleBaseCubit with Validators {
         'type': '1'
       });
       dbHelper.truncateCartItems();
+      clearDataAndNavigateToTeamPage(createBuyingTeamRes.data!.id!, '0');
 
-      Map map = {'teamId': createBuyingTeamRes.data!.id, 'type': '0'};
-      BuyingTeamCreationService().payDataSubject$.sink.add({});
-      BuyingTeamCreationService().groupNameSubject$.sink.add('');
-
-      NavigatorHelper().navigateToScreen('/threshold_view', arguments: map);
+      // if (bulkBasketItems
+      //     .any((element) => element.type == 'PORTIONED_SINGLE_PRODUCT')) {
+      //   teamIdSubject$.sink.add(createBuyingTeamRes.data!.id!);
+      //   emit(RabbleBaseState.share());
+      // } else {
+      //   clearDataAndNavigateToTeamPage(createBuyingTeamRes.data!.id!, '0');
+      // }
     } else {
       messageSubject$.sink.add({
         'json': 'assets/json/loader2.json',
@@ -520,7 +524,6 @@ class PaymentCubit extends RabbleBaseCubit with Validators {
       'orderId': BuyingTeamCreationService().orderIdSubject$.value
     };
 
-    print("dataToUpload ${dataToUpload.toString()}");
     BulkUploadedModel? bulkUploadTeamRes =
         await buyingTeamRepo.updateBasket(dataToUpload, () {
       messageSubject$.sink.add({
@@ -539,12 +542,10 @@ class PaymentCubit extends RabbleBaseCubit with Validators {
         'teamId': BuyingTeamCreationService().teamIdSubject$.value,
         'type': '0'
       };
-
       BuyingTeamCreationService().payDataSubject$.sink.add({});
 
       NavigatorHelper().navigateToScreen('/threshold_view', arguments: map);
     } else {
-      print("jeree");
       messageSubject$.sink.add({
         'json': 'assets/json/loader2.json',
         'msg': 'There was an error processing your payment',
@@ -684,13 +685,15 @@ class PaymentCubit extends RabbleBaseCubit with Validators {
     return paymentIntentRes_3dSecure;
   }
 
+  BehaviorSubject<String> teamIdSubject$ = BehaviorSubject();
+
   Future<void> uploadBasketForNewUser() async {
     emit(RabbleBaseState.secondaryBusy());
     var userData =
-        await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+        await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
     UserModel userModel = UserModel.fromJson(jsonDecode(userData));
 
-    var tempData = await RabbleStorage.getinivitationData();
+    var tempData = await RabbleStorage().getinivitationData();
 
     if (tempData != null) {
       InvitationData invitationData =
@@ -720,20 +723,36 @@ class PaymentCubit extends RabbleBaseCubit with Validators {
         'deadlineReached': deadlineCountSubject$.value <= 0 ? true : false,
       };
 
-      RabbleStorage.deleteKey(RabbleStorage.inivitationData);
+      RabbleStorage().deleteKey(RabbleStorage().inivitationData);
 
       BulkUploadedModel? bulkUploadTeamRes =
-          await buyingTeamRepo.uploadProducts(dataToUpload, () {});
+          await buyingTeamRepo.uploadProducts(dataToUpload, () {
+        messageSubject$.sink.add({
+          'json': 'assets/json/loader2.json',
+          'msg': 'There was an error processing your payment',
+          'api': '4',
+          'type': '0',
+          'isUpdate': '0',
+        });
+
+        BuyingTeamCreationService().apiDataSubject$.sink.add(dataToUpload);
+      });
 
       if (bulkUploadTeamRes!.statusCode == 201) {
         dbHelper.truncateCartItems();
-        RabbleStorage.deleteKey(RabbleStorage.inivitationData);
+        RabbleStorage().deleteKey(RabbleStorage().inivitationData);
+        clearDataAndNavigateToTeamPage(
+            BuyingTeamCreationService().teamIdSubject$.value, '0');
 
-        Map map = {'teamId': invitationData.teamId, 'type': '0'};
-        BuyingTeamCreationService().payDataSubject$.sink.add({});
-        BuyingTeamCreationService().groupNameSubject$.sink.add('');
-
-        NavigatorHelper().navigateToScreen('/threshold_view', arguments: map);
+        // if (bulkBasketItems
+        //     .any((element) => element.type == 'PORTIONED_SINGLE_PRODUCT')) {
+        //   teamIdSubject$.sink
+        //       .add(BuyingTeamCreationService().teamIdSubject$.value);
+        //   emit(RabbleBaseState.share());
+        // } else {
+        //   clearDataAndNavigateToTeamPage(
+        //       BuyingTeamCreationService().teamIdSubject$.value, '0');
+        // }
       }
 
       emit(RabbleBaseState.idle());
@@ -753,5 +772,72 @@ class PaymentCubit extends RabbleBaseCubit with Validators {
         DateFormatUtil.formatDate2(nextOrderDate.toIso8601String(), 'd MMMM');
 
     return 'The team\'s ${DateFormatUtil.formatDate2(deadlineDataSubject$.value.deadline!, 'd MMMM')} order is already on the way. You will join as part of the $formattedNextOrderDate order';
+  }
+
+  BehaviorSubject<List<List<TempBoxData>>> allTempBoxList =
+      BehaviorSubject<List<List<TempBoxData>>>.seeded([]);
+
+  BehaviorSubject<OrderModel> fetchTeamSubject$ = BehaviorSubject();
+
+  // Future<void> fetchTeamDetail(BuildContext context) async {
+  //   OrderModel? fetchTeamRes = await buyingTeamRepo
+  //       .fetchCurrentOrderDetail(teamIdSubject$.value, errorCallBack: () {
+  //     emit(RabbleBaseState.idle());
+  //   });
+  //   if (fetchTeamRes!.statusCode == 200 && fetchTeamRes.data != null) {
+  //     for (int i = 0; i < fetchTeamRes.data!.partionedProducts!.length; i++) {
+  //       List<TempBoxData> tempList = [];
+  //
+  //       var partionedProduct = fetchTeamRes.data!.partionedProducts![i];
+  //
+  //       for (int j = 0;
+  //           j < partionedProduct.partitionedProductUsersRecord!.length;
+  //           j++) {
+  //         var userRecord = partionedProduct.partitionedProductUsersRecord![j];
+  //         var quantity = userRecord.quantity!;
+  //
+  //         for (int k = 0; k < quantity; k++) {
+  //           tempList.add(TempBoxData(
+  //               '${userRecord.owner!.firstName != null ? userRecord.owner!.firstName!.trim() : ''} ${userRecord.owner!.lastName != null ? userRecord.owner!.lastName!.trim() : ''}'));
+  //         }
+  //       }
+  //       var t = allTempBoxList.value;
+  //
+  //       t.add(tempList);
+  //       allTempBoxList.sink.add(t);
+  //     }
+  //
+  //     CustomBottomSheet.showSharePortionedBottomModelSheet2(
+  //             context,
+  //             SmartShareProductView(
+  //               partionedProductsList: fetchTeamRes.data!.partionedProducts!,
+  //               purchasedUser: allTempBoxList.value,
+  //               totalItems: 20,
+  //               teamData: TeamData(
+  //                   id: fetchTeamRes.data!.id!,
+  //                   producer: fetchTeamRes.data!.producer!),
+  //               callBackClose: () {
+  //                 clearDataAndNavigateToTeamPage(
+  //                     fetchTeamRes.data!.teamId!, '0');
+  //               },
+  //             ),
+  //             true,
+  //             isRemove: true)
+  //         .then((bool value) {
+  //       clearDataAndNavigateToTeamPage(
+  //           fetchTeamSubject$.value.data!.teamId!, '0');
+  //     });
+  //
+  //     fetchTeamSubject$.sink.add(fetchTeamRes);
+  //   }
+  // }
+
+  void clearDataAndNavigateToTeamPage(String teamId, String type) {
+    BuyingTeamCreationService().payDataSubject$.sink.add({});
+    BuyingTeamCreationService().groupNameSubject$.sink.add('');
+
+    Map map = {'teamId': teamId, 'type': type};
+
+    NavigatorHelper().navigateAnClearAll('/threshold_view', arguments: map);
   }
 }

@@ -4,7 +4,7 @@ FlutterLocalNotificationsPlugin? localNotificationsPlugin;
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  RabbleStorage.setFromNotification('1');
+  RabbleStorage().setFromNotification('1');
   globalBloc.isNotifcation.sink.add(true);
   NavigatorHelper().navigateTo('/notification_list_view');
 
@@ -13,7 +13,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 @pragma('vm:entry-point')
 void notificationTapBackground(NotificationResponse notificationResponse) {
-  RabbleStorage.setFromNotification('1');
+  RabbleStorage().setFromNotification('1');
   globalBloc.isNotifcation.sink.add(true);
   NavigatorHelper().navigateTo('/notification_list_view');
 
@@ -88,7 +88,7 @@ class FirebaseMessagingManager {
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage? message) async {
       globalBloc.isNotifcation.sink.add(true);
 
-      RabbleStorage.setFromNotification('1');
+      RabbleStorage().setFromNotification('1');
       NavigatorHelper().navigateTo('/notification_list_view');
     });
 
@@ -99,7 +99,7 @@ class FirebaseMessagingManager {
       Future.delayed(const Duration(milliseconds: 500), () {
         if (message != null) {
           globalBloc.isNotifcation.sink.add(true);
-          RabbleStorage.setFromNotification('1');
+          RabbleStorage().setFromNotification('1');
         }
       });
     });
@@ -123,7 +123,7 @@ class FirebaseMessagingManager {
     debugPrint('*******************  handleClick called  *****************');
 
 
-    RabbleStorage.setFromNotification('1');
+    RabbleStorage().setFromNotification('1');
     NavigatorHelper().navigateTo('/splash');
   }
 
@@ -180,7 +180,7 @@ class FirebaseMessagingManager {
   }
 
   Future<void> notificationHandler(RemoteMessage message) async {
-    RabbleStorage.setFromNotification('1');
+    RabbleStorage().setFromNotification('1');
     NavigatorHelper().navigateTo('/notification_list_view');
 
     _notificationsHandler(message);

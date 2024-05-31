@@ -25,23 +25,6 @@ class BasketWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> text = name!.split(' ');
-    print(text.toString());
-
-    String firstCharName1 = '';
-    String firstCharName2 = '';
-
-    String combination = '';
-
-    if (text.isNotEmpty) {
-      firstCharName1 = text[0];
-      firstCharName2 = text.length > 1 ? text[1] : " "; // Change 2 to 1
-
-      combination =
-          '${firstCharName1.length > 0 ? firstCharName1[0] : '' ?? ''}${firstCharName2.length > 0 ? firstCharName2[0] : '' ?? ''}';
-    }
-
-
     return StreamBuilder<bool>(
         stream: expandedController.stream,
         initialData: false,
@@ -61,8 +44,9 @@ class BasketWidget extends StatelessWidget {
                       if (showImage != null && showImage!)
                         image.isEmpty
                             ? CircleAvatar(
+                                backgroundColor: APPColors.appBlack,
                                 child: RabbleText.subHeaderText(
-                                  text: combination,
+                                  text: name?.initials,
                                   color: APPColors.appPrimaryColor,
                                 ),
                               )
@@ -80,9 +64,7 @@ class BasketWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           RabbleText.subHeaderText(
-                            text: heading ?? (orderCount! > 1
-                                    ? kYB
-                                    : KUO),
+                            text: heading ?? (orderCount! > 1 ? kYB : KUO),
                             fontSize: 13.sp,
                             fontWeight: FontWeight.bold,
                             fontFamily: cGosha,
@@ -177,7 +159,7 @@ class BasketWidget extends StatelessWidget {
         0,
         (previousValue, item) =>
             previousValue +
-                double.parse(item.price.toString()) *
-                    double.parse(item.quantity.toString())));
+            double.parse(item.price.toString()) *
+                double.parse(item.quantity.toString())));
   }
 }

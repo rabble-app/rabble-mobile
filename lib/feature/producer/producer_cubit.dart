@@ -2,7 +2,6 @@ import 'package:rabble/core/config/export.dart';
 
 class ProducerCubit extends RabbleBaseCubit {
   ProducerCubit() : super(RabbleBaseState.idle()) {
-
     scrollController.addListener(() {
       if (scrollController.position.atEdge) {
         if (scrollController.position.pixels != 0) {
@@ -28,7 +27,9 @@ class ProducerCubit extends RabbleBaseCubit {
     } else {
       emit(RabbleBaseState.tertiaryBusy());
     }
-    var producerRes = await producerRepo.fetchProducerList(offset,errorCallBack: () {
+    var producerRes = await producerRepo.fetchProducerList(
+        offset, PostalCodeService().postalCodeGlobalSubject.value ?? '',
+        errorCallBack: () {
       emit(RabbleBaseState.idle());
     });
     if (producerRes!.statusCode == 200) {
@@ -37,6 +38,7 @@ class ProducerCubit extends RabbleBaseCubit {
 
       if (producerRes.data!.isEmpty) {
         isEmpty = true;
+        producerListSubject$.sink.add(tempList);
       } else {
         tempList.addAll(producerRes.data!);
         producerListSubject$.sink.add(tempList);

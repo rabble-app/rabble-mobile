@@ -1,7 +1,4 @@
-
-
 import 'package:rabble/core/config/export.dart';
-
 
 enum RabbleBaseButtonIconPosition { LEFT, RIGHT }
 
@@ -36,6 +33,7 @@ enum ButtonState {
 
 abstract class RabbleSuperBaseButton extends StatelessWidget {
   late final BehaviorSubject<ButtonState> state$;
+
   RabbleSuperBaseButton({
     Key? key,
     bool? enabled,
@@ -43,7 +41,6 @@ abstract class RabbleSuperBaseButton extends StatelessWidget {
     BehaviorSubject<bool>? enabledSubject,
     BehaviorSubject<bool>? disabledSubject,
     BehaviorSubject<bool>? loadingSubject,
-
   }) : super(
           key: key,
         ) {
@@ -70,7 +67,7 @@ abstract class RabbleSuperBaseButton extends StatelessWidget {
           _enabled ? ButtonState.enabled : ButtonState.disabled);
     } else if (state$ != null) {
       this.state$ = state$;
-    }  else if (disabledSubject != null) {
+    } else if (disabledSubject != null) {
       this.state$ = BehaviorSubject.seeded(
         disabledSubject.valueOrNull == true
             ? ButtonState.disabled
@@ -120,6 +117,7 @@ abstract class RabbleBaseButton extends RabbleSuperBaseButton {
   final Widget? child;
   final Widget? icon;
   final String? label;
+
   //this is to override the label style
   final TextStyle? labelTextStyle;
   final VoidCallback? onPressed;
@@ -159,7 +157,6 @@ abstract class RabbleBaseButton extends RabbleSuperBaseButton {
           enabledSubject: enabledSubject,
           disabledSubject: disabledSubject,
           loadingSubject: loadingSubject,
-
         ) {
     if (child != null && (icon != null || label != null)) {
       throw FlutterError("Either set child or text/icon.");
@@ -184,14 +181,23 @@ abstract class RabbleBaseButton extends RabbleSuperBaseButton {
 
   TextStyle getTextTheme(BuildContext context, Color? labelColor) {
     final textTheme = RabbleTheme.of(context).textTheme;
-    if (labelTextStyle != null) return labelColor == null ? labelTextStyle! : labelTextStyle!.copyWith(color: labelColor) ;
+    if (labelTextStyle != null)
+      return labelColor == null
+          ? labelTextStyle!
+          : labelTextStyle!.copyWith(color: labelColor);
     switch (buttonSize) {
       case ButtonSize.large:
-        return textTheme.bodyLarge.copyWith(fontWeight: FontWeight.w600,color: labelColor?? APPColors.appIcons);
+        return textTheme.bodyLarge.copyWith(
+            fontWeight: FontWeight.w600,
+            color: labelColor ?? APPColors.appIcons);
       case ButtonSize.medium:
-        return textTheme.bodyMedium.copyWith(fontWeight: FontWeight.w600,color: labelColor?? APPColors.appIcons);
+        return textTheme.bodyMedium.copyWith(
+            fontWeight: FontWeight.w600,
+            color: labelColor ?? APPColors.appIcons);
       case ButtonSize.small:
-        return textTheme.bodyMedium.copyWith(fontWeight: FontWeight.w600,color: labelColor?? APPColors.appIcons);
+        return textTheme.bodyMedium.copyWith(
+            fontWeight: FontWeight.w600,
+            color: labelColor ?? APPColors.appIcons);
       default:
         throw UnimplementedError(
             'Type [ButtonSize] is not implemented here yet');
@@ -231,7 +237,7 @@ abstract class RabbleBaseButton extends RabbleSuperBaseButton {
   }
 
   Widget _loadingIndicator(BuildContext context) {
-    final theme = getButtonStyle(context,bgColor,labelColor);
+    final theme = getButtonStyle(context, bgColor, labelColor);
     return Center(
       child: FittedBox(
         fit: BoxFit.fitWidth,
@@ -239,8 +245,8 @@ abstract class RabbleBaseButton extends RabbleSuperBaseButton {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             SizedBox(
-              height: getTextTheme(context,labelColor).fontSize,
-              width: getTextTheme(context,labelColor).fontSize,
+              height: getTextTheme(context, labelColor).fontSize,
+              width: getTextTheme(context, labelColor).fontSize,
               child: CircularProgressIndicator(
                 color: theme.foregroundColor?.resolve(Set()),
               ),
@@ -251,7 +257,8 @@ abstract class RabbleBaseButton extends RabbleSuperBaseButton {
     );
   }
 
-  ButtonStyle getButtonStyle(BuildContext context, Color? bgColor,Color? labelColor);
+  ButtonStyle getButtonStyle(
+      BuildContext context, Color? bgColor, Color? labelColor);
 
   EdgeInsetsGeometry getButtonPadding(BuildContext context) {
     switch (buttonSize) {
@@ -270,7 +277,7 @@ abstract class RabbleBaseButton extends RabbleSuperBaseButton {
   Size getButtonSize(BuildContext context) {
     switch (buttonSize) {
       case ButtonSize.large:
-        return  Size.fromHeight(MediaQuery.of(context).size.height*0.07);
+        return Size.fromHeight(MediaQuery.of(context).size.height * 0.065);
       case ButtonSize.medium:
         return const Size.fromHeight(40);
       case ButtonSize.small:
@@ -295,20 +302,18 @@ abstract class RabbleBaseButton extends RabbleSuperBaseButton {
             child: SizedBox(
               height: getButtonSize(context).height,
               child: TextButton(
-
                 onPressed: makeOnPressed(context, state),
-                style: getButtonStyle(context,bgColor,labelColor),
+                style: getButtonStyle(context, bgColor, labelColor),
                 child: makeContent(context, state),
               ),
             ),
           );
         } else {
           return SizedBox(
-
             height: getButtonSize(context).height,
             child: TextButton(
               onPressed: makeOnPressed(context, state),
-              style: getButtonStyle(context,bgColor,labelColor),
+              style: getButtonStyle(context, bgColor, labelColor),
               child: makeContent(context, state),
             ),
           );

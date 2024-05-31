@@ -260,27 +260,31 @@ class CheckoutView extends StatelessWidget {
                                                             snapshot) {
                                                           return Row(
                                                             children: [
-                                                              BehaviorSubjectBuilder<double>(
-                                                                subject: bloc.totalSumRRP,
-                                                                builder: (context, rrpSnap) {
-                                                                  return RabbleText
-                                                                      .subHeaderText(
-                                                                    text:
-                                                                        DateFormatUtil.amountFormatter(double.parse(rrpSnap.data.toString())),
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600,
-                                                                    fontSize: 13.sp,
-                                                                    fontFamily:
-                                                                        cPoppins,
-                                                                    textDecoration:
-                                                                        TextDecoration
-                                                                            .lineThrough,
-                                                                    color: APPColors
-                                                                        .bg_grey27,
-                                                                  );
-                                                                }
-                                                              ),
+                                                              BehaviorSubjectBuilder<
+                                                                      double>(
+                                                                  subject: bloc
+                                                                      .totalSumRRP,
+                                                                  builder: (context,
+                                                                      rrpSnap) {
+                                                                    return RabbleText
+                                                                        .subHeaderText(
+                                                                      text: DateFormatUtil.amountFormatter(double.parse(rrpSnap
+                                                                          .data
+                                                                          .toString())),
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600,
+                                                                      fontSize:
+                                                                          13.sp,
+                                                                      fontFamily:
+                                                                          cPoppins,
+                                                                      textDecoration:
+                                                                          TextDecoration
+                                                                              .lineThrough,
+                                                                      color: APPColors
+                                                                          .bg_grey27,
+                                                                    );
+                                                                  }),
                                                               SizedBox(
                                                                   width: 3.w),
                                                               RabbleText
@@ -364,86 +368,85 @@ class CheckoutView extends StatelessWidget {
                         ),
                   bottomNavigationBar: productList.data!.isEmpty
                       ? const SizedBox.shrink()
-                      : bloc.state.secondaryBusy
-                          ? Container(
-                              width: 20.w,
-                              height: 15.h,
-                              padding: PagePadding.horizontalSymmetric(5.w),
-                              child: const Center(
-                                child: RabbleSecondaryScreenProgressIndicator(
-                                  enabled: true,
-                                ),
-                              ),
-                            )
-                          : Container(
-                              color: APPColors.appBlack,
-                              padding: PagePadding.custom(4.w, 4.w, 5.w, 5.w),
-                              child: RabbleButton.tertiaryFilled(
-                                buttonSize: ButtonSize.large,
-                                bgColor: APPColors.appPrimaryColor,
-                                onPressed: () async {
-                                  BuyingTeamCreationService()
-                                      .addTeamCreationData(mProducerId,
-                                          productList.data!.first.producerId);
+                      : Container(
+                          color: APPColors.appBlack,
+                          padding: PagePadding.custom(4.w, 4.w, 5.w, 5.w),
+                          child: RabbleButton.tertiaryFilled(
+                            buttonSize: ButtonSize.large,
+                            bgColor: APPColors.appPrimaryColor,
+                            onPressed: state.secondaryBusy
+                                ? null
+                                : () async {
+                                    BuyingTeamCreationService()
+                                        .addTeamCreationData(mProducerId,
+                                            productList.data!.first.producerId);
 
-                                  BuyingTeamCreationService().addPaymentData(
-                                      mamount, bloc.totalSum.value);
-                                  BuyingTeamCreationService()
-                                      .addPaymentData(mcurrency, "GBP");
+                                    BuyingTeamCreationService().addPaymentData(
+                                        mamount, bloc.totalSum.value);
+                                    BuyingTeamCreationService()
+                                        .addPaymentData(mcurrency, "GBP");
 
-                                  BuyingTeamCreationService()
-                                      .addTeamCreationData(mProducerName,
-                                          productList.data!.first.producerName);
+                                    BuyingTeamCreationService()
+                                        .addTeamCreationData(
+                                            mProducerName,
+                                            productList
+                                                .data!.first.producerName);
 
-                                  if (bloc.isEmpty.value) {
-                                    var tempData = await RabbleStorage
-                                        .getinivitationData();
+                                    if (bloc.isEmpty.value) {
+                                      var tempData = await RabbleStorage().getinivitationData();
 
-                                    if (tempData != null) {
-                                      InvitationData invitationData =
-                                          InvitationData.fromJson(
-                                              json.decode(tempData));
-                                      BuyingTeamCreationService()
-                                          .addTeamCreationData(
-                                              mName, invitationData.teamName);
+                                      if (tempData != null) {
+                                        InvitationData invitationData =
+                                            InvitationData.fromJson(
+                                                json.decode(tempData));
+                                        BuyingTeamCreationService()
+                                            .addTeamCreationData(
+                                                mName, invitationData.teamName);
 
-                                      BuyingTeamCreationService()
-                                          .groupNameSubject$
-                                          .sink
-                                          .add(invitationData.teamName!);
+                                        BuyingTeamCreationService()
+                                            .groupNameSubject$
+                                            .sink
+                                            .add(invitationData.teamName!);
 
-                                      BuyingTeamCreationService()
-                                          .isAuthSubject$
-                                          .add(true);
+                                        BuyingTeamCreationService()
+                                            .isAuthSubject$
+                                            .add(true);
 
-                                      BuyingTeamCreationService()
-                                          .teamIdSubject$
-                                          .sink
-                                          .add(invitationData.teamId!);
+                                        BuyingTeamCreationService()
+                                            .teamIdSubject$
+                                            .sink
+                                            .add(invitationData.teamId!);
+                                      }
+
+                                      NavigatorHelper().navigateTo(
+                                          '/select_payment_method_view');
+                                    } else {
+                                      bloc.checkTeamExist(
+                                          context,
+                                          bloc.productList.value.first
+                                              .producerName!,
+                                          bloc.productList.value.first
+                                              .producerId!);
                                     }
-
-                                    NavigatorHelper().navigateTo(
-                                        '/select_payment_method_view');
-                                  } else {
-                                    bloc.checkTeamExist(
-                                        context,
-                                        bloc.productList.value.first
-                                            .producerName!,
-                                        bloc.productList.value.first
-                                            .producerId!);
-                                  }
-                                },
-                                child: RabbleText.subHeaderText(
-                                  text: bloc.isEmpty.value
-                                      ? 'Proceed to Payment'
-                                      : kProceedCreateTeam,
-                                  fontSize: 13.sp,
-                                  fontFamily: cGosha,
-                                  color: APPColors.appBlack,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
+                                  },
+                            child: state.secondaryBusy
+                                ? const Center(
+                                    child:
+                                        RabbleSecondaryScreenProgressIndicator(
+                                      enabled: true,
+                                    ),
+                                  )
+                                : RabbleText.subHeaderText(
+                                    text: bloc.isEmpty.value
+                                        ? 'Proceed to Payment'
+                                        : kProceedCreateTeam,
+                                    fontSize: 13.sp,
+                                    fontFamily: cGosha,
+                                    color: APPColors.appBlack,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                          ),
+                        ),
                 );
               });
         });

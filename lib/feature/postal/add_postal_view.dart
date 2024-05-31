@@ -34,7 +34,9 @@ class AddPostalAddressView extends StatelessWidget {
                         ),
                         InkWell(
                           onTap: () {
-                            NavigatorHelper().pop();
+                            if(!state.secondaryBusy) {
+                              NavigatorHelper().pop();
+                            }
                           },
                           child: Container(
                             alignment: Alignment.centerLeft,
@@ -164,37 +166,35 @@ class AddPostalAddressView extends StatelessWidget {
                   initialData: false,
                   builder:
                       (BuildContext context, AsyncSnapshot<bool> snapshot) {
-                    return bloc.state.secondaryBusy
-                        ? Container(
-                            padding: PagePadding.horizontalSymmetric(5.w),
-                            margin: PagePadding.onlyTop(5.w),
-                            width: 50.w,
-                            height: 10.h,
-                            child: const Center(
-                              child: RabbleSecondaryScreenProgressIndicator(
-                                enabled: true,
-                              ),
-                            ),
-                          )
-                        : Container(
-                            margin: PagePadding.custom(4.w, 4.w, 3.w, 8.w),
-                            child: RabbleButton.tertiaryFilled(
-                              buttonSize: ButtonSize.large,
-                              bgColor: snapshot.data!
-                                  ? APPColors.appPrimaryColor
-                                  : APPColors.bg_grey25,
-                              onPressed: () async {
-                                if (snapshot.data!) {
-                                  print(type);
-                                  if (type == '0') {
-                                    bloc.updatePostalCode();
-                                  } else {
-                                    await bloc.addPostalCode(
-                                        context, data['data']);
-                                  }
-                                }
-                              },
-                              child: RabbleText.subHeaderText(
+                    return Container(
+                      margin: PagePadding.custom(4.w, 4.w, 3.w, 8.w),
+                      child: RabbleButton.tertiaryFilled(
+                        buttonSize: ButtonSize.large,
+                        bgColor: snapshot.data!
+                            ? APPColors.appPrimaryColor
+                            : APPColors.bg_grey25,
+                        onPressed: state.secondaryBusy ? null : () async {
+                          if (snapshot.data!) {
+                            print(type);
+                            if (type == '0') {
+                              bloc.updatePostalCode();
+                            } else {
+                              await bloc.addPostalCode(context, data['data']);
+                            }
+                          }
+                        },
+                        child: state.secondaryBusy
+                            ? Container(
+                                padding: PagePadding.horizontalSymmetric(5.w),
+                                width: 50.w,
+                                height: 10.h,
+                                child: const Center(
+                                  child: RabbleSecondaryScreenProgressIndicator(
+                                    enabled: true,
+                                  ),
+                                ),
+                              )
+                            : RabbleText.subHeaderText(
                                 text: kContinue,
                                 fontSize: 14.sp,
                                 fontFamily: 'Gosha',
@@ -203,8 +203,8 @@ class AddPostalAddressView extends StatelessWidget {
                                     : APPColors.bg_grey27,
                                 fontWeight: FontWeight.bold,
                               ),
-                            ),
-                          );
+                      ),
+                    );
                   }),
             ),
           );

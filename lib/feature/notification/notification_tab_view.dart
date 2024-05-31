@@ -17,7 +17,7 @@ class _NotificationTabViewState extends State<NotificationTabView> {
     // TODO: implement initState
     super.initState();
 
-    RabbleStorage.setFromNotification('0');
+    RabbleStorage().setFromNotification('0');
   }
 
   @override

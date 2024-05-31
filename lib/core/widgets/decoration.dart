@@ -87,6 +87,7 @@ class ContainerDecoration {
     return const BoxDecoration(
       border: Border(
         left: BorderSide(
+
           color: APPColors.appGreen,
           width: 1.0,
         ),

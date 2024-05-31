@@ -100,12 +100,12 @@ class AllBuyingTeamsCubit extends RabbleBaseCubit with Validators {
   }
 
   Future<void> fetchUserData() async {
-    String status = await RabbleStorage
+    String status = await RabbleStorage()
         .getLoginStatus() ??
         "0";
     if (status != '0') {
       var userData =
-      await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+      await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
       UserModel userModel = UserModel.fromJson(jsonDecode(userData));
 
       userDataSubject$.sink.add(userModel);
@@ -115,7 +115,7 @@ class AllBuyingTeamsCubit extends RabbleBaseCubit with Validators {
   Future<void> fetchMuSubscribtion() async {
     emit(RabbleBaseState.primaryBusy());
     var userData =
-        await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+        await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
     UserModel userModel = UserModel.fromJson(jsonDecode(userData));
 
     var buyingTeamRes = await buyingTeamRepo

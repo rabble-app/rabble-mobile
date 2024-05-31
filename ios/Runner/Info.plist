@@ -23,6 +23,9 @@
         <key>NSAllowsArbitraryLoads</key><true/>
     </dict>
 
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Rabble requires access to your location when opened to display nearby partners.</string>
+
     <key>NSCameraUsageDescription</key>
     <string>Rabble requires access to the camera to capture photos for profile pictures.</string>
 

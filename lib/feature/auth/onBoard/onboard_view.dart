@@ -337,7 +337,7 @@ class _StoryWidgetState extends State<StoryWidget>
                                         onPressed: () async {
                                           _animationController.stop();
 
-                                          await RabbleStorage.onBoarStatus("1");
+                                          await RabbleStorage().onBoarStatus("1");
                                           NavigatorHelper().navigateAnClearAll(
                                               '/signup_view');
                                         },
@@ -353,7 +353,7 @@ class _StoryWidgetState extends State<StoryWidget>
                                     GestureDetector(
                                       onTap: () async {
                                         _animationController.stop();
-                                        await RabbleStorage.onBoarStatus("1");
+                                        await RabbleStorage().onBoarStatus("1");
                                         NavigatorHelper()
                                             .navigateAnClearAll('/login');
                                       },

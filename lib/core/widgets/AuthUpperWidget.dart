@@ -4,14 +4,20 @@ class AuthUpperWidget extends StatelessWidget {
   final String heading, subHeading;
   final String? steps;
   final Image? image;
-  const AuthUpperWidget({Key? key, required this.heading, required this.subHeading, this.steps, this.image}) : super(key: key);
+
+  const AuthUpperWidget(
+      {Key? key,
+      required this.heading,
+      required this.subHeading,
+      this.steps,
+      this.image})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 100.w,
       height: 30.h,
-
       decoration: ContainerDecoration.boxDecoration(
           bg: APPColors.appBlack,
           border: APPColors.appBlack,
@@ -22,16 +28,13 @@ class AuthUpperWidget extends StatelessWidget {
           ShaderMask(
               shaderCallback: (Rect bounds) {
                 return LinearGradient(
-                  colors: [
-                    Colors.white,
-                    Color(0xff000000).withOpacity(0.7)
-                  ],
+                  colors: [Colors.white, Color(0xff000000).withOpacity(0.7)],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 ).createShader(bounds);
               },
               child: image),
-            Positioned(
+          Positioned(
             bottom: -2,
             left: 15,
             child: Column(
@@ -66,17 +69,20 @@ class AuthUpperWidget extends StatelessWidget {
               ],
             ),
           ),
-       steps==null? const SizedBox.shrink():   Positioned(
-            bottom: 50,
-            right: 15,
-            child: RabbleText.subHeaderText(
-            text: steps,
-            color: APPColors.appWhite,
-            fontWeight: FontWeight.w400,
-            textAlign: TextAlign.start,
-            fontFamily: cPoppins,
-            fontSize: 10.sp,
-          ),)
+          steps == null
+              ? const SizedBox.shrink()
+              : Positioned(
+                  bottom: 50,
+                  right: 15,
+                  child: RabbleText.subHeaderText(
+                    text: steps,
+                    color: APPColors.appWhite,
+                    fontWeight: FontWeight.w400,
+                    textAlign: TextAlign.start,
+                    fontFamily: cPoppins,
+                    fontSize: 10.sp,
+                  ),
+                )
         ],
       ),
     );

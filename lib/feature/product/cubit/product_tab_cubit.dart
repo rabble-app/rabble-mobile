@@ -94,7 +94,6 @@ class ProductTabCubit extends RabbleBaseCubit {
     int tq = products.fold(0,
         (previous, element) => previous + int.parse((element.qty!).toString()));
 
-    print("tq $tq");
     totalQuantity.sink.add(tq);
   }
 

@@ -185,9 +185,9 @@ class AuthCubit extends RabbleBaseCubit with Validators {
 
 
   Future<void> route() async {
-    String status = await RabbleStorage.getLoginStatus() ?? "0";
-//      String dataStatus = await RabbleStorage.getUserDataStatus() ?? "0";
-    String onBoardStatus = await RabbleStorage.getOnBoardStatus() ?? '0';
+    String status = await RabbleStorage().getLoginStatus() ?? "0";
+//      String dataStatus = await RabbleStorage().getUserDataStatus() ?? "0";
+    String onBoardStatus = await RabbleStorage().getOnBoardStatus() ?? '0';
 //      NavigatorHelper().navigateTo('/force_update');
 
     if (onBoardStatus == '0') {

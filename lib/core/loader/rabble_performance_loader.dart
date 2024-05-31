@@ -47,17 +47,13 @@ class _RabblePerformanceLoaderState extends State<RabblePerformanceLoader>
 
   @override
   void dispose() {
+    _animationController.dispose();
     super.dispose();
-    if (_animationController != null && _animationController.isAnimating) {
-      _animationController.dispose();
-    }
+
   }
 
   @override
   Widget build(BuildContext context) {
-    print("here");
-    print("map ${widget.map.toString()}");
-    print("enable ${widget.enabled}");
 
     if (widget.map['type'] == '0') {
       _animationController.stop();
@@ -164,7 +160,7 @@ class _RabblePerformanceLoaderState extends State<RabblePerformanceLoader>
                                       subHeading: kIncludingVAT,
                                       trailing: RabbleText.subHeaderText(
                                         text:
-                                            'GBP ${BuyingTeamCreationService().payDataSubject$.value[mamount]}',
+                                            'GBP £10.00',
                                         fontSize: 16.sp,
                                         fontFamily: cGosha,
                                         fontWeight: FontWeight.bold,

@@ -67,10 +67,7 @@ class ThresholdMetCustomWidget extends StatelessWidget {
                     SizedBox(
                       width: 2.w,
                     ),
-                    const Icon(
-                      Icons.warning_amber,
-                      color: APPColors.appYellow2,
-                    )
+                    Assets.svgs.danger.svg()
                   ],
                 ),
           SizedBox(
@@ -98,7 +95,7 @@ class ThresholdMetCustomWidget extends StatelessWidget {
                 ),
                 TextSpan(
                   text:
-                      '${int.parse(totalDays)<0?0:totalDays} ${int.parse(totalDays)<=1?"day ":"days "}remaining to reach $producerName’s minimum order value',
+                      '${int.parse(totalDays) < 0 ? 0 : totalDays} ${int.parse(totalDays) <= 1 ? "day " : "days "}remaining to reach $producerName’s minimum order value',
                   style: buildTextStyle(),
                 ),
               ],
@@ -239,44 +236,46 @@ class ThresholdMetWidget extends StatelessWidget {
           SizedBox(
             height: 1.h,
           ),
-          completedMilestone=='0'?
-          Text.rich(
-            TextSpan(
-              children: [
-                TextSpan(
-                  text: milestoneTowards,
-                  style: buildTextStyle().copyWith(fontWeight: FontWeight.w700),
+          completedMilestone == '0'
+              ? Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(
+                        text: milestoneTowards,
+                        style: buildTextStyle()
+                            .copyWith(fontWeight: FontWeight.w700),
+                      ),
+                      TextSpan(
+                        text: ' minimum $teamName',
+                        style: buildTextStyle(),
+                      ),
+                    ],
+                  ),
+                )
+              : Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(
+                        text: completedMilestone,
+                        style: buildTextStyle()
+                            .copyWith(fontWeight: FontWeight.w700),
+                      ),
+                      TextSpan(
+                        text: ' of ',
+                        style: buildTextStyle(),
+                      ),
+                      TextSpan(
+                        text: milestoneTowards,
+                        style: buildTextStyle()
+                            .copyWith(fontWeight: FontWeight.w700),
+                      ),
+                      TextSpan(
+                        text: ' minimum $teamName',
+                        style: buildTextStyle(),
+                      ),
+                    ],
+                  ),
                 ),
-                TextSpan(
-                  text: ' minimum $teamName',
-                  style: buildTextStyle(),
-                ),
-              ],
-            ),
-          )
-              :
-          Text.rich(
-            TextSpan(
-              children: [
-                TextSpan(
-                  text: completedMilestone,
-                  style: buildTextStyle().copyWith(fontWeight: FontWeight.w700),
-                ),
-                TextSpan(
-                  text: ' of ',
-                  style: buildTextStyle(),
-                ),
-                TextSpan(
-                  text: milestoneTowards,
-                  style: buildTextStyle().copyWith(fontWeight: FontWeight.w700),
-                ),
-                TextSpan(
-                  text: ' minimum $teamName',
-                  style: buildTextStyle(),
-                ),
-              ],
-            ),
-          ),
           SizedBox(
             height: 4.h,
           ),

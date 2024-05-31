@@ -10,6 +10,7 @@ class CreationTeamAppbar extends StatelessWidget {
   final double? leadingWidth;
   final Widget? icon;
   final String? backRoute;
+  final bool canGoBack;
 
   const CreationTeamAppbar({
     Key? key,
@@ -21,7 +22,7 @@ class CreationTeamAppbar extends StatelessWidget {
     this.backgroundColor,
     this.backRoute,
     this.hideLeading,
-    this.leadingWidth,
+    this.leadingWidth, this.canGoBack = true,
   }) : super(key: key);
 
   @override
@@ -46,9 +47,11 @@ class CreationTeamAppbar extends StatelessWidget {
                 onTap: () async {
                   if (backRoute == null) {
                     //   BuyingTeamCreationService().reset();
-                    NavigatorHelper().pop();
+                    if(canGoBack) {
+                      NavigatorHelper().pop();
+                    }
                   } else {
-                    String status = await RabbleStorage.getLoginStatus() ?? "0";
+                    String status = await RabbleStorage().getLoginStatus() ?? "0";
 
                     if (status == '1') {
                       NavigatorHelper().navigateAnClearAll('/home');

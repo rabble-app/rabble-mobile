@@ -177,25 +177,27 @@ class CartItemWidget extends StatelessWidget {
                     ],
                   ),
                 )
-              : Padding(
-                  padding: PagePadding.onlyTop(1.h),
-                  child: QuantityWidget(
-                    qty: qty.toString(),
-                    qtyCallBack: (qty) {
-                      if (productType != 'PORTIONED_SINGLE_PRODUCT') {
-                        qtyCallBack.call(qty);
-                      } else {
-                        if (thresholdQty != 0 ||
-                            int.parse(qty.toString()) < int.parse(this.qty)) {
+              : Expanded(
+                child: Padding(
+                    padding: PagePadding.onlyTop(1.h),
+                    child: QuantityWidget(
+                      qty: qty.toString(),
+                      qtyCallBack: (qty) {
+                        if (productType != 'PORTIONED_SINGLE_PRODUCT') {
                           qtyCallBack.call(qty);
+                        } else {
+                          if (thresholdQty != 0 ||
+                              int.parse(qty.toString()) < int.parse(this.qty)) {
+                            qtyCallBack.call(qty);
+                          }
                         }
-                      }
-                    },
-                    removeProduct: () {
-                      removeProduct.call();
-                    },
+                      },
+                      removeProduct: () {
+                        removeProduct.call();
+                      },
+                    ),
                   ),
-                ),
+              ),
         ],
       ),
     );

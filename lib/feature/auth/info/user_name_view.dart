@@ -30,9 +30,11 @@ class _UserNameViewState extends State<UserNameView> {
 
   @override
   Widget build(BuildContext context) {
-    var data = ModalRoute.of(context)!.settings.arguments as Map;
-    var phoneNumber = data['number'];
-    var type = data['type'];
+    Map data = ModalRoute.of(context)!.settings.arguments != null
+        ? ModalRoute.of(context)!.settings.arguments as Map
+        : {};
+    var phoneNumber = data.containsKey('number') ? data['number'] : '';
+    var type = data.containsKey('type') ? data['type'] : '';
 
     return CubitProvider<RabbleBaseState, MyRabbleAccountCubit>(
       create: (BuildContext context) => userInfoCubit,
@@ -49,7 +51,7 @@ class _UserNameViewState extends State<UserNameView> {
                 padding: EdgeInsets.zero,
                 child: Column(
                   children: [
-                     AuthUpperWidget(
+                    AuthUpperWidget(
                       heading: kYourDetails,
                       subHeading: kTellYourName,
                       image: Assets.png.detailImage.png(),
@@ -134,7 +136,8 @@ class _UserNameViewState extends State<UserNameView> {
                                     bgColor: snapshot.data!
                                         ? APPColors.appPrimaryColor
                                         : APPColors.bg_grey25,
-                                    onPressed: !snapshot.hasData
+                                    onPressed: !snapshot.hasData ||
+                                            state.secondaryBusy
                                         ? null
                                         : () async {
                                             var res = await bloc.addProfileData(
@@ -145,9 +148,12 @@ class _UserNameViewState extends State<UserNameView> {
                                                     .navigateAnClearAll(
                                                         '/home');
                                               } else {
-                                                Navigator.pushNamedAndRemoveUntil(
-                                                    context, '/add_postal_code_view', (route) => false,
-                                                    arguments: data);
+                                                Navigator
+                                                    .pushNamedAndRemoveUntil(
+                                                        context,
+                                                        '/add_postal_code_view',
+                                                        (route) => false,
+                                                        arguments: data);
                                               }
                                             }
                                           },

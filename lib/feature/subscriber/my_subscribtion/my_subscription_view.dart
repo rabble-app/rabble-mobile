@@ -142,7 +142,7 @@ class MySubscriptionsView extends StatelessWidget {
                                           .addTeamCreationData(mFrequency,
                                               data.team!.frequency!.toInt());
 
-                                      RabbleStorage.setInivitationData(
+                                      RabbleStorage().setInivitationData(
                                           json.encode(InvitationData(
                                               producerInfo: data.team!.producer,
                                               teamId: data.team!.id,

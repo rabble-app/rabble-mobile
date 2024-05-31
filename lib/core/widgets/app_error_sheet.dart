@@ -95,9 +95,9 @@ class AppErrorSheet extends StatelessWidget {
             child: GestureDetector(
               onTap: () async {
                 PostalCodeService().isSheetOpenGlobalSubject.sink.add(false);
-                String status = await RabbleStorage.getLoginStatus() ?? "0";
+                String status = await RabbleStorage().getLoginStatus() ?? "0";
                 String onBoardStatus =
-                    await RabbleStorage.getOnBoardStatus() ?? '0';
+                    await RabbleStorage().getOnBoardStatus() ?? '0';
 
                 if (onBoardStatus == '0') {
                   NavigatorHelper().navigateAnClearAll('/onboard');

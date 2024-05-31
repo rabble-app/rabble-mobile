@@ -8,7 +8,8 @@ class RabbleSecondaryScreenProgressIndicator extends StatelessWidget {
 
   const RabbleSecondaryScreenProgressIndicator({
     super.key,
-    required this.enabled, this.loaderColor,
+    required this.enabled,
+    this.loaderColor,
   });
 
   @override

@@ -22,7 +22,8 @@ class EditProfileView extends StatelessWidget {
                       backgroundColor: APPColors.bg_app_primary,
                       appBar: PreferredSize(
                           preferredSize: Size.fromHeight(9.h),
-                          child: const RabbleAppbar(
+                          child:  RabbleAppbar(
+                            canGoBack: !state.secondaryBusy,
                             backgroundColor: APPColors.bg_app_primary,
                             title: kEditProfile,
                           )),
@@ -213,12 +214,12 @@ class EditProfileView extends StatelessWidget {
                                 bgColor: snapshot.data!
                                     ? APPColors.appPrimaryColor
                                     : APPColors.bg_grey25,
-                                onPressed: !snapshot.hasData
+                                onPressed: !snapshot.hasData || state.secondaryBusy
                                     ? null
                                     : () {
                                         bloc.updateProfileData();
                                       },
-                                child: bloc.state.secondaryBusy
+                                child: state.secondaryBusy
                                     ? const RabbleSecondaryScreenProgressIndicator(
                                         enabled: true,
                                         loaderColor: APPColors.appBlack4,

@@ -1,6 +1,4 @@
 import 'package:rabble/core/config/export.dart';
-import 'package:rabble/feature/auth/login/login_modal_view.dart';
-import 'package:share_plus/share_plus.dart';
 
 class ExploreView extends StatefulWidget {
   const ExploreView({Key? key}) : super(key: key);
@@ -53,7 +51,7 @@ class _ExploreViewState extends State<ExploreView> with WidgetsBindingObserver {
                     return CubitProvider<RabbleBaseState, ExploreCubit>(
                         create: (context) => exploreCubit..fetchPostalCode(),
                         builder: (context, state, bloc) {
-                          return postalCodeSnap.data==null
+                          return postalCodeSnap.data == null
                               ? Container(
                                   color: APPColors.bgColor,
                                   child: const PostalCodeEmptyWidget())
@@ -75,16 +73,16 @@ class _ExploreViewState extends State<ExploreView> with WidgetsBindingObserver {
                                                   title: kSearch,
                                                   searchCubit: SearchCubit(),
                                                   callBack: () async {
-                                                    String status = await RabbleStorage
-                                                        .getLoginStatus() ??
-                                                        "0";
+                                                    String status =
+                                                        await RabbleStorage()
+                                                                .getLoginStatus() ??
+                                                            "0";
                                                     if (status != '0') {
                                                       NavigatorHelper().navigateTo(
                                                           '/search_product_view');
-                                                    }else {
+                                                    } else {
                                                       openLoginSheet();
                                                     }
-
                                                   },
                                                 ),
                                                 SizedBox(height: 1.5.h),
@@ -201,7 +199,7 @@ class _ExploreViewState extends State<ExploreView> with WidgetsBindingObserver {
                                                                     .sink
                                                                     .add(!shareSnapshot
                                                                         .data!);
-                                                                RabbleStorage
+                                                                RabbleStorage()
                                                                     .setStatusShareWidget(
                                                                         '1');
                                                               },
@@ -227,24 +225,6 @@ class _ExploreViewState extends State<ExploreView> with WidgetsBindingObserver {
                                                           1.h),
                                                   child: Column(
                                                     children: [
-                                                      SizedBox(
-                                                        height: 5.w,
-                                                      ),
-                                                      Container(
-                                                        margin:
-                                                            PagePadding.custom(
-                                                                3.w, 3.w, 0, 0),
-                                                        child: ViewAllWidget(
-                                                          title: sMeetTP,
-                                                          showViewAllBtn: true,
-                                                          callback: () {
-                                                            NavigatorHelper()
-                                                                .navigateTo(
-                                                                    '/producer_list_view',
-                                                                    '');
-                                                          },
-                                                        ),
-                                                      ),
                                                       Padding(
                                                         padding: PagePadding
                                                             .onlyLeft(2.w),
@@ -260,8 +240,13 @@ class _ExploreViewState extends State<ExploreView> with WidgetsBindingObserver {
                                                                   : false
                                                               : true,
                                                           showLoader: true,
+                                                          showViewAll: false,
                                                         ),
                                                       ),
+                                                      SizedBox(
+                                                        height: 4.h,
+                                                      ),
+                                                      const HubListWidget()
                                                     ],
                                                   ),
                                                 )
@@ -272,24 +257,6 @@ class _ExploreViewState extends State<ExploreView> with WidgetsBindingObserver {
                                                           1.h),
                                                   child: Column(
                                                     children: [
-                                                      SizedBox(
-                                                        height: 5.w,
-                                                      ),
-                                                      Container(
-                                                        margin:
-                                                            PagePadding.custom(
-                                                                3.w, 3.w, 0, 0),
-                                                        child: ViewAllWidget(
-                                                          title: sMeetTP,
-                                                          showViewAllBtn: true,
-                                                          callback: () {
-                                                            NavigatorHelper()
-                                                                .navigateTo(
-                                                                    '/producer_list_view',
-                                                                    '');
-                                                          },
-                                                        ),
-                                                      ),
                                                       ProducerListWidget(
                                                         cubit: ProducerCubit(),
                                                         isHorizontal:
@@ -300,6 +267,7 @@ class _ExploreViewState extends State<ExploreView> with WidgetsBindingObserver {
                                                                     : false
                                                                 : true,
                                                         showLoader: true,
+                                                        showViewAll: true,
                                                       ),
                                                       SizedBox(
                                                         height: 3.h,
@@ -324,7 +292,11 @@ class _ExploreViewState extends State<ExploreView> with WidgetsBindingObserver {
                                                         callBackIfUpdated: () {
                                                           bloc.fetchAllBuyingTeamsForPostalCode();
                                                         },
-                                                      )
+                                                      ),
+                                                      SizedBox(
+                                                        height: 4.h,
+                                                      ),
+                                                      const HubListWidget()
                                                     ],
                                                   ),
                                                 )
@@ -336,10 +308,12 @@ class _ExploreViewState extends State<ExploreView> with WidgetsBindingObserver {
                   });
             }));
   }
+
   void openLoginSheet() {
     CustomBottomSheet.showLoginViewModelSheet(context, LoginModalView(), true,
         isRemove: true);
   }
+
   Future<void> getDeepLinkData() async {
     FlutterBranchSdk.getLatestReferringParams().then((value) {
       handleDeepLinkParameters(value);

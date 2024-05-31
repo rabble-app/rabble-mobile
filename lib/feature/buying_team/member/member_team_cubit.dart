@@ -18,7 +18,7 @@ class MemberTeamCubit extends RabbleBaseCubit with Validators {
   Future<void> fetchMemberTeams() async {
     emit(RabbleBaseState.primaryBusy());
     var userData =
-        await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+        await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
     UserModel userModel = UserModel.fromJson(jsonDecode(userData));
 
     var buyingTeamRes = await buyingTeamRepo.fetchMembersTeam(userModel.id!,errorCallBack: (){
@@ -32,7 +32,7 @@ class MemberTeamCubit extends RabbleBaseCubit with Validators {
 
   Future<void> fetchUserData() async {
     var userData =
-        await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+        await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
     UserModel userModel = UserModel.fromJson(jsonDecode(userData));
     userDataSubject$.sink.add(userModel);
   }

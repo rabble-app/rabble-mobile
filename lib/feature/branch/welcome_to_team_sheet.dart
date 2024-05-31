@@ -8,7 +8,7 @@ class WelcomeToTeamSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     dbHelper.clearTeamData(data!.producerInfo!.id!);
-    RabbleStorage.setInivitationData(json.encode(data));
+    RabbleStorage().setInivitationData(json.encode(data));
     return WillPopScope(
       onWillPop: () {
         return Future.value(false);

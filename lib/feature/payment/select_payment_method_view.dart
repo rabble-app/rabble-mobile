@@ -18,6 +18,199 @@ class _SelectPaymentMethodViewState extends State<SelectPaymentMethodView>
     return CubitProvider<RabbleBaseState, PaymentCubit>(
         create: (context) => PaymentCubit(fetchMyCard: true),
         builder: (context, state, bloc) {
+          // if (state.share) {
+          //   bloc.fetchTeamDetail(context);
+          //
+          //   return BehaviorSubjectBuilder<Map>(
+          //       subject: bloc.messageSubject$,
+          //       builder: (context, snapshot) {
+          //         return RabblePerformanceLoader(
+          //           enabled: true,
+          //           map: snapshot.data!,
+          //           tryAgainCallBack: (Map data) {
+          //
+          //           },
+          //           controller: AnimationController(
+          //             vsync: this,
+          //             duration: const Duration(milliseconds: 10000),
+          //           ),
+          //           child: Scaffold(
+          //             backgroundColor: APPColors.bgColor,
+          //             body: Column(
+          //               children: [
+          //                 BehaviorSubjectBuilder<String>(
+          //                     subject:
+          //                     BuyingTeamCreationService().groupNameSubject$,
+          //                     builder: (context, snapshot) {
+          //                       return CreationTeamAppbar(
+          //                         backTitle: kPayment,
+          //                         title: snapshot.data,
+          //                         barPercentage: 6,
+          //                       );
+          //                     }),
+          //                 Expanded(
+          //                   child: Padding(
+          //                     padding: PagePadding.all(4.w),
+          //                     child: Column(
+          //                       mainAxisAlignment: MainAxisAlignment.start,
+          //                       crossAxisAlignment: CrossAxisAlignment.start,
+          //                       children: [
+          //                         SizedBox(
+          //                           height: 1.5.h,
+          //                         ),
+          //                         RabbleText.subHeaderText(
+          //                           text: kReviewPayment,
+          //                           color: APPColors.appBlack4,
+          //                           fontSize: 16.sp,
+          //                           fontWeight: FontWeight.bold,
+          //                         ),
+          //                         SizedBox(
+          //                           height: 4.h,
+          //                         ),
+          //                         Container(
+          //                           margin: const PagePadding.all(0),
+          //                           decoration:
+          //                           ContainerDecoration.boxDecoration(
+          //                               bg: Colors.transparent,
+          //                               border: APPColors.bg_grey25,
+          //                               width: 1,
+          //                               radius: 8),
+          //                           child: Column(
+          //                             children: [
+          //                               StreamBuilder<bool>(
+          //                                 stream: _over18Stream.stream,
+          //                                 initialData: true,
+          //                                 builder: (BuildContext context, s) {
+          //                                   return DeliveryItemWidget(
+          //                                     heading: kOver18,
+          //                                     trailing: Transform.scale(
+          //                                       scale: 1.2,
+          //                                       child: Switch(
+          //                                         value: s.data!,
+          //                                         inactiveThumbColor:
+          //                                         APPColors.bg_grey28,
+          //                                         inactiveTrackColor:
+          //                                         APPColors.bg_grey28,
+          //                                         activeColor:
+          //                                         APPColors.appPrimaryColor,
+          //                                         onChanged: (bool val) =>
+          //                                             toggleSwitch(s.data!),
+          //                                       ),
+          //                                     ),
+          //                                   );
+          //                                 },
+          //                               ),
+          //                               const Divider(
+          //                                 color: APPColors.bg_grey25,
+          //                                 thickness: 1,
+          //                               ),
+          //                               DeliveryItemWidget(
+          //                                 heading: kPaymentMethod,
+          //                                 trailing: Container(
+          //                                   height: 5.h,
+          //                                   width: 16.w,
+          //                                   decoration: ContainerDecoration
+          //                                       .boxDecoration(
+          //                                       bg: Colors.transparent,
+          //                                       border: APPColors.bg_grey25,
+          //                                       width: 1,
+          //                                       radius: 8),
+          //                                   child: BuyingTeamCreationService()
+          //                                       .payDataSubject$
+          //                                       .value
+          //                                       .isEmpty
+          //                                       ? const SizedBox.shrink()
+          //                                       : bloc
+          //                                       .getIconOfCard(
+          //                                       BuyingTeamCreationService()
+          //                                           .payDataSubject$
+          //                                           .value[
+          //                                       mPaymentType])
+          //                                       .svg(
+          //                                       width: 10.w,
+          //                                       height: 5.h),
+          //                                 ),
+          //                               ),
+          //                               const Divider(
+          //                                 color: APPColors.bg_grey25,
+          //                                 thickness: 1,
+          //                               ),
+          //                               Padding(
+          //                                 padding:
+          //                                 PagePadding.verticalSymmetric(
+          //                                     2.w),
+          //                                 child: DeliveryItemWidget(
+          //                                   heading: kTotalPrice,
+          //                                   subHeading: kIncludingVAT,
+          //                                   trailing: RabbleText.subHeaderText(
+          //                                     text:
+          //                                     'GBP ${DateFormatUtil.amountFormatter(BuyingTeamCreationService().payDataSubject$.value[mamount] ?? 0)}',
+          //                                     fontSize: 16.sp,
+          //                                     fontFamily: cGosha,
+          //                                     fontWeight: FontWeight.bold,
+          //                                   ),
+          //                                   isLast: true,
+          //                                 ),
+          //                               )
+          //                             ],
+          //                           ),
+          //                         ),
+          //                         SizedBox(
+          //                           height: 22.h,
+          //                         ),
+          //                         TextRichCustom(
+          //                           labelPrefix1: kAgreeToTerms,
+          //                           labelPrefix2: kTermsofUse,
+          //                           labelPrefix3: kPrivacyPolicy,
+          //                           onTap1: () {},
+          //                           onTap2: () {},
+          //                         ),
+          //                         SizedBox(
+          //                           height: 3.h,
+          //                         ),
+          //                         RabbleButton.tertiaryFilled(
+          //                           bgColor: APPColors.appPrimaryColor,
+          //                           onPressed: () {
+          //                             if (BuyingTeamCreationService()
+          //                                 .payDataSubject$
+          //                                 .value
+          //                                 .containsKey('update') &&
+          //                                 BuyingTeamCreationService()
+          //                                     .payDataSubject$
+          //                                     .value['update']) {
+          //                               bloc.chargeCardPayment(
+          //                                   BuyingTeamCreationService()
+          //                                       .payDataSubject$
+          //                                       .value,
+          //                                   true);
+          //                             } else {
+          //                               bloc.chargeCardPayment(
+          //                                   BuyingTeamCreationService()
+          //                                       .payDataSubject$
+          //                                       .value,
+          //                                   false);
+          //                             }
+          //                           },
+          //                           child: RabbleText.subHeaderText(
+          //                             text:
+          //                             'Pay (${'GBP ${BuyingTeamCreationService().payDataSubject$.value[mamount]}'})',
+          //                             fontSize: 14.sp,
+          //                             fontFamily: 'Gosha',
+          //                             color: APPColors.appBlack,
+          //                             fontWeight: FontWeight.bold,
+          //                           ),
+          //                         ),
+          //                       ],
+          //                     ),
+          //                   ),
+          //                 ),
+          //               ],
+          //             ),
+          //           ),
+          //         );
+          //       });
+          // }
+
           if (state.tertiaryBusy) {
             return BehaviorSubjectBuilder<Map>(
                 subject: bloc.messageSubject$,
@@ -74,6 +267,7 @@ class _SelectPaymentMethodViewState extends State<SelectPaymentMethodView>
                                   BuyingTeamCreationService().groupNameSubject$,
                               builder: (context, snapshot) {
                                 return CreationTeamAppbar(
+                                  canGoBack: !state.secondaryBusy,
                                   backTitle: kBackToBasket,
                                   title: snapshot.data,
                                   barPercentage: 4,
@@ -435,6 +629,8 @@ class _SelectPaymentMethodViewState extends State<SelectPaymentMethodView>
                         builder: (context, snapshot) {
                           return CreationTeamAppbar(
                             backTitle: kBackToBasket,
+                            canGoBack: !state.secondaryBusy,
+
                             title: snapshot.data,
                             barPercentage: 4,
                           );
@@ -796,12 +992,12 @@ class _SelectPaymentMethodViewState extends State<SelectPaymentMethodView>
                                           height: 2.h,
                                         ),
                                         Container(
-                                          decoration: ContainerDecoration.boxDecoration(
-                                            border: APPColors.appBlue,
-                                            bg: APPColors.bg_grey34,
-                                            width: 1,
-                                            radius: 8
-                                          ),
+                                          decoration:
+                                              ContainerDecoration.boxDecoration(
+                                                  border: APPColors.appBlue,
+                                                  bg: APPColors.bg_grey34,
+                                                  width: 1,
+                                                  radius: 8),
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: Row(
@@ -815,17 +1011,22 @@ class _SelectPaymentMethodViewState extends State<SelectPaymentMethodView>
                                                   width: 10,
                                                 ),
                                                 Container(
-                                                  width: context.allWidth*0.79,
-                                                  child: RabbleText.subHeaderText(
-                                                    text: bloc.getNextOrderDate(BuyingTeamCreationService()
-                                                        .creationDataSubject$
-                                                        .value[mFrequency] !=
-                                                        null
-                                                        ? BuyingTeamCreationService()
-                                                        .creationDataSubject$
-                                                        .value[mFrequency] ??
-                                                        ''
-                                                        : 0),
+                                                  width:
+                                                      context.allWidth * 0.79,
+                                                  child:
+                                                      RabbleText.subHeaderText(
+                                                    text: bloc.getNextOrderDate(
+                                                        BuyingTeamCreationService()
+                                                                        .creationDataSubject$
+                                                                        .value[
+                                                                    mFrequency] !=
+                                                                null
+                                                            ? BuyingTeamCreationService()
+                                                                        .creationDataSubject$
+                                                                        .value[
+                                                                    mFrequency] ??
+                                                                ''
+                                                            : 0),
                                                     textAlign: TextAlign.start,
                                                     fontFamily: cPoppins,
                                                     fontWeight: FontWeight.w500,
@@ -868,31 +1069,31 @@ class _SelectPaymentMethodViewState extends State<SelectPaymentMethodView>
                     ? BehaviorSubjectBuilder<CardData>(
                         subject: bloc.paymentMethodSelectedSubject$,
                         builder: (context, snapshot) {
-                          return bloc.state.secondaryBusy
-                              ? Container(
-                                  width: 20.w,
-                                  height: 15.h,
-                                  padding: PagePadding.horizontalSymmetric(5.w),
-                                  child: const Center(
-                                    child:
-                                        RabbleSecondaryScreenProgressIndicator(
-                                      enabled: true,
-                                    ),
-                                  ),
-                                )
-                              : Container(
-                                  margin: PagePadding.all(4.w),
-                                  child: RabbleButton.tertiaryFilled(
-                                    bgColor: snapshot.hasData
-                                        ? APPColors.appPrimaryColor
-                                        : APPColors.bg_grey25,
-                                    onPressed: () {
-                                      if (bloc.deadlineCountSubject$.value <=
-                                          0) {
-                                        bloc.uploadBasketForNewUser();
-                                      }
-                                    },
-                                    child: RabbleText.subHeaderText(
+                          return Container(
+                            margin: PagePadding.all(4.w),
+                            child: RabbleButton.tertiaryFilled(
+                              bgColor: snapshot.hasData
+                                  ? APPColors.appPrimaryColor
+                                  : APPColors.bg_grey25,
+                              onPressed: state.secondaryBusy? null :  () {
+                                if (bloc.deadlineCountSubject$.value <= 0) {
+                                  bloc.uploadBasketForNewUser();
+                                }
+                              },
+                              child: state.secondaryBusy
+                                  ? Container(
+                                      width: 20.w,
+                                      height: 15.h,
+                                      padding:
+                                          PagePadding.horizontalSymmetric(5.w),
+                                      child: const Center(
+                                        child:
+                                            RabbleSecondaryScreenProgressIndicator(
+                                          enabled: true,
+                                        ),
+                                      ),
+                                    )
+                                  : RabbleText.subHeaderText(
                                       text: kContinue,
                                       fontSize: 14.sp,
                                       fontFamily: 'Gosha',
@@ -901,8 +1102,8 @@ class _SelectPaymentMethodViewState extends State<SelectPaymentMethodView>
                                           : APPColors.bg_grey27,
                                       fontWeight: FontWeight.bold,
                                     ),
-                                  ),
-                                );
+                            ),
+                          );
                         })
                     : BehaviorSubjectBuilder<CardData>(
                         subject: bloc.paymentMethodSelectedSubject$,
@@ -935,5 +1136,16 @@ class _SelectPaymentMethodViewState extends State<SelectPaymentMethodView>
                         }));
           }
         });
+  }
+
+  final StreamController<bool> _over18Stream =
+      StreamController<bool>.broadcast();
+
+  dynamic toggleSwitch(bool val) {
+    if (val) {
+      _over18Stream.sink.add(false);
+    } else {
+      _over18Stream.sink.add(true);
+    }
   }
 }

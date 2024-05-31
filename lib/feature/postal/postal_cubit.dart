@@ -24,10 +24,10 @@ class PostalCubit extends RabbleBaseCubit with Validators {
   BehaviorSubject<UserModel> userModelSubject$ = BehaviorSubject<UserModel>();
 
   Future<void> fetchPostalCode() async {
-    String status = await RabbleStorage.getLoginStatus() ?? "0";
+    String status = await RabbleStorage().getLoginStatus() ?? "0";
     if (status != '0') {
-      var data = await RabbleStorage.retrieveDynamicValue(
-          RabbleStorage.userKey);
+      var data = await RabbleStorage().retrieveDynamicValue(
+          RabbleStorage().userKey);
       Map<String, dynamic> response = json.decode(data.toString().trim());
 
       UserModel userData = UserModel.fromJson(response);
@@ -53,15 +53,15 @@ class PostalCubit extends RabbleBaseCubit with Validators {
 
     if (addressRes!.status == 200) {
       UserModel userData = UserModel.fromJson(addressRes.data);
-      await RabbleStorage.storePostalCode(userData.postalCode!);
+      await RabbleStorage().storePostalCode(userData.postalCode!);
       PostalCodeService()
           .postalCodeGlobalSubject
           .sink
           .add(userData.postalCode!);
       emit(RabbleBaseState.changePostalCode());
 
-      await RabbleStorage.storeDynamicValue(
-          RabbleStorage.userKey, jsonEncode(userData));
+      await RabbleStorage().storeDynamicValue(
+          RabbleStorage().userKey, jsonEncode(userData));
       PostalCodeService().ispostalCodeChangedGlobalSubject.sink.add(true);
 
       globalBloc.postalCodeChanged.sink.add(true);
@@ -83,14 +83,14 @@ class PostalCubit extends RabbleBaseCubit with Validators {
 
     if (addressRes!.status == 200) {
       UserModel userData = UserModel.fromJson(addressRes.data);
-      await RabbleStorage.storePostalCode(userData.postalCode!);
+      await RabbleStorage().storePostalCode(userData.postalCode!);
       PostalCodeService()
           .postalCodeGlobalSubject
           .sink
           .add(userData.postalCode!);
 
-      await RabbleStorage.storeDynamicValue(
-          RabbleStorage.userKey, jsonEncode(userData));
+      await RabbleStorage().storeDynamicValue(
+          RabbleStorage().userKey, jsonEncode(userData));
 
       Map<String, dynamic> body = {
         'userId': userData.id,

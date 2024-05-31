@@ -26,7 +26,9 @@ class EditFrequencyView extends StatelessWidget {
                       ),
                       InkWell(
                         onTap: () {
-                          NavigatorHelper().pop();
+                          if(!state.secondaryBusy) {
+                            NavigatorHelper().pop();
+                          }
                         },
                         child: Container(
                           alignment: Alignment.centerLeft,
@@ -117,71 +119,75 @@ class EditFrequencyView extends StatelessWidget {
                             initialData: false,
                             builder: (BuildContext context,
                                 AsyncSnapshot<bool> snapshot) {
-                              return bloc.state.secondaryBusy
-                                  ? Container(
-                                      padding:
-                                          PagePadding.horizontalSymmetric(5.w),
-                                      margin: PagePadding.onlyTop(5.w),
-                                      child: const Center(
-                                        child:
-                                            RabbleSecondaryScreenProgressIndicator(
-                                          enabled: true,
-                                        ),
-                                      ),
-                                    )
-                                  : Container(
+                              return Container(
                                       margin: PagePadding.custom(0, 0, 4.w, 0),
                                       child: RabbleButton.tertiaryFilled(
                                         buttonSize: ButtonSize.large,
                                         bgColor: snapshot.data!
                                             ? APPColors.appPrimaryColor
                                             : APPColors.bg_grey25,
-                                        onPressed: () async {
-                                          if (snapshot.data!) {
-                                            Map<String, dynamic> body = {
-                                              'frequency': int.parse(bloc
-                                                  .frequencySelectedUpdateSubject$
-                                                  .value
-                                                  .frequecnyEpoch!)
-                                            };
-
-                                            var res = await bloc.updateTeamData(
-                                                teamData['teamId']!, body);
-
-                                            var res2 =
-                                                await bloc.updateTeamData(
-                                                    teamData['teamId']!,
-                                                    {
-                                                      'description': bloc
-                                                          .getHintPersonalization(
-                                                              teamData[
-                                                                  'producerName'],
-                                                              int.parse(bloc
-                                                                  .frequencySelectedUpdateSubject$
-                                                                  .value
-                                                                  .frequecnyEpoch!))
-                                                    },
-                                                    same: true);
-
-                                            if (res) {
-                                              Map data = {
-                                                'freequnecy': int.parse(bloc
-                                                    .frequencySelectedUpdateSubject$
-                                                    .value
-                                                    .frequecnyEpoch!),
-                                                'desc': bloc.getHintPersonalization(
-                                                    teamData['producerName'],
-                                                    int.parse(bloc
+                                        onPressed: state.secondaryBusy
+                                            ? null
+                                            : () async {
+                                                if (snapshot.data!) {
+                                                  Map<String, dynamic> body = {
+                                                    'frequency': int.parse(bloc
                                                         .frequencySelectedUpdateSubject$
                                                         .value
-                                                        .frequecnyEpoch!))
-                                              };
-                                              NavigatorHelper()
-                                                  .pop(result: data);
-                                            }
-                                          }
-                                        },
-                                        child: RabbleText.subHeaderText(
+                                                        .frequecnyEpoch!)
+                                                  };
+
+                                                  var res =
+                                                      await bloc.updateTeamData(
+                                                          teamData['teamId']!,
+                                                          body);
+
+                                                  var res2 =
+                                                      await bloc.updateTeamData(
+                                                          teamData['teamId']!,
+                                                          {
+                                                            'description': bloc
+                                                                .getHintPersonalization(
+                                                                    teamData[
+                                                                        'producerName'],
+                                                                    int.parse(bloc
+                                                                        .frequencySelectedUpdateSubject$
+                                                                        .value
+                                                                        .frequecnyEpoch!))
+                                                          },
+                                                          same: true);
+
+                                                  if (res) {
+                                                    Map data = {
+                                                      'freequnecy': int.parse(bloc
+                                                          .frequencySelectedUpdateSubject$
+                                                          .value
+                                                          .frequecnyEpoch!),
+                                                      'desc': bloc.getHintPersonalization(
+                                                          teamData[
+                                                              'producerName'],
+                                                          int.parse(bloc
+                                                              .frequencySelectedUpdateSubject$
+                                                              .value
+                                                              .frequecnyEpoch!))
+                                                    };
+                                                    NavigatorHelper()
+                                                        .pop(result: data);
+                                                  }
+                                                }
+                                              },
+                                        child: state.secondaryBusy
+                                            ? Container(
+                                          padding:
+                                          PagePadding.horizontalSymmetric(5.w),
+                                          child: const Center(
+                                            child:
+                                            RabbleSecondaryScreenProgressIndicator(
+                                              enabled: true,
+                                            ),
+                                          ),
+                                        )
+                                            :  RabbleText.subHeaderText(
                                           text: kSaveUpdate,
                                           fontSize: 14.sp,
                                           fontFamily: 'Gosha',

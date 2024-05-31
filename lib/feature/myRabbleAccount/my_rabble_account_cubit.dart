@@ -61,7 +61,7 @@ class MyRabbleAccountCubit extends RabbleBaseCubit with Validators {
   Future<void> fetchMyData() async {
     emit(RabbleBaseState.primaryBusy());
     var userData =
-        await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+        await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
     if (userData != null) {
       UserModel userModel = UserModel.fromJson(jsonDecode(userData));
       _emailC.sink.add(userModel.email ?? '');
@@ -97,7 +97,7 @@ class MyRabbleAccountCubit extends RabbleBaseCubit with Validators {
 
     late ProfilePictureModel? profileUpdateRes;
     var userData =
-        await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+        await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
     UserModel userModel = UserModel.fromJson(jsonDecode(userData));
     if (selectedImageSubject$.hasValue) {
       File? file = await selectedImageSubject$.value;
@@ -136,8 +136,8 @@ class MyRabbleAccountCubit extends RabbleBaseCubit with Validators {
         });
 
     if (updateRes!.status == 200) {
-      await RabbleStorage.storeDynamicValue(
-          RabbleStorage.userKey, jsonEncode(updateRes.data));
+      await RabbleStorage().storeDynamicValue(
+          RabbleStorage().userKey, jsonEncode(updateRes.data));
       NavigatorHelper().pop();
     }
 
@@ -161,8 +161,8 @@ class MyRabbleAccountCubit extends RabbleBaseCubit with Validators {
 
     if (updateRes!.status == 200) {
       UserModel userData = UserModel.fromJson(updateRes.data);
-      await RabbleStorage.storeDynamicValue(
-          RabbleStorage.userKey, jsonEncode(userData));
+      await RabbleStorage().storeDynamicValue(
+          RabbleStorage().userKey, jsonEncode(userData));
       return true;
     }
     emit(RabbleBaseState.idle());
@@ -194,7 +194,7 @@ class MyRabbleAccountCubit extends RabbleBaseCubit with Validators {
     emit(RabbleBaseState.primaryBusy());
 
     var userData =
-        await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+        await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
     UserModel userModel = UserModel.fromJson(jsonDecode(userData));
 
     NotificationModel? res = await userRepo.fetchMyNotifications(

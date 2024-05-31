@@ -49,46 +49,84 @@ class ProducerListWidget extends StatelessWidget {
                             return const ProducerItemShimmer();
                           });
                 }
+                if (snapshot.data!.isEmpty) return const Empty();
 
                 return !isHorizontal
-                    ? Container(
-                        height: context.allHeight * 0.40,
-                        child: ListView.builder(
-                            itemCount: snapshot.data!.length,
-                            physics: const ClampingScrollPhysics(),
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              var data = snapshot.data![index];
-                              return ProducerItemWidget(
-                                producerDetail: data,
-                              );
-                            }),
-                      )
-                    : Column(
-                      children: [
-                        ListView.builder(
+                    ? Column(
+                        children: [
+                          SizedBox(
+                            height: 5.w,
+                          ),
+                          if (showViewAll! && snapshot.data!.isNotEmpty)
+                            Container(
+                              margin: PagePadding.custom(3.w, 3.w, 0, 0),
+                              child: ViewAllWidget(
+                                title: sMeetTP,
+                                showViewAllBtn: true,
+                                callback: () {
+                                  NavigatorHelper()
+                                      .navigateTo('/producer_list_view', '');
+                                },
+                              ),
+                            ),
+                          SizedBox(
+                            height: context.allHeight * 0.40,
+                            child: ListView.builder(
                                 itemCount: snapshot.data!.length,
-                                scrollDirection: Axis.vertical,
-                                shrinkWrap: true,
-                                padding: isHorizontal && showLoader!
-                                    ? EdgeInsets.zero
-                                    : PagePadding.onlyRight(3.w),
-                                physics: const NeverScrollableScrollPhysics(),
+                                physics: const ClampingScrollPhysics(),
+                                scrollDirection: Axis.horizontal,
                                 itemBuilder: (context, index) {
+                                  var data = snapshot.data![index];
                                   return ProducerItemWidget(
-                                    producerDetail: snapshot.data![index],
+                                    producerDetail: data,
                                   );
                                 }),
-                        if(state.tertiaryBusy)
-                              Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Container(
-                             transform: Matrix4.translationValues(0, -6.h, 0),
-                              child: const RabbleSecondaryScreenProgressIndicator(
-                                  enabled: true),
-                            ))
-                      ],
-                    );
+                          ),
+                        ],
+                      )
+                    : Column(
+                        children: [
+                          if(showViewAll!)
+                          Container(
+                            margin:
+                            PagePadding.custom(
+                                3.w, 3.w, 0, 0),
+                            child: ViewAllWidget(
+                              title: sMeetTP,
+                              showViewAllBtn: true,
+                              callback: () {
+                                NavigatorHelper()
+                                    .navigateTo(
+                                    '/producer_list_view',
+                                    '');
+                              },
+                            ),
+                          ),
+                          ListView.builder(
+                              itemCount: snapshot.data!.length,
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              padding: isHorizontal && showLoader!
+                                  ? EdgeInsets.zero
+                                  : PagePadding.onlyRight(3.w),
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                return ProducerItemWidget(
+                                  producerDetail: snapshot.data![index],
+                                );
+                              }),
+                          if (state.tertiaryBusy)
+                            Align(
+                                alignment: Alignment.bottomCenter,
+                                child: Container(
+                                  transform:
+                                      Matrix4.translationValues(0, -6.h, 0),
+                                  child:
+                                      const RabbleSecondaryScreenProgressIndicator(
+                                          enabled: true),
+                                ))
+                        ],
+                      );
               });
         });
   }

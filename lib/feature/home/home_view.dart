@@ -67,7 +67,7 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
                                       PostCodeWidget(
                                         callBack: () async {
                                           String status = await RabbleStorage
-                                                  .getLoginStatus() ??
+                                            ().getLoginStatus() ??
                                               "0";
                                           if (status != '0') {
                                             NavigatorHelper().navigateTo(
@@ -92,7 +92,7 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
                                               callBack: () async {
                                                 String status =
                                                     await RabbleStorage
-                                                            .getLoginStatus() ??
+                                                      ().getLoginStatus() ??
                                                         "0";
                                                 if (status != '0') {
                                                   NavigatorHelper().navigateTo(
@@ -126,7 +126,7 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
 
                                                       String status =
                                                           await RabbleStorage
-                                                                  .getLoginStatus() ??
+                                                            ().getLoginStatus() ??
                                                               "0";
                                                       if (status != '0') {
                                                         NavigatorHelper()
@@ -168,7 +168,7 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
                           currentIndex: snapshot.data!,
                           onTap: (i) async {
                             String status =
-                                await RabbleStorage.getLoginStatus() ?? '0';
+                                await RabbleStorage().getLoginStatus() ?? '0';
                             if (status != '0') {
                               bloc.selectedIndex$.sink.add(i);
                             } else if (i != 0) {

@@ -24,6 +24,7 @@ class _AllCardViewState extends State<AllCardView>
             appBar: PreferredSize(
                 preferredSize: Size.fromHeight(8.h),
                 child: RabbleAppbar(
+                  canGoBack: !state.secondaryBusy,
                   leadingWidth: 25.w,
                   title: kManageYourCard,
                 )),
@@ -431,7 +432,7 @@ class _AllCardViewState extends State<AllCardView>
               child: RabbleButton.tertiaryFilled(
                 buttonSize: ButtonSize.large,
                 bgColor: APPColors.appPrimaryColor,
-                onPressed: () async {
+                onPressed: state.secondaryBusy? null : () async {
                   NavigatorHelper()
                       .navigateTo('/add_payment_view')
                       .then((value) {

@@ -1,6 +1,4 @@
 import 'package:rabble/core/config/export.dart';
-import 'package:rabble/core/GlobalVariable.dart';
-import 'package:upgrader/upgrader.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -10,7 +8,6 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-
   @override
   void initState() {
     // TODO: implement initState
@@ -34,8 +31,8 @@ class _AppState extends State<App> {
             themeMode: ThemeMode.dark,
             debugShowCheckedModeBanner: false,
             title: 'Rabble',
-            builder: (context, child) => DefaultTextStyle(
-              style: Theme.of(context).textTheme.bodyText1!,
+            builder: (BuildContext context, Widget? child) => DefaultTextStyle(
+              style: Theme.of(context).textTheme.bodyMedium!,
               child: Scaffold(resizeToAvoidBottomInset: false, body: child),
             ),
             navigatorKey: NavigatorHelper.navigatorKey,
@@ -55,6 +52,4 @@ class _AppState extends State<App> {
   Future<void> init() async {
     await RepositoryBarrel().initializeAll();
   }
-
-
 }

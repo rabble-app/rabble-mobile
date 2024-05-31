@@ -4,9 +4,6 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:rabble/core/config/export.dart';
 import 'package:upgrader/upgrader.dart';
 
-
-
-
 // Steps to go on production
 
 // 1 : uncomment kStripeReleasePublishKey key.
@@ -31,8 +28,7 @@ void main() async {
 
   await Stripe.instance.applySettings();
 
-  await FlutterBranchSdk.init(
-      useTestKey: false, enableLogging: true, disableTracking: false);
+  await FlutterBranchSdk.init(enableLogging: true, disableTracking: false);
 
   //  FlutterBranchSdk.validateSDKIntegration();
 
@@ -102,7 +98,7 @@ Future<void> loadImage(ImageProvider provider) {
 }
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  RabbleStorage.setFromNotification('1');
+  RabbleStorage().setFromNotification('1');
   NavigatorHelper().navigateTo('/splash');
 }
 
@@ -127,7 +123,6 @@ Future<String> getForceVersion() async {
 // 'assets/icon_info.svg',
 // 'assets/icon_link.svg',
 // ]);
-
 
 // Future<void> preloadSVGs(List<String> assetPaths) async {
 //   for (final path in assetPaths) {

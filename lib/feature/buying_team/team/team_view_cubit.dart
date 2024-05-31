@@ -6,7 +6,9 @@ import '../../../domain/entities/RequestSendModel.dart';
 
 class TeamViewCubit extends RabbleBaseCubit with Validators {
   TeamViewCubit({required this.teamId}) : super(RabbleBaseState.idle()) {
-    fetchTeamDetail();
+    if (teamId.isNotEmpty) {
+      fetchTeamDetail();
+    }
   }
 
   BehaviorSubject<TeamData> teamDataSubject$ = BehaviorSubject<TeamData>();
@@ -19,7 +21,6 @@ class TeamViewCubit extends RabbleBaseCubit with Validators {
 
   BehaviorSubject<RequestSendData> isMyRequest =
       BehaviorSubject<RequestSendData>();
-
 
   BehaviorSubject<bool> isUpdate = BehaviorSubject<bool>.seeded(false);
 
@@ -35,7 +36,7 @@ class TeamViewCubit extends RabbleBaseCubit with Validators {
     });
     if (fetchTeamRes!.statusCode == 200 && fetchTeamRes.data != null) {
       var userData =
-          await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+          await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
       UserModel userModel = userData != null
           ? UserModel.fromJson(jsonDecode(userData))
           : UserModel(id: '-1');
@@ -68,7 +69,7 @@ class TeamViewCubit extends RabbleBaseCubit with Validators {
 
   Future<void> fetchCurrentOrderData() async {
     var userData =
-        await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+        await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
     UserModel userModel = userData != null
         ? UserModel.fromJson(jsonDecode(userData))
         : UserModel(id: '-1');
@@ -77,7 +78,7 @@ class TeamViewCubit extends RabbleBaseCubit with Validators {
         await buyingTeamRepo.fetchCurrentOrderDetail(teamId, errorCallBack: () {
       emit(RabbleBaseState.idle());
     });
-    if (fetchTeamRes!.statusCode == 200) {
+    if (fetchTeamRes!.statusCode == 200 && fetchTeamRes.data != null) {
       currentOrderSubject$.sink.add(fetchTeamRes.data!);
 
       if (fetchTeamRes.data!.partionedProducts != null &&
@@ -103,17 +104,7 @@ class TeamViewCubit extends RabbleBaseCubit with Validators {
           t.add(tempList);
           allTempBoxList.sink.add(t);
         }
-
-        print(' Size ${allTempBoxList.value.length}');
       }
-
-      for (int l = 0; l < allTempBoxList.value.length; l++) {
-        for (int m = 0; m < allTempBoxList.value[l].length; m++) {
-          print('L $l and M $m element ${allTempBoxList.value[l][m].userName}');
-        }
-      }
-
-//      purchasedUserListSubject$.sink.add(tempList);
     }
     emit(RabbleBaseState.idle());
   }
@@ -130,6 +121,28 @@ class TeamViewCubit extends RabbleBaseCubit with Validators {
       feature: 'Share',
       channel: 'Rabble app',
       campaign: 'Invitation for team.',
+    );
+
+    final generatedLink = await FlutterBranchSdk.getShortUrl(
+        linkProperties: branchLinkProperties, buo: branchUniversalObject);
+
+    print('Generated deep link: ${generatedLink.result.toString()}');
+
+    return generatedLink.result.toString();
+  }
+
+  Future<String> generateDeepLinkForProducer(ProducerDetail teamData) async {
+    final branchUniversalObject = BranchUniversalObject(
+        canonicalIdentifier: teamData.id ?? '',
+        title: teamData.businessName ?? '',
+        imageUrl: teamData.imageUrl ?? '',
+        contentDescription: teamData.description ?? '',
+        keywords: ['producer_share']);
+
+    final branchLinkProperties = BranchLinkProperties(
+      feature: 'Share Producer',
+      channel: 'Rabble app',
+      campaign: 'Share producer.',
     );
 
     final generatedLink = await FlutterBranchSdk.getShortUrl(
@@ -227,9 +240,9 @@ class TeamViewCubit extends RabbleBaseCubit with Validators {
   }
 
   bool showMembers(TeamData teamData) {
-
     return teamData.members!.isNotEmpty &&
-        teamData.members!.any((Members element) => element.userId == teamData.hostId);
+        teamData.members!
+            .any((Members element) => element.userId == teamData.hostId);
   }
 
   getMyOrder(List<Basket> list, String? id) {
@@ -239,4 +252,5 @@ class TeamViewCubit extends RabbleBaseCubit with Validators {
   bool getQuantity(List<Basket> list, String? userId) {
     return list
         .any((element) => element.quantity! > 0 && userId == element.userId);
-  }}
+  }
+}

@@ -35,7 +35,9 @@ class CreateGroupNameView extends StatelessWidget {
                               ),
                               InkWell(
                                 onTap: () {
-                                  NavigatorHelper().pop();
+                                  if(!state.secondaryBusy) {
+                                    NavigatorHelper().pop();
+                                  }
                                 },
                                 child: Container(
                                   alignment: Alignment.centerLeft,
@@ -182,57 +184,53 @@ class CreateGroupNameView extends StatelessWidget {
                   initialData: '',
                   builder:
                       (BuildContext context, AsyncSnapshot<String> snapshot) {
-                    return bloc.state.secondaryBusy
-                        ? Container(
-                            width: 20.w,
-                            height: 15.h,
-                            padding: PagePadding.horizontalSymmetric(5.w),
-                            child: const Center(
-                              child: RabbleSecondaryScreenProgressIndicator(
-                                enabled: true,
-                              ),
-                            ),
-                          )
-                        : Container(
-                            margin: PagePadding.custom(0, 0, 4.w, 5.w),
-                            width: 20.w,
-                            padding: PagePadding.custom(4.w, 4.w, 5.w, 5.w),
-                            child: RabbleButton.tertiaryFilled(
-                              buttonSize: ButtonSize.large,
-                              bgColor: snapshot.data!.isNotEmpty
-                                  ? APPColors.appPrimaryColor
-                                  : APPColors.bg_grey25,
-                              onPressed: () async {
-                                bool teamExist = await bloc.checkTeamNameExist();
+                    return Container(
+                      margin: PagePadding.custom(0, 0, 4.w, 5.w),
+                      width: 20.w,
+                      padding: PagePadding.custom(4.w, 4.w, 5.w, 5.w),
+                      child: RabbleButton.tertiaryFilled(
+                        buttonSize: ButtonSize.large,
+                        bgColor: snapshot.data!.isNotEmpty
+                            ? APPColors.appPrimaryColor
+                            : APPColors.bg_grey25,
+                        onPressed: state.secondaryBusy? null : () async {
+                          bool teamExist = await bloc.checkTeamNameExist();
 
-                                if (!teamExist) {
-                                  if (isEdit != null && isEdit!) {
-                                    Map<String, dynamic> body = {
-                                      'name': bloc.groupController.text
-                                    };
+                          if (!teamExist) {
+                            if (isEdit != null && isEdit!) {
+                              Map<String, dynamic> body = {
+                                'name': bloc.groupController.text
+                              };
 
-                                    var res = await bloc.updateTeamData(
-                                        teamId!, body);
-                                    if (res) {
-                                      NavigatorHelper().pop(
-                                          result: bloc.groupController.text);
-                                    }
-                                  } else {
-                                    if (snapshot.data!.isNotEmpty) {
-                                      BuyingTeamCreationService()
-                                          .addTeamCreationData(
-                                              mName, snapshot.data!);
+                              var res =
+                                  await bloc.updateTeamData(teamId!, body);
+                              if (res) {
+                                NavigatorHelper()
+                                    .pop(result: bloc.groupController.text);
+                              }
+                            } else {
+                              if (snapshot.data!.isNotEmpty) {
+                                BuyingTeamCreationService()
+                                    .addTeamCreationData(mName, snapshot.data!);
 
-                                      NavigatorHelper()
-                                          .navigateTo('/choose_frequency_view',
-                                              producerName)
-                                          .then((value) =>
-                                              _focusNode.requestFocus());
-                                    }
-                                  }
-                                }
-                              },
-                              child: RabbleText.subHeaderText(
+                                NavigatorHelper()
+                                    .navigateTo(
+                                        '/choose_frequency_view', producerName)
+                                    .then((value) => _focusNode.requestFocus());
+                              }
+                            }
+                          }
+                        },
+                        child: state.secondaryBusy
+                            ? Container(
+                                padding: PagePadding.horizontalSymmetric(5.w),
+                                child: const Center(
+                                  child: RabbleSecondaryScreenProgressIndicator(
+                                    enabled: true,
+                                  ),
+                                ),
+                              )
+                            : RabbleText.subHeaderText(
                                 text: isEdit != null && isEdit!
                                     ? kSaveUpdate
                                     : kContinue,
@@ -243,8 +241,8 @@ class CreateGroupNameView extends StatelessWidget {
                                     : APPColors.bg_grey27,
                                 fontWeight: FontWeight.bold,
                               ),
-                            ),
-                          );
+                      ),
+                    );
                   }),
             ),
           );

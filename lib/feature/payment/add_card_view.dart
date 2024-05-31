@@ -1,8 +1,8 @@
 import 'package:flutter_stripe/flutter_stripe.dart' as stripe;
 import 'package:rabble/core/config/export.dart';
 
-class AddPaymentView extends StatelessWidget {
-  AddPaymentView({Key? key}) : super(key: key);
+class AddNewCardView extends StatelessWidget {
+  AddNewCardView({super.key});
 
   final StreamController<bool> _over18Stream =
       StreamController<bool>.broadcast();
@@ -38,7 +38,9 @@ class AddPaymentView extends StatelessWidget {
                         ),
                         InkWell(
                           onTap: () {
-                            NavigatorHelper().pop();
+                            if(!state.secondaryBusy) {
+                              NavigatorHelper().pop();
+                            }
                           },
                           child: Container(
                             alignment: Alignment.centerLeft,
@@ -226,12 +228,13 @@ class AddPaymentView extends StatelessWidget {
                                           child: Checkbox(
                                             value: primaryCardSnapshot.data,
                                             onChanged: (bool? newValue) {
-                                              bloc.markPrimaryCardSubject$.sink.add(newValue!);
+                                              bloc.markPrimaryCardSubject$.sink
+                                                  .add(newValue!);
                                             },
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(4),
-                                              side:  BorderSide(
+                                              side: BorderSide(
                                                 color: primaryCardSnapshot.data!
                                                     ? APPColors.appBlack
                                                     : APPColors.bg_grey25,
@@ -287,28 +290,17 @@ class AddPaymentView extends StatelessWidget {
                                   initialData: false,
                                   builder: (BuildContext context,
                                       AsyncSnapshot<bool> snapshot) {
-                                    return bloc.state.secondaryBusy
-                                        ? Container(
-                                            padding:
-                                                PagePadding.horizontalSymmetric(
-                                                    5.w),
-                                            margin: PagePadding.onlyTop(5.w),
-                                            child: const Center(
-                                              child:
-                                                  RabbleSecondaryScreenProgressIndicator(
-                                                enabled: true,
-                                              ),
-                                            ),
-                                          )
-                                        : Container(
-                                            margin: PagePadding.custom(
-                                                0, 0, 4.w, 5.w),
-                                            child: RabbleButton.tertiaryFilled(
-                                              buttonSize: ButtonSize.large,
-                                              bgColor: snapshot.data!
-                                                  ? APPColors.appPrimaryColor
-                                                  : APPColors.bg_grey25,
-                                              onPressed: () async {
+                                    return Container(
+                                      margin:
+                                          PagePadding.custom(0, 0, 4.w, 5.w),
+                                      child: RabbleButton.tertiaryFilled(
+                                        buttonSize: ButtonSize.large,
+                                        bgColor: snapshot.data!
+                                            ? APPColors.appPrimaryColor
+                                            : APPColors.bg_grey25,
+                                        onPressed: state.secondaryBusy
+                                            ? null
+                                            : () async {
                                                 if (snapshot.data!) {
                                                   var date = bloc
                                                       .expirySubject$.value
@@ -325,7 +317,18 @@ class AddPaymentView extends StatelessWidget {
                                                       stripePaymentMethodId);
                                                 }
                                               },
-                                              child: RabbleText.subHeaderText(
+                                        child: state.secondaryBusy
+                                            ? Container(
+                                                padding: PagePadding
+                                                    .horizontalSymmetric(5.w),
+                                                child: const Center(
+                                                  child:
+                                                      RabbleSecondaryScreenProgressIndicator(
+                                                    enabled: true,
+                                                  ),
+                                                ),
+                                              )
+                                            : RabbleText.subHeaderText(
                                                 text: kAddNewCard,
                                                 fontSize: 14.sp,
                                                 fontFamily: 'Gosha',
@@ -334,8 +337,8 @@ class AddPaymentView extends StatelessWidget {
                                                     : APPColors.bg_grey27,
                                                 fontWeight: FontWeight.bold,
                                               ),
-                                            ),
-                                          );
+                                      ),
+                                    );
                                   }),
                             ),
                           ],
@@ -353,7 +356,7 @@ class AddPaymentView extends StatelessWidget {
   Future<String> createPaymentMethodId(String cardNumber,
       String cardExpiryMonth, String cardExpiryYear, String cardCvc) async {
     var userData =
-        await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+        await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
     UserModel userModel = UserModel.fromJson(jsonDecode(userData));
 
     stripe.CardDetails card = stripe.CardDetails(

@@ -61,13 +61,15 @@ class CustomBottomNavigation extends StatelessWidget {
   InkWell item(
       BuildContext context, String path, int index, String title) {
     return InkWell(
-
+        key: ValueKey(index), // Assign a ValueKey based on the index
         onTap: () {
           onTap(index);
         },
         child: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.057,
           width: 16.w,
+          height: MediaQuery.of(context).size.height * 0.057,
+
+
           child: Column(
             children: [
               SvgPicture.asset(

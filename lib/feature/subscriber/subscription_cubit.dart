@@ -13,7 +13,7 @@ class SubscriptionCubit extends RabbleBaseCubit with Validators {
   Future<void> fetchUserData() async {
     emit(RabbleBaseState.primaryBusy());
     var userData =
-        await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+        await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
     UserModel userModel = UserModel.fromJson(jsonDecode(userData));
     userDataSubject$.sink.add(userModel);
     emit(RabbleBaseState.idle());

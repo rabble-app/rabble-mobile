@@ -5,9 +5,9 @@ class ProducerRepository extends BaseRepository {
   final ApiProvider _apiProvider = ApiProvider();
 
   @throws
-  Future<ProducerModel?> fetchProducerList(int offset, {VoidCallback? errorCallBack}) async {
+  Future<ProducerModel?> fetchProducerList(int offset, String postalCode,{VoidCallback? errorCallBack}) async {
     ProducerModel? status =
-        await _apiProvider.fetchProducerList(offset,throwOnError: true,errorCallBack:  errorCallBack);
+        await _apiProvider.fetchProducerList(offset,postalCode,throwOnError: true,errorCallBack:  errorCallBack);
     return status;
   }
   @throws

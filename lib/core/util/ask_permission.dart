@@ -9,5 +9,13 @@ class AskPermission {
     } else {
       return true;
     }
+  }  Future<bool> askLocationPermission() async {
+    final RabblePermissionStatus status =
+        await PermissionHandlerService().askPermission(RabblePermission.LOCATION);
+    if (status != RabblePermissionStatus.GRANTED) {
+      return false;
+    } else {
+      return true;
+    }
   }
 }

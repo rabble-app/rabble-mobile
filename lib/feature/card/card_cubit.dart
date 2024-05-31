@@ -49,7 +49,7 @@ class CardCubit extends RabbleBaseCubit with Validators {
   Future<void> fetchMyCards() async {
     emit(RabbleBaseState.primaryBusy());
     var userData =
-        await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+        await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
     UserModel userModel = UserModel.fromJson(jsonDecode(userData));
 
     CardModel? myCardRes = await paymentRepo
@@ -82,7 +82,7 @@ class CardCubit extends RabbleBaseCubit with Validators {
     emit(RabbleBaseState.secondaryBusy());
 
     var userData =
-        await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+        await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
     UserModel userModel = UserModel.fromJson(jsonDecode(userData));
 
     Map<String, dynamic> body = {
@@ -109,7 +109,7 @@ class CardCubit extends RabbleBaseCubit with Validators {
         cardNumberSubject$.value.substring(cardNumberSubject$.value.length - 4);
 
     var userData =
-        await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+        await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
     UserModel userModel = UserModel.fromJson(jsonDecode(userData));
 
     Map<String, dynamic> defaultCardBody = {
@@ -124,8 +124,8 @@ class CardCubit extends RabbleBaseCubit with Validators {
     if (primaryCardRes!.status == 200) {
       UserModel userData = UserModel.fromJson(primaryCardRes.data);
 
-      await RabbleStorage.storeDynamicValue(
-          RabbleStorage.userKey, jsonEncode(userData));
+      await RabbleStorage().storeDynamicValue(
+          RabbleStorage().userKey, jsonEncode(userData));
     }
 
     emit(RabbleBaseState.idle());
@@ -319,7 +319,7 @@ class CardCubit extends RabbleBaseCubit with Validators {
         await stripe.Stripe.instance.createApplePayToken(paymentResult);
 
     var userData =
-        await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+        await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
     UserModel userModel = UserModel.fromJson(jsonDecode(userData));
 
     Map<String, dynamic> body = {
@@ -400,7 +400,7 @@ class CardCubit extends RabbleBaseCubit with Validators {
 
   Future<void> uploadBasket(TeamCreationModel createBuyingTeamRes) async {
     var userData =
-        await RabbleStorage.retrieveDynamicValue(RabbleStorage.userKey);
+        await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
     UserModel userModel = UserModel.fromJson(jsonDecode(userData));
 
     List<ProductDetail> bulkBasketItems =
@@ -426,7 +426,7 @@ class CardCubit extends RabbleBaseCubit with Validators {
       'teamId': createBuyingTeamRes.data!.id.toString(),
     };
 
-    RabbleStorage.deleteKey(RabbleStorage.inivitationData);
+    RabbleStorage().deleteKey(RabbleStorage().inivitationData);
 
     BulkUploadedModel? bulkUploadTeamRes =
         await buyingTeamRepo.uploadProducts(dataToUpload, () {
