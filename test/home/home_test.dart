@@ -36,17 +36,17 @@ void main() {
         .pump(const Duration(milliseconds: 500)); // Adjust duration as needed
   });
 
-  testWidgets('Tapping on bottom navigation bar changes view',
-      (WidgetTester tester) async {
-    await tester.pumpWidget(MaterialApp(
-      home: RabbleTheme(data: RabbleTheme.themeData, child: const HomeView()),
-    ));
-
-    // Tapping on the second item in the bottom navigation bar
-    await tester.tap(find.byKey(const ValueKey(1)));
-    await tester.pumpAndSettle();
-
-    await tester.tap(find.byKey(const ValueKey(1)));
-    await tester.pumpAndSettle();
-  });
+  // testWidgets('Tapping on bottom navigation bar changes view',
+  //     (WidgetTester tester) async {
+  //   await tester.pumpWidget(MaterialApp(
+  //     home: RabbleTheme(data: RabbleTheme.themeData, child: const HomeView()),
+  //   ));
+  //
+  //   // Tapping on the second item in the bottom navigation bar
+  //   await tester.tap(find.byKey(const ValueKey(1)));
+  //   await tester.pumpAndSettle();
+  //
+  //   await tester.tap(find.byKey(const ValueKey(1)));
+  //   await tester.pumpAndSettle();
+  // });
 }

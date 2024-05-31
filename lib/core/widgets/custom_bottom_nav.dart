@@ -59,6 +59,7 @@ class CustomBottomNavigation extends StatelessWidget {
   }
 
   InkWell item(BuildContext context, String path, int index, String title) {
+    print(index);
     return InkWell(
         key: ValueKey(index), // Assign a ValueKey based on the index
         onTap: () {

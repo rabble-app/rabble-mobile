@@ -4,6 +4,8 @@ import 'package:rabble/core/config/export.dart';
 void main() {
   setUp(() {
     Config.initialize(Flavor.DEV, DevConfig());
+    setupInjection();
+
   });
 
   testWidgets(kAppFile, (WidgetTester tester) async {

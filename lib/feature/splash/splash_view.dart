@@ -21,6 +21,8 @@ class SplashViewState extends State<SplashView>
   Offset offset = Offset.zero;
   late AnimationController controller;
   late Animation<Offset> animation;
+  late StreamSubscription sub;
+
 
   @override
   void initState() {
