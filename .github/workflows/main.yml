@@ -3,6 +3,7 @@ on:
   push:
     branches:
       -loginFlow
+      - master
 
 
 name: "Testing"
