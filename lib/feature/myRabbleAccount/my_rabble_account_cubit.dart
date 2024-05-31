@@ -3,9 +3,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:rabble/core/config/export.dart';
 
 class MyRabbleAccountCubit extends RabbleBaseCubit with Validators {
-  MyRabbleAccountCubit() : super(RabbleBaseState.idle()) {
-    fetchMyData();
-  }
+  MyRabbleAccountCubit() : super(RabbleBaseState.idle());
 
   BehaviorSubject<bool> focus$ = BehaviorSubject<bool>.seeded(false);
 

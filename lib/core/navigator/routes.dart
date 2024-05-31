@@ -61,8 +61,6 @@ class Routes {
     defineRoute(router, '/checkout',
         RouteHandlers.makeHandler(() => const CheckoutView()));
 
-    defineRoute(router, '/buying_team_near_you',
-        RouteHandlers.makeHandler(() => const BuyingTeamNearYou()));
 
     defineRoute(router, '/producer_list_view',
         RouteHandlers.makeHandler(() => const ProducerListView()));

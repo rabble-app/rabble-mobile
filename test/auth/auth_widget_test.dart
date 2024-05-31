@@ -1,8 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:rabble/core/config/export.dart';
+import 'package:rabble/feature/auth/cubit/auth_cubit.dart';
 
-import 'start_screen_test.mocks.dart';
+import 'auth_widget_test.mocks.dart';
+
+@GenerateMocks([AuthCubit])
 
 void main() {
   setUp(() {

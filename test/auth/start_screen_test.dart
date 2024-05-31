@@ -10,6 +10,7 @@ import 'dart:io' show Platform;
 
 import 'start_screen_test.mocks.dart';
 
+
 @GenerateMocks([
   RabbleStorage,
   NavigatorHelper,

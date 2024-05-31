@@ -162,7 +162,6 @@ export 'package:rabble/core/widgets/cart_item_widget.dart';
 export 'package:rabble/core/widgets/cart_widget.dart';
 export 'package:rabble/core/widgets/quantity_widget.dart';
 export 'package:rabble/feature/buying_team/widget/buying_team_near_you_widget.dart';
-export 'package:rabble/feature/buying_team/near_me/buying_team_near_me_view.dart';
 export 'package:rabble/feature/product/widget/product_tab_view.dart';
 export 'package:rabble/feature/product/cubit/product_tab_cubit.dart';
 export 'package:rabble/feature/producer/producer_list_view.dart';

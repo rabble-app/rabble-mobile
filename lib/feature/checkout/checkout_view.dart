@@ -6,7 +6,6 @@ class CheckoutView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Map data = ModalRoute.of(context)!.settings.arguments as Map;
 
     return CubitProvider<RabbleBaseState, CheckoutCubit>(
         create: (context) => CheckoutCubit()..fetchAllProducts(),

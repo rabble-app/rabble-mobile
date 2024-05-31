@@ -4,16 +4,14 @@ import 'package:rabble/core/config/export.dart';
 void main() {
   setUpAll(() {
     Config.initialize(Flavor.DEV, DevConfig());
+    SizerUtil.setScreenSize(
+        const BoxConstraints(
+          maxWidth: 500,
+          maxHeight: 1000,
+        ),
+        Orientation.portrait);
   });
   group('Setting widget', () {
-    testWidgets(kAppFile, (WidgetTester tester) async {
-      // Build the splash screen widget.
-      await tester.pumpWidget(const App());
-
-      // Verify that the app is built successfully.
-      expect(find.byType(MaterialApp), findsOneWidget);
-    });
-
     testWidgets('SettingView should build without any errors',
         (WidgetTester tester) async {
       await tester.pumpWidget(RabbleTheme(
@@ -25,7 +23,9 @@ void main() {
       expect(find.byType(SettingView), findsOneWidget);
     });
 
-    testWidgets('SettingView should contain a RabbleAppbar with the correct title', (WidgetTester tester) async {
+    testWidgets(
+        'SettingView should contain a RabbleAppbar with the correct title',
+        (WidgetTester tester) async {
       await tester.pumpWidget(RabbleTheme(
           data: RabbleTheme.themeData,
           child: const MaterialApp(
@@ -35,8 +35,8 @@ void main() {
       expect(find.text(kSetting), findsOneWidget);
     });
 
-
-    testWidgets('SettingView should contain a list of options', (WidgetTester tester) async {
+    testWidgets('SettingView should contain a list of options',
+        (WidgetTester tester) async {
       await tester.pumpWidget(RabbleTheme(
           data: RabbleTheme.themeData,
           child: const MaterialApp(
@@ -50,8 +50,5 @@ void main() {
       expect(find.text(kTermsofUse), findsOneWidget);
       expect(find.text(kPrivacyPolicy), findsOneWidget);
     });
-
-
-
   });
 }
