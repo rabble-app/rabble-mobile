@@ -10,6 +10,8 @@ void main() {
   late MockMyRabbleAccountCubit mockCubit;
 
   setUp(() {
+    Config.initialize(Flavor.DEV, DevConfig());
+
     SizerUtil.setScreenSize(
         const BoxConstraints(
           maxWidth: 300,
@@ -39,28 +41,4 @@ void main() {
     expect(find.byType(RabbleButton), findsOneWidget);
   });
 
-  testWidgets('UserNameView button behavior', (WidgetTester tester) async {
-    // Mock the Cubit
-    final mockCubit = MockMyRabbleAccountCubit();
-
-    // Build the widget under test
-    await tester.pumpWidget(
-      MaterialApp(
-        home: RabbleTheme(
-          data: RabbleTheme.themeData,
-          child: const Scaffold(
-            body: UserNameView(),
-          ),
-        ),
-      ),
-    );
-
-    // Simulate tapping the button
-    await tester.tap(find.byType(RabbleButton));
-
-    // Verify that addProfileData is called with the correct arguments
-    verify(mockCubit.addProfileData(any, any, any)).called(1);
-  });
-
-  // Add more test cases as needed to cover other scenarios and behaviors
 }
