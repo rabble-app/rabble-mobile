@@ -12,8 +12,10 @@ class TeamViewCubit extends RabbleBaseCubit with Validators {
   }
 
   BehaviorSubject<TeamData> teamDataSubject$ = BehaviorSubject<TeamData>();
+
   BehaviorSubject<CurrentOrderData> currentOrderSubject$ =
       BehaviorSubject<CurrentOrderData>();
+
   BehaviorSubject<UserModel> currentUserDataSubject$ =
       BehaviorSubject<UserModel>();
 

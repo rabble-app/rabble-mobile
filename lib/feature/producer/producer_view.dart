@@ -545,29 +545,140 @@ class ProducerView extends StatelessWidget {
                                                       }
 
                                                       return Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
                                                         children: [
-                                                          Padding(
-                                                            padding: PagePadding
-                                                                .onlyLeft(3.w),
-                                                            child: Align(
-                                                              alignment:
-                                                                  Alignment
-                                                                      .topLeft,
-                                                              child: RabbleText
-                                                                  .subHeaderText(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                text:
-                                                                    'Shared Products',
-                                                                color: APPColors
-                                                                    .appBlack,
-                                                                fontFamily:
-                                                                    cGosha,
-                                                                fontSize: 16.sp,
+                                                          if (sharedSnapshot
+                                                                  .data !=
+                                                              null) ...[
+                                                            Padding(
+                                                              padding:
+                                                                  PagePadding
+                                                                      .onlyLeft(
+                                                                          3.w),
+                                                              child: Align(
+                                                                alignment:
+                                                                    Alignment
+                                                                        .topLeft,
+                                                                child: RabbleText
+                                                                    .subHeaderText(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  text: sharedSnapshot.data !=
+                                                                              null ||
+                                                                          sharedSnapshot
+                                                                              .data!
+                                                                              .isNotEmpty
+                                                                      ? 'Shared ${sharedSnapshot.data?.first.orderUnit}'
+                                                                      : 'Shared',
+                                                                  color: APPColors
+                                                                      .appBlack,
+                                                                  fontFamily:
+                                                                      cGosha,
+                                                                  fontSize:
+                                                                      16.sp,
+                                                                ),
                                                               ),
                                                             ),
-                                                          ),
+                                                            Container(
+                                                              margin:
+                                                                  PagePadding
+                                                                      .custom(
+                                                                          3.w,
+                                                                          3.w,
+                                                                          2.w,
+                                                                          0),
+                                                              child: RabbleText
+                                                                  .subHeaderText(
+                                                                text:
+                                                                    'These products are only sold as parts of a ${sharedSnapshot.data?.first.orderUnit}.',
+                                                                fontSize: 11.sp,
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .start,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                                maxLines: 3,
+                                                                height: 1.1,
+                                                                fontFamily:
+                                                                    cPoppins,
+                                                                color: APPColors
+                                                                    .bg_grey27,
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              height: 1.h,
+                                                            ),
+                                                            Container(
+                                                              margin:
+                                                                  PagePadding
+                                                                      .custom(
+                                                                          4.w,
+                                                                          3.w,
+                                                                          0,
+                                                                          0),
+                                                              decoration: ContainerDecoration.boxDecoration(
+                                                                  border: APPColors
+                                                                      .appBlue,
+                                                                  bg: APPColors
+                                                                      .bg_grey34,
+                                                                  width: 1,
+                                                                  radius: 8,
+                                                                  showShadow:
+                                                                      true),
+                                                              child: Padding(
+                                                                padding:
+                                                                    PagePadding
+                                                                        .all(1
+                                                                            .h),
+                                                                child: Row(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    SizedBox(
+                                                                      width:
+                                                                          1.w,
+                                                                    ),
+                                                                    const Icon(
+                                                                      Icons
+                                                                          .info,
+                                                                      color: APPColors
+                                                                          .appBlue,
+                                                                      size: 26,
+                                                                    ),
+                                                                    SizedBox(
+                                                                      width:
+                                                                          1.w,
+                                                                    ),
+                                                                    SizedBox(
+                                                                      width: context
+                                                                              .allWidth *
+                                                                          0.75,
+                                                                      child: RabbleText
+                                                                          .subHeaderText(
+                                                                        text:
+                                                                            'All ${sharedSnapshot.data?.first.orderSubUnit}’s in the ${sharedSnapshot.data?.first.orderUnit} must be sold for it to be added to the order. Invite others to share the ${sharedSnapshot.data?.first.orderUnit} with you!',
+                                                                        textAlign:
+                                                                            TextAlign.start,
+                                                                        fontWeight:
+                                                                            FontWeight.w500,
+                                                                        fontSize:
+                                                                            10.sp,
+                                                                        fontFamily:
+                                                                            cPoppins,
+                                                                        color: APPColors
+                                                                            .appBlue,
+                                                                      ),
+                                                                    )
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
                                                           SizedBox(
                                                             height: 1.h,
                                                           ),
@@ -579,31 +690,57 @@ class ProducerView extends StatelessWidget {
                                                           SizedBox(
                                                             height: 1.h,
                                                           ),
-                                                            Container(
-                                                              color: APPColors
-                                                                  .bgColor,
-                                                              child: GridView.builder(
-                                                                physics: const NeverScrollableScrollPhysics(),
-                                                                shrinkWrap: true,
-                                                                itemCount: sharedSnapshot.data!.length,
-                                                                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                                                  crossAxisCount: 2,
-                                                                  childAspectRatio: (sharedItemWidth / sharedItemHeight),
-                                                                ),
-                                                                itemBuilder: (BuildContext context, int index) {
-                                                                  return FutureBuilder<List<Widget>>(
-                                                                    future: _buildProductWidgets(sharedSnapshot.data!,bloc,producerDetail,data),
-                                                                    builder: (context, snapshot) {
-                                                                      if (snapshot.connectionState == ConnectionState.waiting) {
-                                                                        return const SizedBox.shrink();
-                                                                      } else {
-                                                                        return snapshot.data![index];
-                                                                      }
-                                                                    },
-                                                                  );
-                                                                },
+                                                          Container(
+                                                            color: APPColors
+                                                                .bgColor,
+                                                            child: GridView
+                                                                .builder(
+                                                              physics:
+                                                                  const NeverScrollableScrollPhysics(),
+                                                              shrinkWrap: true,
+                                                              itemCount:
+                                                                  sharedSnapshot
+                                                                      .data!
+                                                                      .length,
+                                                              gridDelegate:
+                                                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                                                crossAxisCount:
+                                                                    2,
+                                                                childAspectRatio:
+                                                                    (sharedItemWidth /
+                                                                        sharedItemHeight),
                                                               ),
+                                                              itemBuilder:
+                                                                  (BuildContext
+                                                                          context,
+                                                                      int index) {
+                                                                return FutureBuilder<
+                                                                    List<
+                                                                        Widget>>(
+                                                                  future: _buildProductWidgets(
+                                                                      sharedSnapshot
+                                                                          .data!,
+                                                                      bloc,
+                                                                      producerDetail,
+                                                                      data),
+                                                                  builder: (context,
+                                                                      snapshot) {
+                                                                    if (snapshot
+                                                                            .connectionState ==
+                                                                        ConnectionState
+                                                                            .waiting) {
+                                                                      return const SizedBox
+                                                                          .shrink();
+                                                                    } else {
+                                                                      return snapshot
+                                                                              .data![
+                                                                          index];
+                                                                    }
+                                                                  },
+                                                                );
+                                                              },
                                                             ),
+                                                          ),
                                                         ],
                                                       );
                                                     }),
@@ -627,6 +764,7 @@ class ProducerView extends StatelessWidget {
                                                             .shrink();
                                                       }
                                                       return Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
                                                         children: [
                                                           Padding(
                                                             padding: PagePadding
@@ -641,7 +779,7 @@ class ProducerView extends StatelessWidget {
                                                                     FontWeight
                                                                         .bold,
                                                                 text:
-                                                                    'Single Products',
+                                                                    'Individual ${singleSnapshot.data?.first.orderUnit}\'s',
                                                                 color: APPColors
                                                                     .appBlack,
                                                                 fontFamily:
@@ -650,6 +788,34 @@ class ProducerView extends StatelessWidget {
                                                               ),
                                                             ),
                                                           ),
+                                                          Container(
+                                                            margin:
+                                                            PagePadding
+                                                                .custom(
+                                                                3.w,
+                                                                3.w,
+                                                                2.w,
+                                                                0),
+                                                            child: RabbleText
+                                                                .subHeaderText(
+                                                              text:
+                                                              'These products are sold individually.',
+                                                              fontSize: 11.sp,
+                                                              textAlign:
+                                                              TextAlign
+                                                                  .start,
+                                                              fontWeight:
+                                                              FontWeight
+                                                                  .w400,
+                                                              maxLines: 3,
+                                                              height: 1.1,
+                                                              fontFamily:
+                                                              cPoppins,
+                                                              color: APPColors
+                                                                  .bg_grey27,
+                                                            ),
+                                                          ),
+
                                                           SizedBox(
                                                             height: 1.h,
                                                           ),
@@ -723,7 +889,7 @@ class ProducerView extends StatelessWidget {
                                     NavigatorHelper()
                                         .navigateTo("/checkout", data)
                                         .then((value) {
-                                          bloc.currentIndexSubject.sink.add(0);
+                                      bloc.currentIndexSubject.sink.add(0);
                                       bloc.fetchAllProducts();
 
                                       if (isEmpty) {
@@ -832,7 +998,9 @@ class ProducerView extends StatelessWidget {
           );
         });
   }
-  Future<List<Widget>> _buildProductWidgets(List<ProductDetail> items, ProductTabCubit bloc, ProducerDetail producerDetail, Map data) async {
+
+  Future<List<Widget>> _buildProductWidgets(List<ProductDetail> items,
+      ProductTabCubit bloc, ProducerDetail producerDetail, Map data) async {
     List<Widget> widgets = [];
     for (int i = 0; i < items.length; i++) {
       ProductDetail detail = items[i];

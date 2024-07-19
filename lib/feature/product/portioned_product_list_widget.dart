@@ -193,19 +193,16 @@ class _PortionedProductListWidgetState
                     SizedBox(
                       height: 0.3.h,
                     ),
-                    SizedBox(
-                      width: context.allWidth * 0.5,
-                      child: RabbleText.subHeaderText(
-                        text: widget
-                            .partionedProductsList[widget.index].product!.name,
-                        textAlign: TextAlign.start,
-                        fontWeight: FontWeight.w600,
-                        fontFamily: cPoppins,
-                        color: APPColors.appTextPrimary,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        fontSize: 9.sp,
-                      ),
+                    RabbleText.subHeaderText(
+                      text: widget
+                          .partionedProductsList[widget.index].product!.name,
+                      textAlign: TextAlign.start,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: cPoppins,
+                      color: APPColors.appTextPrimary,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      fontSize: 9.sp,
                     ),
                   ],
                 ),

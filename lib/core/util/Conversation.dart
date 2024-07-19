@@ -25,8 +25,6 @@ class Conversation {
   static getFrequencyText2(int freequency) {
     int fq = DateFormatUtil().epochToTotalWeeks(freequency);
 
-    print('fq ${fq}');
-    print('fq ${fq}');
 
     if (fq == 1) {
       return 'Every Week';

@@ -34,6 +34,7 @@ class HostInfoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     String combination = '${firstName.trim()} ${lastName.trim()}'.initials;
 
     return Padding(
@@ -53,7 +54,7 @@ class HostInfoWidget extends StatelessWidget {
                               'https://rabble-dev1.s3.us-east-2.amazonaws.com/profile/img.png'
                       ? SizedBox(
                           width: 65,
-                          height: 65,
+                          height: 60,
                           child: RabbleImageLoader(
                               isRound: true, imageUrl: avatar ?? ''),
                         )
@@ -154,8 +155,8 @@ class HostInfoWidget extends StatelessWidget {
                                   height: 1.h,
                                 ),
                                 associateMembers.isNotEmpty &&
-                                        associateMembers.any((element) =>
-                                            element.userId != hostId)
+                                    associateMembers.any((element) =>
+                                    element.userId != hostId)
                                     ? RabbleText.subHeaderText(
                                         text: kMembers,
                                         fontSize: 9.sp,
@@ -176,7 +177,7 @@ class HostInfoWidget extends StatelessWidget {
                                                 0.26,
                                         height: 40,
                                         child: MemberList(
-                                            associateMembers, currentUserId!),
+                                            associateMembers, currentUserId!,hostId ?? ''),
                                       )
                                     : const SizedBox.shrink()
                               ],
@@ -212,8 +213,9 @@ class HostInfoWidget extends StatelessWidget {
 class MemberList extends StatelessWidget {
   final List<Members> memebers;
   final String currentUserId;
+  final String hostId;
 
-  MemberList(this.memebers, this.currentUserId);
+  MemberList(this.memebers, this.currentUserId, this.hostId);
 
   @override
   Widget build(BuildContext context) {
@@ -223,7 +225,7 @@ class MemberList extends StatelessWidget {
       int index = memebers.indexOf(member);
       double overlap = 0.1 * MediaQuery.of(context).size.width;
 
-      if (currentUserId != member.userId) {
+      if (currentUserId != member.userId && member.userId != hostId) {
         Widget positionedWidget = Positioned(
           left: index * (60 - overlap),
           child: index < 3

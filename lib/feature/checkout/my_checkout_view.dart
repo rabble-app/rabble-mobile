@@ -19,6 +19,7 @@ class MyCheckoutView extends StatelessWidget {
     print('currentOrderId ${currentOrderData.id}');
     String myId = data['myId'];
     String memberId = data['memberId'];
+    String type = data['type'] ?? '0';
 
     int remainingDays = currentOrderData.deadline != null
         ? DateFormatUtil.remainingDays(currentOrderData.deadline!)
@@ -112,7 +113,7 @@ class MyCheckoutView extends StatelessWidget {
                                               isTeamPage: true,
                                               label: '',
                                               value:
-                                                  'Next shipping ${currentOrderData.deliveryDate != null ? '${int.parse(DateFormatUtil.countDays(currentOrderData.deliveryDate!)) < 7 ? "in ${DateFormatUtil.countDays(currentOrderData.deliveryDate!)} days" : DateFormatUtil.formatDate(currentOrderData.deliveryDate!, 'dd MMM yyyy')} ' : 'date not yet fixed'}',
+                                                  'Next Delivery ${currentOrderData.deliveryDate != null ? '${int.parse(DateFormatUtil.countDays(currentOrderData.deliveryDate!)) < 7 ? "in ${DateFormatUtil.countDays(currentOrderData.deliveryDate!)} days" : DateFormatUtil.formatDate(currentOrderData.deliveryDate!, 'dd MMM yyyy')} ' : 'date not yet fixed'}',
                                               icon:
                                                   Assets.svgs.truck_blue.svg(),
                                             ),
@@ -137,7 +138,8 @@ class MyCheckoutView extends StatelessWidget {
                                                                 .data!.length -
                                                             1 ==
                                                         index,
-                                                    imageUrl: item.product!.imageUrl,
+                                                    imageUrl:
+                                                        item.product!.imageUrl,
                                                     itemName:
                                                         item.product!.name!,
                                                     price: DateFormatUtil
@@ -170,9 +172,6 @@ class MyCheckoutView extends StatelessWidget {
                                                             .secondaryBusy
                                                         ? () {}
                                                         : (qty) {
-                                                            print('qty $qty');
-                                                            print(
-                                                                'item.quantity ${item.quantity}');
                                                             if (qty <
                                                                 item.quantity) {
                                                               if (teamData
@@ -448,7 +447,7 @@ class MyCheckoutView extends StatelessWidget {
                                     buttonSize: ButtonSize.large,
                                     bgColor: APPColors.appPrimaryColor,
                                     onPressed: () async {
-                                      if (remainingDays <= 0) {
+                                      if (type == '1') {
                                         await bloc
                                             .updateBasket(
                                                 teamData.id!,
@@ -457,92 +456,121 @@ class MyCheckoutView extends StatelessWidget {
                                                 myId,
                                                 currentOrderData.payments,
                                                 teamData.count!.order)
-                                            .then((value) {
-                                          if (remainingDays > 0) {
-                                            if (value) {
-                                              if (BuyingTeamCreationService()
-                                                      .payDataSubject$
-                                                      .value[mamount] >
-                                                  0) {
-                                                BuyingTeamCreationService().addPaymentData(
-                                                    mamount,
-                                                    double.parse(calCulateAmountToPay(
-                                                        double.parse(
-                                                            getTotalAmount(
-                                                                productList
-                                                                    .data)),
-                                                        double.parse(
-                                                            getMyPaidPayment(
-                                                                currentOrderData
-                                                                    .payments,
-                                                                bloc
-                                                                    .userDataSubject$
-                                                                    .value
-                                                                    .id!)))));
+                                            .then((onValue) {
+                                          NavigatorHelper()
+                                              .navigateToPartnerTeamScreenAndClear(
+                                                  teamData.id!.toString());
+                                        });
+                                      } else {
+                                        if (remainingDays <= 0) {
+                                          await bloc
+                                              .updateBasket(
+                                                  teamData.id!,
+                                                  currentOrderData.id!,
+                                                  remainingDays,
+                                                  myId,
+                                                  currentOrderData.payments,
+                                                  teamData.count!.order)
+                                              .then((value) {
+                                            if (remainingDays > 0) {
+                                              if (value) {
+                                                if (BuyingTeamCreationService()
+                                                        .payDataSubject$
+                                                        .value[mamount] >
+                                                    0) {
+                                                  BuyingTeamCreationService().addPaymentData(
+                                                      mamount,
+                                                      double.parse(calCulateAmountToPay(
+                                                          double.parse(
+                                                              getTotalAmount(
+                                                                  productList
+                                                                      .data)),
+                                                          double.parse(getMyPaidPayment(
+                                                              currentOrderData
+                                                                  .payments,
+                                                              bloc
+                                                                  .userDataSubject$
+                                                                  .value
+                                                                  .id!)))));
 
-                                                BuyingTeamCreationService()
-                                                    .groupNameSubject$
-                                                    .sink
-                                                    .add(teamData.name!);
+                                                  BuyingTeamCreationService()
+                                                      .groupNameSubject$
+                                                      .sink
+                                                      .add(teamData.name!);
 
-                                                BuyingTeamCreationService()
-                                                    .addTeamCreationData(
-                                                        mName, teamData.name!);
+                                                  BuyingTeamCreationService()
+                                                      .addTeamCreationData(
+                                                          mName,
+                                                          teamData.name!);
 
-                                                BuyingTeamCreationService()
-                                                    .addTeamCreationData(
-                                                        mProducerName,
-                                                        teamData.producer!
-                                                            .businessName!);
+                                                  BuyingTeamCreationService()
+                                                      .addTeamCreationData(
+                                                          mProducerName,
+                                                          teamData.producer!
+                                                              .businessName!);
 
-                                                BuyingTeamCreationService()
-                                                    .addTeamCreationData(
-                                                        mProducerId,
-                                                        teamData.producerId);
+                                                  BuyingTeamCreationService()
+                                                      .addTeamCreationData(
+                                                          mProducerId,
+                                                          teamData.producerId);
 
-                                                BuyingTeamCreationService()
-                                                    .addTeamCreationData(
-                                                        mProducerId,
-                                                        teamData.producerId);
+                                                  BuyingTeamCreationService()
+                                                      .addTeamCreationData(
+                                                          mProducerId,
+                                                          teamData.producerId);
 
-                                                BuyingTeamCreationService()
-                                                    .addPaymentData(
-                                                        mcurrency, "GBP");
+                                                  BuyingTeamCreationService()
+                                                      .addPaymentData(
+                                                          mcurrency, "GBP");
 
-                                                BuyingTeamCreationService()
-                                                    .addPaymentData(
-                                                        'update', true);
+                                                  BuyingTeamCreationService()
+                                                      .addPaymentData(
+                                                          'update', true);
 
-                                                BuyingTeamCreationService()
-                                                    .addPaymentData(
-                                                        'teamId',
-                                                        currentOrderData
-                                                            .teamId);
+                                                  BuyingTeamCreationService()
+                                                      .addPaymentData(
+                                                          'teamId',
+                                                          currentOrderData
+                                                              .teamId);
 
-                                                BuyingTeamCreationService()
-                                                    .orderIdSubject$
-                                                    .sink
-                                                    .add(currentOrderData.id!);
+                                                  BuyingTeamCreationService()
+                                                      .orderIdSubject$
+                                                      .sink
+                                                      .add(
+                                                          currentOrderData.id!);
 
-                                                BuyingTeamCreationService()
-                                                    .teamIdSubject$
-                                                    .sink
-                                                    .add(currentOrderData
-                                                        .teamId!);
-                                                BuyingTeamCreationService()
-                                                    .isAuthSubject$
-                                                    .sink
-                                                    .add(false);
+                                                  BuyingTeamCreationService()
+                                                      .teamIdSubject$
+                                                      .sink
+                                                      .add(currentOrderData
+                                                          .teamId!);
+                                                  BuyingTeamCreationService()
+                                                      .isAuthSubject$
+                                                      .sink
+                                                      .add(false);
 
-                                                BuyingTeamCreationService()
-                                                    .addTeamCreationData(
-                                                        mFrequency,
-                                                        teamData.frequency!
-                                                            .toInt());
+                                                  BuyingTeamCreationService()
+                                                      .addTeamCreationData(
+                                                          mFrequency,
+                                                          teamData.frequency!
+                                                              .toInt());
 
-                                                NavigatorHelper().navigateTo(
-                                                    '/select_payment_method_view');
-                                              } else {
+                                                  NavigatorHelper().navigateTo(
+                                                      '/select_payment_method_view');
+                                                } else {
+                                                  Map map = {
+                                                    'teamId':
+                                                        currentOrderData.teamId,
+                                                    'type': '0'
+                                                  };
+                                                  NavigatorHelper()
+                                                      .navigateToScreen(
+                                                          '/threshold_view',
+                                                          arguments: map);
+                                                }
+                                              }
+                                            } else {
+                                              if (value) {
                                                 Map map = {
                                                   'teamId':
                                                       currentOrderData.teamId,
@@ -554,135 +582,124 @@ class MyCheckoutView extends StatelessWidget {
                                                         arguments: map);
                                               }
                                             }
-                                          } else {
-                                            if (value) {
-                                              Map map = {
-                                                'teamId':
-                                                    currentOrderData.teamId,
-                                                'type': '0'
+                                          });
+                                        } else {
+                                          double originalValue = double.parse(
+                                              calCulateAmountToPay(
+                                                  double.parse(getTotalAmount(
+                                                      productList.data)),
+                                                  double.parse(getMyPaidPayment(
+                                                      currentOrderData.payments,
+                                                      bloc.userDataSubject$
+                                                          .value.id!))));
+
+                                          double roundedValue = double.parse(
+                                              originalValue.toStringAsFixed(2));
+
+                                          BuyingTeamCreationService()
+                                              .addPaymentData(
+                                                  mamount, roundedValue);
+
+                                          BuyingTeamCreationService()
+                                              .groupNameSubject$
+                                              .sink
+                                              .add(teamData.name!);
+
+                                          BuyingTeamCreationService()
+                                              .addTeamCreationData(
+                                                  mName, teamData.name!);
+
+                                          BuyingTeamCreationService()
+                                              .addTeamCreationData(
+                                                  mProducerName,
+                                                  teamData
+                                                      .producer!.businessName!);
+
+                                          BuyingTeamCreationService()
+                                              .addTeamCreationData(mProducerId,
+                                                  teamData.producerId);
+
+                                          BuyingTeamCreationService()
+                                              .addTeamCreationData(mProducerId,
+                                                  teamData.producerId);
+
+                                          BuyingTeamCreationService()
+                                              .addPaymentData(mcurrency, "GBP");
+
+                                          BuyingTeamCreationService()
+                                              .addPaymentData('update', true);
+
+                                          BuyingTeamCreationService()
+                                              .addPaymentData('teamId',
+                                                  currentOrderData.teamId);
+
+                                          BuyingTeamCreationService()
+                                              .orderIdSubject$
+                                              .sink
+                                              .add(currentOrderData.id!);
+
+                                          BuyingTeamCreationService()
+                                              .teamIdSubject$
+                                              .sink
+                                              .add(currentOrderData.teamId!);
+                                          BuyingTeamCreationService()
+                                              .isAuthSubject$
+                                              .sink
+                                              .add(false);
+
+                                          BuyingTeamCreationService()
+                                              .addTeamCreationData(mFrequency,
+                                                  teamData.frequency!.toInt());
+
+                                          List<Map<String, dynamic>>
+                                              bulkBasketItems = bloc
+                                                  .myBasketList.value
+                                                  .map((UserBasketData
+                                                      productDetail) {
+                                            print(
+                                                "productDetail.product!.type ${productDetail.product!.type}");
+
+                                            if (productDetail.product!.type ==
+                                                'PORTIONED_SINGLE_PRODUCT') {
+                                              return {
+                                                'basketId': productDetail.id,
+                                                'quantity':
+                                                    productDetail.quantity,
+                                                'price': productDetail.price,
+                                                'type':
+                                                    'PORTIONED_SINGLE_PRODUCT',
+                                                'portionId': productDetail
+                                                        .product!
+                                                        .partionedProducts!
+                                                        .first
+                                                        .id ??
+                                                    '',
+                                                'newAccumulatorValue':
+                                                    productDetail
+                                                        .product!
+                                                        .partionedProducts!
+                                                        .first
+                                                        .accumulator
                                               };
-                                              NavigatorHelper()
-                                                  .navigateToScreen(
-                                                      '/threshold_view',
-                                                      arguments: map);
+                                            } else {
+                                              return {
+                                                'basketId': productDetail.id,
+                                                'quantity':
+                                                    productDetail.quantity,
+                                                'type':
+                                                    productDetail.product!.type,
+                                                'price': productDetail.price,
+                                              };
                                             }
-                                          }
-                                        });
-                                      } else {
-                                        double originalValue = double.parse(
-                                            calCulateAmountToPay(
-                                                double.parse(getTotalAmount(
-                                                    productList.data)),
-                                                double.parse(getMyPaidPayment(
-                                                    currentOrderData.payments,
-                                                    bloc.userDataSubject$.value
-                                                        .id!))));
+                                          }).toList();
 
-                                        double roundedValue = double.parse(
-                                            originalValue.toStringAsFixed(2));
+                                          BuyingTeamCreationService()
+                                              .myBasketList
+                                              .add(bulkBasketItems);
 
-                                        BuyingTeamCreationService()
-                                            .addPaymentData(
-                                                mamount, roundedValue);
-
-                                        BuyingTeamCreationService()
-                                            .groupNameSubject$
-                                            .sink
-                                            .add(teamData.name!);
-
-                                        BuyingTeamCreationService()
-                                            .addTeamCreationData(
-                                                mName, teamData.name!);
-
-                                        BuyingTeamCreationService()
-                                            .addTeamCreationData(
-                                                mProducerName,
-                                                teamData
-                                                    .producer!.businessName!);
-
-                                        BuyingTeamCreationService()
-                                            .addTeamCreationData(mProducerId,
-                                                teamData.producerId);
-
-                                        BuyingTeamCreationService()
-                                            .addTeamCreationData(mProducerId,
-                                                teamData.producerId);
-
-                                        BuyingTeamCreationService()
-                                            .addPaymentData(mcurrency, "GBP");
-
-                                        BuyingTeamCreationService()
-                                            .addPaymentData('update', true);
-
-                                        BuyingTeamCreationService()
-                                            .addPaymentData('teamId',
-                                                currentOrderData.teamId);
-
-                                        BuyingTeamCreationService()
-                                            .orderIdSubject$
-                                            .sink
-                                            .add(currentOrderData.id!);
-
-                                        BuyingTeamCreationService()
-                                            .teamIdSubject$
-                                            .sink
-                                            .add(currentOrderData.teamId!);
-                                        BuyingTeamCreationService()
-                                            .isAuthSubject$
-                                            .sink
-                                            .add(false);
-
-                                        BuyingTeamCreationService()
-                                            .addTeamCreationData(mFrequency,
-                                                teamData.frequency!.toInt());
-
-                                        List<Map<String, dynamic>>
-                                            bulkBasketItems =
-                                            bloc.myBasketList.value.map(
-                                                (UserBasketData productDetail) {
-                                          print(
-                                              "productDetail.product!.type ${productDetail.product!.type}");
-
-                                          if (productDetail.product!.type ==
-                                              'PORTIONED_SINGLE_PRODUCT') {
-                                            return {
-                                              'basketId': productDetail.id,
-                                              'quantity':
-                                                  productDetail.quantity,
-                                              'price': productDetail.price,
-                                              'type':
-                                                  'PORTIONED_SINGLE_PRODUCT',
-                                              'portionId': productDetail
-                                                      .product!
-                                                      .partionedProducts!
-                                                      .first
-                                                      .id ??
-                                                  '',
-                                              'newAccumulatorValue':
-                                                  productDetail
-                                                      .product!
-                                                      .partionedProducts!
-                                                      .first
-                                                      .accumulator
-                                            };
-                                          } else {
-                                            return {
-                                              'basketId': productDetail.id,
-                                              'quantity':
-                                                  productDetail.quantity,
-                                              'type':
-                                                  productDetail.product!.type,
-                                              'price': productDetail.price,
-                                            };
-                                          }
-                                        }).toList();
-
-                                        BuyingTeamCreationService()
-                                            .myBasketList
-                                            .add(bulkBasketItems);
-
-                                        NavigatorHelper().navigateTo(
-                                            '/select_payment_method_view');
+                                          NavigatorHelper().navigateTo(
+                                              '/select_payment_method_view');
+                                        }
                                       }
                                     },
                                     child: state.secondaryBusy

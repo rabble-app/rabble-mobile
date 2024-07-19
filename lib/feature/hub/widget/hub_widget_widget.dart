@@ -1,9 +1,6 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:rabble/core/config/export.dart';
-import 'package:rabble/core/widgets/km_widget.dart';
 import 'package:rabble/domain/entities/mock/mock_hub_model.dart';
+import 'package:rabble/feature/hub/hub_cubit.dart';
 
 class HubWidget extends StatelessWidget {
   final String? teamId,
@@ -14,13 +11,14 @@ class HubWidget extends StatelessWidget {
       category,
       nextDelivery,
       totalTeamMembers,
+      distance,
       postalCode;
   final Function? callBack;
   final bool? isVertical;
   final VoidCallback callBackIfUpdated;
   final OrderHistoryData? historyData;
   final bool? isHost;
-  final MockHubModel  mockData;
+  final bool? isHorizontal;
 
   const HubWidget(
       {Key? key,
@@ -37,11 +35,15 @@ class HubWidget extends StatelessWidget {
       required this.callBackIfUpdated,
       this.historyData,
       this.isHost,
-      this.postalCode, required this.mockData})
+      this.postalCode,
+      this.distance,
+      this.isHorizontal})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    ExploreCubit bloc = context.read<ExploreCubit>();
+
     return Container(
       width: context.allWidth * 0.93,
       decoration: ContainerDecoration.boxDecoration(
@@ -52,78 +54,187 @@ class HubWidget extends StatelessWidget {
       padding: PagePadding.custom(2.w, 2.w, 2.w, 0),
       margin: PagePadding.custom(1.w, 3.w, 2.w, !isVertical! ? 2.w : 0),
       child: InkWell(
-        onTap: () => callBack!.call(),
+        onTap: () {
+          NavigatorHelper().navigateToPartnerTeamScreen(teamId.toString());
+        },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Flexible(
-              child: Container(
-                width: context.allWidth * 0.9,
-                decoration: ContainerDecoration.boxDecoration(
-                    bg: APPColors.appBlack4,
-                    border: APPColors.appBlack4,
-                    width: 0,
-                    radius: 8),
-                child: Stack(
-                  children: [
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Padding(
-                        padding:
-                            EdgeInsets.only(bottom: 1.h, right: 1.h, left: 1.h),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            KiloMeterWidget(mockHubModel: mockData,),
-                            Container(
-                              height: 3.h,
-                              width: context.allWidth * 0.16,
-                              decoration: ContainerDecoration.boxDecoration(
-                                bg: APPColors.appBlack,
-                                border: APPColors.appBlack,
-                                radius: 30,
+            isHorizontal!
+                ? Flexible(
+                    child: Container(
+                      width: context.allWidth * 0.9,
+                      decoration: ContainerDecoration.boxDecoration(
+                          bg: APPColors.appBlack4,
+                          border: APPColors.appBlack4,
+                          width: 0,
+                          radius: 8),
+                      child: Stack(
+                        children: [
+                          Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  bottom: 1.h, right: 1.h, left: 1.h),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  BehaviorSubjectBuilder<Map<String, int>>(
+                                      subject: bloc.cachedDistancesSubject,
+                                      builder: (BuildContext context,
+                                          AsyncSnapshot<Map<String, int>>
+                                              snapshot) {
+                                        if (!snapshot.hasData) {
+                                          return const Empty();
+                                        }
+
+                                        String distance = snapshot
+                                                .data![postalCode]
+                                                ?.toString() ??
+                                            '';
+
+                                        return KiloMeterWidget(
+                                          distance: distance,
+                                        );
+                                      }),
+                                  Container(
+                                    height: 3.h,
+                                    decoration:
+                                        ContainerDecoration.boxDecoration(
+                                      bg: APPColors.appBlack,
+                                      border: APPColors.appBlack,
+                                      radius: 30,
+                                    ),
+                                    padding:
+                                        PagePadding.horizontalSymmetric(2.w),
+                                    child: Center(
+                                      child: RabbleText.subHeaderText(
+                                        text: frequency,
+                                        color: APPColors.appPrimaryColor,
+                                        fontFamily: cPoppins,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 8.sp,
+                                      ),
+                                    ),
+                                  )
+                                ],
                               ),
-                              child: Center(
+                            ),
+                          ),
+                          Positioned(
+                            top: 0,
+                            right: 0,
+                            left: 0,
+                            bottom: 5,
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: SizedBox(
+                                width: context.allWidth * 0.7,
                                 child: RabbleText.subHeaderText(
-                                  text: frequency,
+                                  text: '$teamName',
+                                  textAlign: TextAlign.center,
+                                  fontWeight: FontWeight.w700,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
                                   color: APPColors.appPrimaryColor,
-                                  fontFamily: cPoppins,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 8.sp,
+                                  fontFamily: cGosha,
+                                  height: 1.1,
+                                  fontSize: 24.sp,
                                 ),
                               ),
-                            )
-                          ],
-                        ),
+                            ),
+                          ),
+                          Assets.svgs.hub_box.svg(fit: BoxFit.fill),
+                        ],
                       ),
                     ),
-                    Positioned(
-                      top: 0,
-                      right: 0,
-                      left: 0,
-                      bottom: 5,
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: SizedBox(
-                          width: context.allWidth * 0.7,
-                          child: RabbleText.subHeaderText(
-                            text: '$teamName',
-                            textAlign: TextAlign.center,
-                            fontWeight: FontWeight.w700,
-                            color: APPColors.appPrimaryColor,
-                            fontFamily: cGosha,
-                            height: 1.1,
-                            fontSize: 24.sp,
+                  )
+                : Container(
+                    width: context.allWidth * 0.9,
+                    height: context.allWidth * 0.45,
+                    decoration: ContainerDecoration.boxDecoration(
+                        bg: APPColors.appBlack4,
+                        border: APPColors.appBlack4,
+                        width: 0,
+                        radius: 8),
+                    child: Stack(
+                      children: [
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                bottom: 1.h, right: 1.h, left: 1.h),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                BehaviorSubjectBuilder<Map<String, int>>(
+                                    subject: bloc.cachedDistancesSubject,
+                                    builder: (BuildContext context,
+                                        AsyncSnapshot<Map<String, int>>
+                                            snapshot) {
+                                      if (!snapshot.hasData)
+                                        return const Empty();
+
+                                      String distance = snapshot
+                                              .data![postalCode]
+                                              ?.toString() ??
+                                          '';
+
+                                      return KiloMeterWidget(
+                                        distance: distance,
+                                      );
+                                    }),
+                                Container(
+                                  height: 3.h,
+                                  decoration: ContainerDecoration.boxDecoration(
+                                    bg: APPColors.appBlack,
+                                    border: APPColors.appBlack,
+                                    radius: 30,
+                                  ),
+                                  padding: PagePadding.horizontalSymmetric(2.w),
+                                  child: Center(
+                                    child: RabbleText.subHeaderText(
+                                      text: frequency,
+                                      color: APPColors.appPrimaryColor,
+                                      fontFamily: cPoppins,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 8.sp,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
-                      ),
+                        Positioned(
+                          top: 0,
+                          right: 0,
+                          left: 0,
+                          bottom: 5,
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: SizedBox(
+                              width: context.allWidth * 0.7,
+                              child: RabbleText.subHeaderText(
+                                text: '$teamName',
+                                textAlign: TextAlign.center,
+                                fontWeight: FontWeight.w700,
+                                color: APPColors.appPrimaryColor,
+                                fontFamily: cGosha,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                height: 1.1,
+                                fontSize: 24.sp,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Assets.svgs.hub_box.svg(fit: BoxFit.fill),
+                      ],
                     ),
-                    Assets.svgs.hub_box.svg(fit: BoxFit.fill),
-                  ],
-                ),
-              ),
-            ),
+                  ),
             SizedBox(
               height: 2.w,
             ),
@@ -218,66 +329,6 @@ class HubWidget extends StatelessWidget {
                     ),
                   ],
                 ),
-                const Spacer(),
-                status != null && status == 'PENDING'
-                    ? Container(
-                        width: isHost == null ? 25.w : 18.w,
-                        height: 3.h,
-                        decoration: ContainerDecoration.boxDecoration(
-                          bg: APPColors.bg_grey33,
-                          border: APPColors.bg_grey33,
-                          radius: 30,
-                        ),
-                        child: Center(
-                          child: RabbleText.subHeaderText(
-                            text:
-                                isHost == null ? 'Request Pending' : 'Pending',
-                            color: APPColors.appBlue,
-                            fontFamily: cPoppins,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 7.sp,
-                          ),
-                        ),
-                      )
-                    : status != null && status == 'APPROVED'
-                        ? Container(
-                            width: 15.w,
-                            height: 3.h,
-                            decoration: ContainerDecoration.boxDecoration(
-                              bg: APPColors.appBlack,
-                              border: APPColors.appBlack,
-                              radius: 30,
-                            ),
-                            child: Center(
-                              child: RabbleText.subHeaderText(
-                                text: 'Member',
-                                color: APPColors.appPrimaryColor,
-                                fontFamily: cPoppins,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 7.sp,
-                              ),
-                            ),
-                          )
-                        : status != null && status == 'CANCELLED'
-                            ? Container(
-                                width: 18.w,
-                                height: 3.h,
-                                decoration: ContainerDecoration.boxDecoration(
-                                  bg: APPColors.appRedLight2,
-                                  border: APPColors.appRedLight2,
-                                  radius: 30,
-                                ),
-                                child: Center(
-                                  child: RabbleText.subHeaderText(
-                                    text: 'Cancelled',
-                                    color: APPColors.appRedLight,
-                                    fontFamily: cPoppins,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 7.sp,
-                                  ),
-                                ),
-                              )
-                            : const SizedBox.shrink(),
               ],
             ),
             SizedBox(

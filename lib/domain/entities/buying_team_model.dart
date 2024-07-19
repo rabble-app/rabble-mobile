@@ -70,6 +70,7 @@ class BuyingTeamDetail {
     String? description,
     bool? isPublic,
     String? imageUrl,
+    String? partnerId,
     dynamic imageKey,
     String? nextDeliveryDate,
     String? createdAt,
@@ -98,6 +99,7 @@ class BuyingTeamDetail {
     _host = host;
     _requests = requests;
     _basket = basket;
+    _partnerId = partnerId;
   }
 
   BuyingTeamDetail.fromJson(dynamic json) {
@@ -114,6 +116,7 @@ class BuyingTeamDetail {
     _nextDeliveryDate = json['nextDeliveryDate'];
     _createdAt = json['createdAt'];
     _updatedAt = json['updatedAt'];
+    _partnerId = json['partnerId'] ?? '';
     if (json['members'] != null) {
       _members = [];
 
@@ -153,6 +156,7 @@ class BuyingTeamDetail {
   String? _nextDeliveryDate;
   String? _createdAt;
   String? _updatedAt;
+  String? _partnerId;
   List<BuyingTeamMembers>? _members;
   Producer? _producer;
   List<RequestSendData>? _requests;
@@ -171,6 +175,7 @@ class BuyingTeamDetail {
     dynamic imageKey,
     String? nextDeliveryDate,
     String? createdAt,
+    String? partnerId,
     String? updatedAt,
     List<BuyingTeamMembers>? members,
     Producer? producer,
@@ -197,7 +202,11 @@ class BuyingTeamDetail {
         requests: requests ?? _requests,
         host: host ?? _host,
         basket: basket ?? _basket,
+        partnerId: partnerId ?? _partnerId,
       );
+
+
+  String? get partnerId => _partnerId;
 
   String? get id => _id;
 

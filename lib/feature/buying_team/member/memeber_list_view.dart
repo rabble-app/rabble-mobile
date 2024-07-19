@@ -119,7 +119,8 @@ class MemberListView extends StatelessWidget {
 
                                   return BuyingTeamItemWidget(
                                     isVertical: true,
-                                    teamId: data.id,
+                                    partnerId: data.team?.partnerId ?? '',
+                                    teamId: data.teamId,
                                     image: data.team!.imageUrl,
                                     teamName: data.team!.name,
                                     postalCode: data.team!.postalCode ?? '',

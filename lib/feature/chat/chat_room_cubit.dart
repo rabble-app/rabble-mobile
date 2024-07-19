@@ -70,8 +70,8 @@ class ChatRoomCubit extends RabbleBaseCubit with Validators {
   }
 
   Future<void> initPusher(String teamName) async {
-     const String API_KEY = kDebugMode ? '748c798ef5d23aa4750d' : '87b6fa5d4ff005ec100e';
-//      const String API_KEY = '748c798ef5d23aa4750d';
+//     const String API_KEY = kDebugMode ? '748c798ef5d23aa4750d' : '87b6fa5d4ff005ec100e';
+      const String API_KEY = '748c798ef5d23aa4750d';
 
     const String API_CLUSTER = 'eu';
     await pusher.init(

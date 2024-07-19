@@ -16,13 +16,13 @@ void main() async {
   Config.initialize(Flavor.DEV, DevConfig());
   setupInjection();
 
-//   Stripe.publishableKey = kStripeDebugPublishKey;
+  Stripe.publishableKey = kStripeDebugPublishKey;
 
-  if (kDebugMode) {
-    Stripe.publishableKey = kStripeDebugPublishKey;
-  } else {
-    Stripe.publishableKey = kStripeReleasePublishKey;
-  }
+  // if (kDebugMode) {
+  //   Stripe.publishableKey = kStripeDebugPublishKey;
+  // } else {
+  //   Stripe.publishableKey = kStripeReleasePublishKey;
+  // }
 
   Stripe.merchantIdentifier = kStripeMerchantIdentifier;
 
@@ -44,27 +44,27 @@ void main() async {
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-  // runApp(const MaterialApp(
-  //   debugShowCheckedModeBanner: false,
-  //   home: App(),
-  // ));
+  runApp(const MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: App(),
+  ));
 
-  String forceVersion = await getForceVersion();
-  PackageInfo.fromPlatform().then((value) {
-    String currentVersion = value.buildNumber;
-
-    if (int.parse(currentVersion) < int.parse(forceVersion)) {
-      runApp(const MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: ForceUpdate(),
-      ));
-    } else {
-      runApp(const MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: App(),
-      ));
-    }
-  });
+  // String forceVersion = await getForceVersion();
+  // PackageInfo.fromPlatform().then((value) {
+  //   String currentVersion = value.buildNumber;
+  //
+  //   if (int.parse(currentVersion) < int.parse(forceVersion)) {
+  //     runApp(const MaterialApp(
+  //       debugShowCheckedModeBanner: false,
+  //       home: ForceUpdate(),
+  //     ));
+  //   } else {
+  //     runApp(const MaterialApp(
+  //       debugShowCheckedModeBanner: false,
+  //       home: App(),
+  //     ));
+  //   }
+  // });
 }
 
 Future<void> loadImage(ImageProvider provider) {

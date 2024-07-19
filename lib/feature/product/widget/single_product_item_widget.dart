@@ -54,7 +54,8 @@ class SingleProductItemWidget extends StatelessWidget {
                             NavigatorHelper()
                                 .navigateTo('/detail', isEmpty)
                                 .then((value) {
-                              bloc.fetchSingleProductExist2(productDetail,productDetail.id!);
+                              bloc.fetchSingleProductExist2(
+                                  productDetail, productDetail.id!);
                               voidCallBack!.call();
                             });
                           }
@@ -83,11 +84,10 @@ class SingleProductItemWidget extends StatelessWidget {
                                           : MediaQuery.of(context).size.height *
                                               0.22,
                                       child: RabbleImageLoader(
-                                              imageUrl:
-                                                  productDetail.imageUrl ?? '',
-                                              isRound: false,
-                                              fit: BoxFit.cover,
-                                            ),
+                                        imageUrl: productDetail.imageUrl ?? '',
+                                        isRound: false,
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -119,7 +119,6 @@ class SingleProductItemWidget extends StatelessWidget {
                                 )
                               ],
                             ),
-
                             SizedBox(
                               height: 1.h,
                             ),
@@ -264,9 +263,9 @@ class SingleProductItemWidget extends StatelessWidget {
                                 )
                               : GestureDetector(
                                   onTap: () async {
-                                    String status =
-                                        await RabbleStorage().getLoginStatus() ??
-                                            "0";
+                                    String status = await RabbleStorage()
+                                            .getLoginStatus() ??
+                                        "0";
 
                                     String postalCode =
                                         await RabbleStorage().getPostalCode();
@@ -281,6 +280,17 @@ class SingleProductItemWidget extends StatelessWidget {
                                                 null
                                             ? businessDetail!.businessName ?? ''
                                             : '';
+
+                                        if (isEmpty!['flow'] == 'partner') {
+                                          TeamData data = isEmpty!['team'];
+                                          RabbleStorage().setInivitationData(
+                                              json.encode(InvitationData(
+                                                  producerInfo: data.producer,
+                                                  teamId: data.id,
+                                                  teamName: data.name,
+                                                  type: 'partner')));
+                                        }
+
                                         if (voidCallBack != null) {
                                           productDetail.qty =
                                               productInCartSnapShot.data!.qty! +
@@ -296,8 +306,7 @@ class SingleProductItemWidget extends StatelessWidget {
                                               context, productDetail);
                                         }
                                       }
-                                    }
-                                    else {
+                                    } else {
                                       CustomBottomSheet.showLoginViewModelSheet(
                                           context, LoginModalView(), true,
                                           isRemove: true);

@@ -179,7 +179,6 @@ class _SearchProductViewState extends State<SearchProductView>
                                             builder: (context, snapshot) {
                                               int currentIndex = snapshot.data!;
 
-                                              print(currentIndex);
 
                                               return BehaviorSubjectBuilder<
                                                   List<dynamic>>(
@@ -189,16 +188,19 @@ class _SearchProductViewState extends State<SearchProductView>
                                                     if (recentSearchSnap
                                                         .data!.isEmpty &&
                                                         !searchStarted.data!) {
-                                                      return EmptyStateWidget(
-                                                          heading:
-                                                          'Search Rabble',
-                                                          subHeading:
-                                                          'Find exceptional products and people near '
-                                                              'you that are buying direct from small producers',
-                                                          svg: Assets
-                                                              .svgs.search_view,
-                                                          btnHeading: '',
-                                                          callback: () {});
+                                                      return SizedBox(
+                                                        height: context.allHeight*0.5,
+                                                        child: EmptyStateWidget(
+                                                            heading:
+                                                            'Search Rabble',
+                                                            subHeading:
+                                                            'Find exceptional products and people near '
+                                                                'you that are buying direct from small producers',
+                                                            svg: Assets
+                                                                .svgs.search_view,
+                                                            btnHeading: '',
+                                                            callback: () {}),
+                                                      );
                                                     }
                                                     if (recentSearchSnap
                                                         .data!.isNotEmpty &&
@@ -252,17 +254,23 @@ class _SearchProductViewState extends State<SearchProductView>
 
                                                       if (producerList
                                                           .isEmpty) {
-                                                        return EmptyStateWidget(
-                                                            loader:
-                                                            'assets/json/NoSearch.json',
-                                                            heading:
-                                                            'No Suppliers Found',
-                                                            subHeading:
-                                                            'There are no suppliers matching your search criteria at the moment.',
-                                                            svg: Assets.svgs
-                                                                .search_view,
-                                                            btnHeading: '',
-                                                            callback: () {});
+                                                        print('print2');
+
+                                                        return SizedBox(
+                                                          height: context.allHeight*0.5,
+
+                                                          child: EmptyStateWidget(
+                                                              loader:
+                                                              'assets/json/NoSearch.json',
+                                                              heading:
+                                                              'No Suppliers Found',
+                                                              subHeading:
+                                                              'There are no suppliers matching your search criteria at the moment.',
+                                                              svg: Assets.svgs
+                                                                  .search_view,
+                                                              btnHeading: '',
+                                                              callback: () {}),
+                                                        );
                                                       } else {
                                                         return ListView.builder(
                                                             shrinkWrap: true,
@@ -322,17 +330,23 @@ class _SearchProductViewState extends State<SearchProductView>
                                                           size.width / 2;
 
                                                       if (productList.isEmpty) {
-                                                        return EmptyStateWidget(
-                                                            loader:
-                                                            'assets/json/NoSearch.json',
-                                                            heading:
-                                                            'No Products Found',
-                                                            subHeading:
-                                                            'There are no products matching your search criteria at the moment.',
-                                                            svg: Assets.svgs
-                                                                .search_view,
-                                                            btnHeading: '',
-                                                            callback: () {});
+                                                        print('print3');
+
+                                                        return SizedBox(
+                                                          height: context.allHeight*0.5,
+
+                                                          child: EmptyStateWidget(
+                                                              loader:
+                                                              'assets/json/NoSearch.json',
+                                                              heading:
+                                                              'No Products Found',
+                                                              subHeading:
+                                                              'There are no products matching your search criteria at the moment.',
+                                                              svg: Assets.svgs
+                                                                  .search_view,
+                                                              btnHeading: '',
+                                                              callback: () {}),
+                                                        );
                                                       } else {
                                                         return GridView.builder(
                                                           itemCount: productList
@@ -388,17 +402,23 @@ class _SearchProductViewState extends State<SearchProductView>
                                                           .add(teamList);
 
                                                       if (teamList.isEmpty) {
-                                                        return EmptyStateWidget(
-                                                            loader:
-                                                            'assets/json/NoSearch.json',
-                                                            heading:
-                                                            'No Teams Found',
-                                                            subHeading:
-                                                            'You can try again later or consider starting your own team with like-minded individuals to enjoy the benefits of collective buying power.',
-                                                            svg: Assets.svgs
-                                                                .search_view,
-                                                            btnHeading: '',
-                                                            callback: () {});
+                                                        print('print4');
+
+                                                        return SizedBox(
+                                                          height: context.allHeight*0.5,
+
+                                                          child: EmptyStateWidget(
+                                                              loader:
+                                                              'assets/json/NoSearch.json',
+                                                              heading:
+                                                              'No Teams Found',
+                                                              subHeading:
+                                                              'You can try again later or consider starting your own team with like-minded individuals to enjoy the benefits of collective buying power.',
+                                                              svg: Assets.svgs
+                                                                  .search_view,
+                                                              btnHeading: '',
+                                                              callback: () {}),
+                                                        );
                                                       } else {
                                                         return BuyingTeamWidget(
                                                           isHorizontal: false,

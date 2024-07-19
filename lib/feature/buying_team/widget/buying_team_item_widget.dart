@@ -9,6 +9,7 @@ class BuyingTeamItemWidget extends StatelessWidget {
       image,
       frequency,
       category,
+      partnerId,
       nextDelivery,
       producerName,
       hostName,
@@ -39,7 +40,8 @@ class BuyingTeamItemWidget extends StatelessWidget {
       required this.callBackIfUpdated,
       this.historyData,
       this.isHost,
-      this.postalCode})
+      this.postalCode,
+      this.partnerId})
       : super(key: key);
 
   @override
@@ -55,20 +57,24 @@ class BuyingTeamItemWidget extends StatelessWidget {
       margin: PagePadding.custom(1.w, 3.w, 2.w, !isVertical! ? 2.w : 0),
       child: InkWell(
         onTap: () {
-          SystemChannels.textInput.invokeMethod('TextInput.hide');
-
-          if (status != null && status!.isNotEmpty && callBack != null) {
-            callBack!.call();
+          if (partnerId!=null && partnerId!.isNotEmpty) {
+            NavigatorHelper().navigateToPartnerTeamScreen(teamId.toString());
           } else {
-            Map map = {'teamId': teamId, 'type': '1', 'teamName': teamName};
+            SystemChannels.textInput.invokeMethod('TextInput.hide');
 
-            Navigator.pushNamed(context, '/threshold_view', arguments: map)
-                .then((value) {
-              // if (value != null) {
-              //   callBackIfUpdated.call();
-              // }
-              callBackIfUpdated.call();
-            });
+            if (status != null && status!.isNotEmpty && callBack != null) {
+              callBack!.call();
+            } else {
+              Map map = {'teamId': teamId, 'type': '1', 'teamName': teamName};
+
+              Navigator.pushNamed(context, '/threshold_view', arguments: map)
+                  .then((value) {
+                // if (value != null) {
+                //   callBackIfUpdated.call();
+                // }
+                callBackIfUpdated.call();
+              });
+            }
           }
         },
         child: Column(
@@ -237,18 +243,16 @@ class BuyingTeamItemWidget extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              SizedBox(
-                                width: context.allWidth * 0.25,
-                                child: Center(
-                                  child: RabbleText.subHeaderText(
-                                    textAlign: TextAlign.start,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    text: hostName ?? '',
-                                    fontWeight: FontWeight.w400,
-                                    color: APPColors.appBlack,
-                                    fontSize: 10.sp,
-                                  ),
+                              SizedBox(width: 2.w,),
+                              Center(
+                                child: RabbleText.subHeaderText(
+                                  textAlign: TextAlign.start,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  text: hostName ?? '',
+                                  fontWeight: FontWeight.w400,
+                                  color: APPColors.appBlack,
+                                  fontSize: 10.sp,
                                 ),
                               )
                             ],
@@ -441,7 +445,8 @@ class BuyingTeamItemWidget extends StatelessWidget {
               ),
             if (historyData != null)
               BuyingTeamCardView(
-                  amount: DateFormatUtil.amountFormatter(historyData!.amount!.toDouble()),
+                  amount: DateFormatUtil.amountFormatter(
+                      historyData!.amount!.toDouble()),
                   date: DateFormatUtil.formatDate(
                       historyData!.order!.createdAt!, 'dd MMM yyyy'),
                   deliveryFee: sDeliveryAmount,
@@ -464,13 +469,12 @@ class BuyingTeamItemWidget extends StatelessWidget {
   String getTotalAmount(List<Basket>? orders) {
     return orders!.fold(
         '0',
-        (previousValue, element) =>
-            (double.parse(previousValue) + double.parse(element.price.toString()))
-                .toString());
+        (previousValue, element) => (double.parse(previousValue) +
+                double.parse(element.price.toString()))
+            .toString());
   }
 
   String getOutwardCode(String postalCode) {
-
     if (postalCode == null || postalCode.isEmpty) {
       return '';
     }

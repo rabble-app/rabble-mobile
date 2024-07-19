@@ -11,7 +11,7 @@ class ShippingCardCustom extends StatelessWidget {
     this.color,
     this.isTeamPage,
     this.imageBgColor,
-    this.isTrailingWidget,
+    this.isTrailingWidget = false,
   });
 
   final String label;
@@ -23,7 +23,7 @@ class ShippingCardCustom extends StatelessWidget {
   final Color? color;
   final Color? imageBgColor;
   bool? isTeamPage = false;
-  bool? isTrailingWidget = false;
+  bool? isTrailingWidget;
 
   @override
   Widget build(BuildContext context) {

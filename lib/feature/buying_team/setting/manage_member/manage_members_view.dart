@@ -12,6 +12,7 @@ class ManageMembersView extends StatelessWidget {
     Map teamData = ModalRoute.of(context)!.settings.arguments as Map;
     TeamData data = teamData['teamData'];
     String myId = teamData['myId'];
+    String status = teamData['status'];
     String memberId = teamData['memberId'];
 
     TeamViewCubit cubit = teamData['bloc'];
@@ -95,7 +96,7 @@ class ManageMembersView extends StatelessWidget {
                     stream: _controller.stream,
                     builder: (context, snapshot) {
                       if (snapshot.data == 0) {
-                        return Expanded(child: TeamSettingView(data, myId,cubit,percentage,remainingDays,deadLine: teamData['deadline'].toString(),memberId:memberId));
+                        return Expanded(child: TeamSettingView(data, myId,cubit,percentage,remainingDays,deadLine: teamData['deadline'].toString(),memberId:memberId,status:status));
                       } else {
                         return Expanded(child: ManageTeamView(data,cubit));
                       }

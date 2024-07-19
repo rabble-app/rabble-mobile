@@ -53,7 +53,7 @@ class SplashViewState extends State<SplashView>
 
     // Fallback mechanism if Branch doesn't respond in 5 seconds
 
-    timer =  Timer(Duration(seconds: !branchProcessed ? 3 : 5), () async {
+    timer = Timer(Duration(seconds: !branchProcessed ? 3 : 5), () async {
       if (!branchProcessed) {
         String status = await RabbleStorage().getLoginStatus() ?? '0';
         String onBoardStatus = await RabbleStorage().getOnBoardStatus() ?? '0';
@@ -66,6 +66,17 @@ class SplashViewState extends State<SplashView>
           } else {
             String isFromNotification =
                 await RabbleStorage().isFromNotification() ?? '0';
+
+            var userData = await RabbleStorage()
+                .retrieveDynamicValue(RabbleStorage().userKey);
+            UserModel userModel = UserModel.fromJson(jsonDecode(userData));
+
+            if (userModel != null && userModel.postalCode != null) {
+              PostalCodeService()
+                  .postalCodeGlobalSubject
+                  .sink
+                  .add(userModel.postalCode ?? '');
+            }
 
             if (isFromNotification == '1') {
               NavigatorHelper().navigateAnClearAll('/notification_list_view');
@@ -93,6 +104,10 @@ class SplashViewState extends State<SplashView>
           Map map = {'teamId': data['\$canonical_identifier'], 'type': '0'};
           NavigatorHelper()
               .navigateAnClearAll('/threshold_view', arguments: map);
+        } else if (data.containsKey('~feature') &&
+            data['~feature'] == 'Partner Share') {
+          NavigatorHelper().navigateToPartnerTeamScreenAndClear(
+              data['\$canonical_identifier'].toString());
         } else if (data.containsKey('~feature') &&
             data['~feature'] == 'Share Producer') {
           Map body = {

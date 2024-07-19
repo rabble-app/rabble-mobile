@@ -181,6 +181,8 @@ class Team {
     List<Members>? members,
     List<RequestSendData>? requests,
     Producer? producer,
+    String? partnerId,
+
   }) {
     _id = id;
     _name = name;
@@ -199,6 +201,7 @@ class Team {
     _host = host;
     _members = members;
     _requests = requests;
+    _partnerId = partnerId;
     _producer = producer;
   }
 
@@ -216,6 +219,7 @@ class Team {
     _nextDeliveryDate = json['nextDeliveryDate'];
     _createdAt = json['createdAt'];
     _updatedAt = json['updatedAt'];
+    _partnerId = json['partnerId'] ?? '';
     if (json['orders'] != null) {
       _orders = [];
       json['orders'].forEach((v) {
@@ -251,6 +255,7 @@ class Team {
   dynamic _imageKey;
   dynamic _nextDeliveryDate;
   String? _createdAt;
+  String? _partnerId;
   String? _updatedAt;
   List<Orders>? _orders;
   Host? _host;
@@ -272,6 +277,7 @@ class Team {
     dynamic nextDeliveryDate,
     String? createdAt,
     String? updatedAt,
+    String? partnerId,
     List<Orders>? orders,
     Host? host,
     List<Members>? members,
@@ -297,7 +303,11 @@ class Team {
         members: members ?? _members,
         requests: requests ?? _requests,
         producer: producer ?? _producer,
+        partnerId: partnerId ?? _partnerId,
       );
+
+
+  String? get partnerId => _partnerId;
 
   String? get id => _id;
 

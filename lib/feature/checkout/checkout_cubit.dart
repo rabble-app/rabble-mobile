@@ -122,6 +122,7 @@ class CheckoutCubit extends RabbleBaseCubit {
       CustomBottomSheet.showQuitBottomModelSheet(
               context,
               QuiteTeam(
+                status: '',
                 canLeave: int.parse(percentage) < 100 &&
                     remainingDays > 0 &&
                     count == 1,

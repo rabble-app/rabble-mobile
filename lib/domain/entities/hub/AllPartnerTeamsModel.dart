@@ -1,40 +1,38 @@
 import 'package:rabble/core/config/export.dart';
-import 'package:rabble/domain/entities/TeamCountModel.dart';
+import 'package:rabble/domain/entities/RequestSendModel.dart';
 
-import 'TeamModel.dart';
-
-class UserTeamModel {
-  UserTeamModel({
+class AllPartnerTeamsModel {
+  AllPartnerTeamsModel({
     num? statusCode,
     String? message,
-    List<HostTeamData>? data,
+    List<PartnersTeamData>? data,
   }) {
     _statusCode = statusCode;
     _message = message;
     _data = data;
   }
 
-  UserTeamModel.fromJson(dynamic json) {
+  AllPartnerTeamsModel.fromJson(dynamic json) {
     _statusCode = json['statusCode'];
     _message = json['message'];
     if (json['data'] != null) {
       _data = [];
       json['data'].forEach((v) {
-        _data?.add(HostTeamData.fromJson(v));
+        _data?.add(PartnersTeamData.fromJson(v));
       });
     }
   }
 
   num? _statusCode;
   String? _message;
-  List<HostTeamData>? _data;
+  List<PartnersTeamData>? _data;
 
-  UserTeamModel copyWith({
+  AllPartnerTeamsModel copyWith({
     num? statusCode,
     String? message,
-    List<HostTeamData>? data,
+    List<PartnersTeamData>? data,
   }) =>
-      UserTeamModel(
+      AllPartnerTeamsModel(
         statusCode: statusCode ?? _statusCode,
         message: message ?? _message,
         data: data ?? _data,
@@ -44,7 +42,7 @@ class UserTeamModel {
 
   String? get message => _message;
 
-  List<HostTeamData>? get data => _data;
+  List<PartnersTeamData>? get data => _data;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -57,127 +55,30 @@ class UserTeamModel {
   }
 }
 
-class HostTeamData {
-  HostTeamData({
+class PartnersTeamData {
+  PartnersTeamData({
     String? id,
-    String? teamId,
-    String? userId,
-    String? status,
-    bool? skipNextDelivery,
+    String? name,
+    String? postalCode,
+    String? producerId,
+    String? hostId,
+    num? frequency,
+    String? description,
+    bool? isPublic,
+    String? imageUrl,
+    dynamic imageKey,
+    String? nextDeliveryDate,
+    String? productLimit,
+    String? deliveryDay,
     String? createdAt,
     String? updatedAt,
-    Team? team,
+    String? partnerId,
+    List<BuyingTeamMembers>? members,
+    Producer? producer,
+    Host? host,
+    List<RequestSendData>? requests,
+    Partner? partner,
   }) {
-    _id = id;
-    _teamId = teamId;
-    _userId = userId;
-    _status = status;
-    _skipNextDelivery = skipNextDelivery;
-    _createdAt = createdAt;
-    _updatedAt = updatedAt;
-    _team = team;
-  }
-
-  HostTeamData.fromJson(dynamic json) {
-    _id = json['id'];
-    _teamId = json['teamId'];
-    _userId = json['userId'];
-    _status = json['status'];
-    _skipNextDelivery = json['skipNextDelivery'];
-    _createdAt = json['createdAt'];
-    _updatedAt = json['updatedAt'];
-    _team = json['team'] != null ? Team.fromJson(json['team']) : null;
-  }
-
-  String? _id;
-  String? _teamId;
-  String? _userId;
-  String? _status;
-  bool? _skipNextDelivery;
-  String? _createdAt;
-  String? _updatedAt;
-  Team? _team;
-
-  HostTeamData copyWith({
-    String? id,
-    String? teamId,
-    String? userId,
-    String? status,
-    bool? skipNextDelivery,
-    String? createdAt,
-    String? updatedAt,
-    Team? team,
-  }) =>
-      HostTeamData(
-        id: id ?? _id,
-        teamId: teamId ?? _teamId,
-        userId: userId ?? _userId,
-        status: status ?? _status,
-        skipNextDelivery: skipNextDelivery ?? _skipNextDelivery,
-        createdAt: createdAt ?? _createdAt,
-        updatedAt: updatedAt ?? _updatedAt,
-        team: team ?? _team,
-      );
-
-  String? get id => _id;
-
-  String? get teamId => _teamId;
-
-  String? get userId => _userId;
-
-  String? get status => _status;
-
-  bool? get skipNextDelivery => _skipNextDelivery;
-
-  String? get createdAt => _createdAt;
-
-  String? get updatedAt => _updatedAt;
-
-  Team? get team => _team;
-
-
-
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['id'] = _id;
-    map['teamId'] = _teamId;
-    map['userId'] = _userId;
-    map['status'] = _status;
-    map['skipNextDelivery'] = _skipNextDelivery;
-    map['createdAt'] = _createdAt;
-    map['updatedAt'] = _updatedAt;
-    if (_team != null) {
-      map['team'] = _team?.toJson();
-    }
-    return map;
-  }
-}
-
-class Team {
-  Team(
-      {String? id,
-      String? name,
-      String? postalCode,
-      String? producerId,
-      String? partnerId,
-      String? hostId,
-      num? frequency,
-      String? description,
-      bool? isPublic,
-      dynamic imageUrl,
-      dynamic imageKey,
-      dynamic nextDeliveryDate,
-      String? createdAt,
-      String? updatedAt,
-      List<Members>? members,
-      Producer? producer,
-      Host? host,
-      Count? count,
-        List<Basket>? basket,
-
-
-      }) {
     _id = id;
     _name = name;
     _postalCode = postalCode;
@@ -189,17 +90,20 @@ class Team {
     _imageUrl = imageUrl;
     _imageKey = imageKey;
     _nextDeliveryDate = nextDeliveryDate;
+    _productLimit = productLimit;
+    _deliveryDay = deliveryDay;
     _createdAt = createdAt;
     _updatedAt = updatedAt;
+    _partnerId = partnerId;
     _members = members;
     _producer = producer;
     _host = host;
-    _count = count;
-    _basket = basket;
-    _partnerId = partnerId;
+    _requests = requests;
+
+    _partner = partner;
   }
 
-  Team.fromJson(dynamic json) {
+  PartnersTeamData.fromJson(dynamic json) {
     _id = json['id'];
     _name = json['name'];
     _postalCode = json['postalCode'];
@@ -211,26 +115,30 @@ class Team {
     _imageUrl = json['imageUrl'];
     _imageKey = json['imageKey'];
     _nextDeliveryDate = json['nextDeliveryDate'];
+    _productLimit = json['productLimit'];
+    _deliveryDay = json['deliveryDay'];
     _createdAt = json['createdAt'];
     _updatedAt = json['updatedAt'];
-    _partnerId = json['partnerId'] ?? '';
+    _partnerId = json['partnerId'];
     if (json['members'] != null) {
       _members = [];
       json['members'].forEach((v) {
-        _members?.add(Members.fromJson(v));
+        _members?.add(BuyingTeamMembers.fromJson(v));
       });
     }
     _producer =
         json['producer'] != null ? Producer.fromJson(json['producer']) : null;
     _host = json['host'] != null ? Host.fromJson(json['host']) : null;
-    _count = json['_count'] != null ? Count.fromJson(json['_count']) : null;
+    _partner =
+        json['Partner'] != null ? Partner.fromJson(json['Partner']) : null;
 
-    if(json['basket']!=null){
-      _basket = [];
-      json['basket'].forEach((v) {
-        _basket?.add(Basket.fromJson(v));
+    if (json['requests'] != null) {
+      _requests = [];
+      json['requests'].forEach((v) {
+        _requests?.add(RequestSendData.fromJson(v));
       });
     }
+
   }
 
   String? _id;
@@ -241,19 +149,22 @@ class Team {
   num? _frequency;
   String? _description;
   bool? _isPublic;
-  dynamic _imageUrl;
+  String? _imageUrl;
   dynamic _imageKey;
-  dynamic _nextDeliveryDate;
+  String? _nextDeliveryDate;
+  String? _productLimit;
+  String? _deliveryDay;
   String? _createdAt;
   String? _updatedAt;
   String? _partnerId;
-  List<Members>? _members;
+  List<BuyingTeamMembers>? _members;
   Producer? _producer;
   Host? _host;
-  Count? _count;
-  List<Basket>? _basket;
+  Partner? _partner;
+  List<RequestSendData>? _requests;
 
-  Team copyWith({
+
+  PartnersTeamData copyWith({
     String? id,
     String? name,
     String? postalCode,
@@ -262,20 +173,22 @@ class Team {
     num? frequency,
     String? description,
     bool? isPublic,
-    dynamic imageUrl,
+    String? imageUrl,
     dynamic imageKey,
-    dynamic nextDeliveryDate,
+    String? nextDeliveryDate,
+    String? productLimit,
+    String? deliveryDay,
     String? createdAt,
-    String? partnerId,
     String? updatedAt,
-    List<Members>? members,
+    String? partnerId,
+    List<BuyingTeamMembers>? members,
     Producer? producer,
     Host? host,
-    Count? count,
-    List<Basket>? basket,
+    List<RequestSendData>? requests,
 
+    Partner? partner,
   }) =>
-      Team(
+      PartnersTeamData(
         id: id ?? _id,
         name: name ?? _name,
         postalCode: postalCode ?? _postalCode,
@@ -287,19 +200,21 @@ class Team {
         imageUrl: imageUrl ?? _imageUrl,
         imageKey: imageKey ?? _imageKey,
         nextDeliveryDate: nextDeliveryDate ?? _nextDeliveryDate,
+        productLimit: productLimit ?? _productLimit,
+        deliveryDay: deliveryDay ?? _deliveryDay,
         createdAt: createdAt ?? _createdAt,
         updatedAt: updatedAt ?? _updatedAt,
+        partnerId: partnerId ?? _partnerId,
         members: members ?? _members,
         producer: producer ?? _producer,
-        host: host ?? _host,
-        count: count ?? _count,
-        basket: basket ?? _basket,
-        partnerId: partnerId ?? _partnerId,
+        requests: requests ?? _requests,
 
+        host: host ?? _host,
+        partner: partner ?? _partner,
       );
 
 
-  String? get partnerId => _partnerId;
+  List<RequestSendData>? get requests => _requests;
 
   String? get id => _id;
 
@@ -317,25 +232,29 @@ class Team {
 
   bool? get isPublic => _isPublic;
 
-  dynamic get imageUrl => _imageUrl;
+  String? get imageUrl => _imageUrl;
 
   dynamic get imageKey => _imageKey;
 
-  dynamic get nextDeliveryDate => _nextDeliveryDate;
+  String? get nextDeliveryDate => _nextDeliveryDate;
+
+  String? get productLimit => _productLimit;
+
+  String? get deliveryDay => _deliveryDay;
 
   String? get createdAt => _createdAt;
 
   String? get updatedAt => _updatedAt;
 
-  List<Members>? get members => _members;
+  String? get partnerId => _partnerId;
 
-  List<Basket>? get basket => _basket;
+  List<BuyingTeamMembers>? get members => _members;
 
   Producer? get producer => _producer;
 
-  Count? get count => _count;
-
   Host? get host => _host;
+
+  Partner? get partner => _partner;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -350,8 +269,11 @@ class Team {
     map['imageUrl'] = _imageUrl;
     map['imageKey'] = _imageKey;
     map['nextDeliveryDate'] = _nextDeliveryDate;
+    map['productLimit'] = _productLimit;
+    map['deliveryDay'] = _deliveryDay;
     map['createdAt'] = _createdAt;
     map['updatedAt'] = _updatedAt;
+    map['partnerId'] = _partnerId;
     if (_members != null) {
       map['members'] = _members?.map((v) => v.toJson()).toList();
     }
@@ -361,18 +283,13 @@ class Team {
     if (_host != null) {
       map['host'] = _host?.toJson();
     }
+    if (_partner != null) {
+      map['Partner'] = _partner?.toJson();
+    }
     return map;
   }
-
-  int epochToTotalWeeks(int epochTimestamp) {
-    print(epochTimestamp);
-    final DateTime dateTime =
-        DateTime.fromMillisecondsSinceEpoch(epochTimestamp * 1000);
-    final int days = dateTime.difference(DateTime(1970)).inDays;
-    final int weeks = days ~/ 7;
-    return weeks == 0 ? 1 : weeks;
-  }
 }
+
 
 class Host {
   Host({
@@ -416,50 +333,63 @@ class Producer {
   Producer({
     String? id,
     String? userId,
-    dynamic imageUrl,
+    dynamic stripeConnectId,
+    bool? isVerified,
+    String? imageUrl,
     dynamic imageKey,
     String? businessName,
     String? businessAddress,
-    num? minimumTreshold,
+    dynamic accountsEmail,
+    dynamic salesEmail,
+    String? minimumTreshold,
     dynamic website,
     dynamic description,
+    dynamic vat,
+    num? paymentTerm,
     String? createdAt,
     String? updatedAt,
     User? user,
     List<Categories>? categories,
-    Count? count,
   }) {
     _id = id;
     _userId = userId;
+    _stripeConnectId = stripeConnectId;
+    _isVerified = isVerified;
     _imageUrl = imageUrl;
     _imageKey = imageKey;
     _businessName = businessName;
     _businessAddress = businessAddress;
+    _accountsEmail = accountsEmail;
+    _salesEmail = salesEmail;
     _minimumTreshold = minimumTreshold;
     _website = website;
     _description = description;
+    _vat = vat;
+    _paymentTerm = paymentTerm;
     _createdAt = createdAt;
     _updatedAt = updatedAt;
     _user = user;
     _categories = categories;
-    _count = count;
-
   }
 
   Producer.fromJson(dynamic json) {
-    _id = json['id'] ?? '';
-    _userId = json['userId'] ?? '';
-    _imageUrl = json['imageUrl'] ?? '';
-    _imageKey = json['imageKey'] ?? '';
-    _businessName = json['businessName'] ?? '';
-    _businessAddress = json['businessAddress'] ?? '';
-    if(json['minimumTreshold']!=null) {
-      _minimumTreshold = num.parse(json['minimumTreshold'].toString() ??'0');
-    }
-    _website = json['website'] ?? '';
-    _description = json['description'] ?? '';
-    _createdAt = json['createdAt'] ?? '';
-    _updatedAt = json['updatedAt'] ?? '';
+    _id = json['id'];
+    _userId = json['userId'];
+    _stripeConnectId = json['stripeConnectId'];
+    _isVerified = json['isVerified'];
+    _imageUrl = json['imageUrl'];
+    _imageKey = json['imageKey'];
+    _businessName = json['businessName'];
+    _businessAddress = json['businessAddress'];
+    _accountsEmail = json['accountsEmail'];
+    _salesEmail = json['salesEmail'];
+    _minimumTreshold = json['minimumTreshold'];
+    _website = json['website'];
+    _description = json['description'];
+    _vat = json['vat'];
+    _paymentTerm = json['paymentTerm'];
+    _createdAt = json['createdAt'];
+    _updatedAt = json['updatedAt'];
     _user = json['user'] != null ? User.fromJson(json['user']) : null;
     if (json['categories'] != null) {
       _categories = [];
@@ -467,69 +397,80 @@ class Producer {
         _categories?.add(Categories.fromJson(v));
       });
     }
-    _count = json['_count'] != null ? Count.fromJson(json['_count']) : null;
-  }
-
-
-  Producer.fromLocalStorage() {
-    _businessName = "ABC";
   }
 
   String? _id;
   String? _userId;
-  dynamic _imageUrl;
+  dynamic _stripeConnectId;
+  bool? _isVerified;
+  String? _imageUrl;
   dynamic _imageKey;
   String? _businessName;
   String? _businessAddress;
-  num? _minimumTreshold;
+  dynamic _accountsEmail;
+  dynamic _salesEmail;
+  String? _minimumTreshold;
   dynamic _website;
   dynamic _description;
+  dynamic _vat;
+  num? _paymentTerm;
   String? _createdAt;
   String? _updatedAt;
   User? _user;
   List<Categories>? _categories;
-  Count? _count;
 
   Producer copyWith({
     String? id,
     String? userId,
-    dynamic imageUrl,
+    dynamic stripeConnectId,
+    bool? isVerified,
+    String? imageUrl,
     dynamic imageKey,
     String? businessName,
     String? businessAddress,
-    num? minimumTreshold,
+    dynamic accountsEmail,
+    dynamic salesEmail,
+    String? minimumTreshold,
     dynamic website,
     dynamic description,
+    dynamic vat,
+    num? paymentTerm,
     String? createdAt,
     String? updatedAt,
     User? user,
-    Count? count,
-
     List<Categories>? categories,
   }) =>
       Producer(
         id: id ?? _id,
         userId: userId ?? _userId,
+        stripeConnectId: stripeConnectId ?? _stripeConnectId,
+        isVerified: isVerified ?? _isVerified,
         imageUrl: imageUrl ?? _imageUrl,
         imageKey: imageKey ?? _imageKey,
         businessName: businessName ?? _businessName,
         businessAddress: businessAddress ?? _businessAddress,
+        accountsEmail: accountsEmail ?? _accountsEmail,
+        salesEmail: salesEmail ?? _salesEmail,
         minimumTreshold: minimumTreshold ?? _minimumTreshold,
         website: website ?? _website,
         description: description ?? _description,
+        vat: vat ?? _vat,
+        paymentTerm: paymentTerm ?? _paymentTerm,
         createdAt: createdAt ?? _createdAt,
         updatedAt: updatedAt ?? _updatedAt,
         user: user ?? _user,
         categories: categories ?? _categories,
-        count: count ?? _count,
-
       );
 
   String? get id => _id;
 
   String? get userId => _userId;
 
-  dynamic get imageUrl => _imageUrl;
+  dynamic get stripeConnectId => _stripeConnectId;
+
+  bool? get isVerified => _isVerified;
+
+  String? get imageUrl => _imageUrl;
 
   dynamic get imageKey => _imageKey;
 
@@ -537,16 +478,23 @@ class Producer {
 
   String? get businessAddress => _businessAddress;
 
-  num? get minimumTreshold => _minimumTreshold;
+  dynamic get accountsEmail => _accountsEmail;
+
+  dynamic get salesEmail => _salesEmail;
+
+  String? get minimumTreshold => _minimumTreshold;
 
   dynamic get website => _website;
 
   dynamic get description => _description;
 
+  dynamic get vat => _vat;
+
+  num? get paymentTerm => _paymentTerm;
+
   String? get createdAt => _createdAt;
 
   String? get updatedAt => _updatedAt;
-  Count? get count => _count;
 
   User? get user => _user;
 
@@ -556,13 +504,19 @@ class Producer {
     final map = <String, dynamic>{};
     map['id'] = _id;
     map['userId'] = _userId;
+    map['stripeConnectId'] = _stripeConnectId;
+    map['isVerified'] = _isVerified;
     map['imageUrl'] = _imageUrl;
     map['imageKey'] = _imageKey;
     map['businessName'] = _businessName;
     map['businessAddress'] = _businessAddress;
+    map['accountsEmail'] = _accountsEmail;
+    map['salesEmail'] = _salesEmail;
     map['minimumTreshold'] = _minimumTreshold;
     map['website'] = _website;
     map['description'] = _description;
+    map['vat'] = _vat;
+    map['paymentTerm'] = _paymentTerm;
     map['createdAt'] = _createdAt;
     map['updatedAt'] = _updatedAt;
     if (_user != null) {
@@ -575,112 +529,175 @@ class Producer {
   }
 }
 
-
-
-class Members {
-  Members({
+class Categories {
+  Categories({
     String? id,
-    String? teamId,
-    String? userId,
-    String? status,
-    bool? skipNextDelivery,
+    String? producerId,
+    String? producerCategoryOptionId,
     String? createdAt,
     String? updatedAt,
-    User? user,
-
+    Category? category,
   }) {
     _id = id;
-    _teamId = teamId;
-    _userId = userId;
-    _status = status;
-    _skipNextDelivery = skipNextDelivery;
+    _producerId = producerId;
+    _producerCategoryOptionId = producerCategoryOptionId;
     _createdAt = createdAt;
     _updatedAt = updatedAt;
-    _user = user;
-
+    _category = category;
   }
 
-  Members.fromJson(dynamic json) {
+  Categories.fromJson(dynamic json) {
     _id = json['id'];
-    _teamId = json['teamId'];
-    _userId = json['userId'];
-    _status = json['status'];
-    _skipNextDelivery = json['skipNextDelivery'];
+    _producerId = json['producerId'];
+    _producerCategoryOptionId = json['producerCategoryOptionId'];
     _createdAt = json['createdAt'];
     _updatedAt = json['updatedAt'];
-    if(json['user'] != null) {
-      _user = json['user'] != null ? User.fromJson(json['user']) : null;
-    }
-
+    _category =
+        json['category'] != null ? Category.fromJson(json['category']) : null;
   }
 
   String? _id;
-  String? _teamId;
-  String? _userId;
-  String? _status;
-  bool? _skipNextDelivery;
+  String? _producerId;
+  String? _producerCategoryOptionId;
   String? _createdAt;
   String? _updatedAt;
-  User? _user;
+  Category? _category;
 
-
-  Members copyWith({
+  Categories copyWith({
     String? id,
-    String? teamId,
-    String? userId,
-    String? status,
-    bool? skipNextDelivery,
+    String? producerId,
+    String? producerCategoryOptionId,
     String? createdAt,
     String? updatedAt,
-    User? user,
-
+    Category? category,
   }) =>
-      Members(
+      Categories(
         id: id ?? _id,
-        teamId: teamId ?? _teamId,
-        userId: userId ?? _userId,
-        status: status ?? _status,
-        skipNextDelivery: skipNextDelivery ?? _skipNextDelivery,
+        producerId: producerId ?? _producerId,
+        producerCategoryOptionId:
+            producerCategoryOptionId ?? _producerCategoryOptionId,
         createdAt: createdAt ?? _createdAt,
         updatedAt: updatedAt ?? _updatedAt,
-        user: user ?? _user,
-
+        category: category ?? _category,
       );
 
   String? get id => _id;
 
-  String? get teamId => _teamId;
+  String? get producerId => _producerId;
 
-  String? get userId => _userId;
-
-  String? get status => _status;
-
-  bool? get skipNextDelivery => _skipNextDelivery;
+  String? get producerCategoryOptionId => _producerCategoryOptionId;
 
   String? get createdAt => _createdAt;
 
   String? get updatedAt => _updatedAt;
 
-  User? get user => _user;
-
+  Category? get category => _category;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['id'] = _id;
-    map['teamId'] = _teamId;
-    map['userId'] = _userId;
-    map['status'] = _status;
-    map['skipNextDelivery'] = _skipNextDelivery;
+    map['producerId'] = _producerId;
+    map['producerCategoryOptionId'] = _producerCategoryOptionId;
     map['createdAt'] = _createdAt;
     map['updatedAt'] = _updatedAt;
-    if (_user != null) {
-      map['user'] = _user?.toJson();
+    if (_category != null) {
+      map['category'] = _category?.toJson();
     }
     return map;
   }
+}
 
-  @override
-  String toString() {
-    return 'Members{_userId: $_userId}';
+class Category {
+  Category({
+    String? id,
+    String? name,
+    String? createdAt,
+    String? updatedAt,
+  }) {
+    _id = id;
+    _name = name;
+    _createdAt = createdAt;
+    _updatedAt = updatedAt;
+  }
+
+  Category.fromJson(dynamic json) {
+    _id = json['id'];
+    _name = json['name'];
+    _createdAt = json['createdAt'];
+    _updatedAt = json['updatedAt'];
+  }
+
+  String? _id;
+  String? _name;
+  String? _createdAt;
+  String? _updatedAt;
+
+  Category copyWith({
+    String? id,
+    String? name,
+    String? createdAt,
+    String? updatedAt,
+  }) =>
+      Category(
+        id: id ?? _id,
+        name: name ?? _name,
+        createdAt: createdAt ?? _createdAt,
+        updatedAt: updatedAt ?? _updatedAt,
+      );
+
+  String? get id => _id;
+
+  String? get name => _name;
+
+  String? get createdAt => _createdAt;
+
+  String? get updatedAt => _updatedAt;
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['id'] = _id;
+    map['name'] = _name;
+    map['createdAt'] = _createdAt;
+    map['updatedAt'] = _updatedAt;
+    return map;
   }
 }
+
+class User {
+  User({
+    dynamic firstName,
+    dynamic lastName,
+  }) {
+    _firstName = firstName;
+    _lastName = lastName;
+  }
+
+  User.fromJson(dynamic json) {
+    _firstName = json['firstName'];
+    _lastName = json['lastName'];
+  }
+
+  dynamic _firstName;
+  dynamic _lastName;
+
+  User copyWith({
+    dynamic firstName,
+    dynamic lastName,
+  }) =>
+      User(
+        firstName: firstName ?? _firstName,
+        lastName: lastName ?? _lastName,
+      );
+
+  dynamic get firstName => _firstName;
+
+  dynamic get lastName => _lastName;
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['firstName'] = _firstName;
+    map['lastName'] = _lastName;
+    return map;
+  }
+}
+

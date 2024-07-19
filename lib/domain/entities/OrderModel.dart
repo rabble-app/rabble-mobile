@@ -1,4 +1,5 @@
 import 'package:rabble/core/config/export.dart';
+import 'package:rabble/domain/entities/hub/collection_detail.dart';
 
 import 'PartionedProductsData.dart';
 
@@ -63,10 +64,12 @@ class CurrentOrderData {
     String? createdAt,
     String? updatedAt,
     String? deliveryDate,
+    String? confirmationStatus,
     Producer? producer,
     List<Basket>? basket,
     List<Payments>? payments,
     List<PartionedProducts>? partionedProducts,
+    List<CollectionDetail>? collectionDetail,
   }) {
     _id = id;
     _teamId = teamId;
@@ -81,6 +84,8 @@ class CurrentOrderData {
     _deliveryDate = deliveryDate;
     _producer = producer;
     _partionedProducts = partionedProducts;
+    _collection = collectionDetail;
+    _confirmationStatus = confirmationStatus;
   }
 
   CurrentOrderData.fromJson(dynamic json) {
@@ -92,6 +97,7 @@ class CurrentOrderData {
     _deadline = json['deadline'];
     _createdAt = json['createdAt'];
     _updatedAt = json['updatedAt'];
+    _confirmationStatus = json['confirmationStatus'] ?? '';
     _deliveryDate = json['deliveryDate'];
     if (json['team'] != null) {
       _producer = Producer.fromJson(json['team']['producer']);
@@ -116,11 +122,19 @@ class CurrentOrderData {
         _partionedProducts!.add(PartionedProducts.fromJson(v));
       });
     }
+
+    if (json['collection'] != null) {
+      _collection = [];
+      json['collection'].forEach((v) {
+        _collection!.add(CollectionDetail.fromJson(v));
+      });
+    }
   }
 
   String? _id;
   String? _teamId;
   String? _status;
+  String? _confirmationStatus;
   num? _minimumTreshold;
   num? _accumulatedAmount;
   String? _deadline;
@@ -131,6 +145,7 @@ class CurrentOrderData {
   List<Payments>? _payments;
   List<PartionedProducts>? _partionedProducts;
   Producer? _producer;
+  List<CollectionDetail>? _collection;
 
   CurrentOrderData copyWith({
     String? id,
@@ -142,10 +157,12 @@ class CurrentOrderData {
     String? createdAt,
     String? deliveryDate,
     String? updatedAt,
+    String? confirmationStatus,
     Producer? producer,
     List<Basket>? basket,
     List<Payments>? payments,
     List<PartionedProducts>? partionedProducts,
+    List<CollectionDetail>? collectionDetail,
   }) =>
       CurrentOrderData(
           id: id ?? _id,
@@ -160,9 +177,15 @@ class CurrentOrderData {
           payments: payments ?? _payments,
           producer: producer ?? _producer,
           deliveryDate: deliveryDate ?? _deliveryDate,
+          collectionDetail: collectionDetail ?? _collection,
+          confirmationStatus: confirmationStatus ?? _confirmationStatus,
           partionedProducts: partionedProducts ?? _partionedProducts);
 
   String? get id => _id;
+
+  String? get confirmationStatus => _confirmationStatus;
+
+  List<CollectionDetail>? get collection => _collection;
 
   Producer? get producer => _producer;
 

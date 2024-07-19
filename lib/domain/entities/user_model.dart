@@ -39,7 +39,7 @@ class UserModel {
     _firstName = json['firstName'];
     _lastName = json['lastName'];
     _postalCode = json['postalCode'];
-    _stripeCustomerId = json['stripeCustomerId'];
+    _stripeCustomerId = json['stripeCustomerId'] ?? '';
     _stripeDefaultPaymentMethodId = json['stripeDefaultPaymentMethodId'];
     _cardLastFourDigits = json['cardLastFourDigits'];
     _imageUrl = json['imageUrl'];

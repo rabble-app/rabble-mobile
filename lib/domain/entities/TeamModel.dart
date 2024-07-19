@@ -97,6 +97,7 @@ class TeamData {
     List<RequestSendData>? requests,
     List<ConversationData>? chats,
     Count? count,
+    Partner? partner,
   }) {
     _id = id;
     _name = name;
@@ -117,6 +118,7 @@ class TeamData {
     _requests = requests;
     _chats = chats;
     _count = count;
+    _partner = partner;
   }
 
   TeamData.fromJson(dynamic json) {
@@ -133,6 +135,11 @@ class TeamData {
     _nextDeliveryDate = json['nextDeliveryDate'];
     _createdAt = json['createdAt'];
     _updatedAt = json['updatedAt'];
+
+    if (json['Partner'] != null) {
+      _partner = Partner.fromJson(json['Partner']);
+    }
+
     if (json['members'] != null) {
       _members = [];
       json['members'].forEach((v) {
@@ -175,7 +182,9 @@ class TeamData {
   Producer? _producer;
   List<RequestSendData>? _requests;
   List<ConversationData>? _chats;
+  Partner? _partner;
 
+  Partner? get partner => _partner;
 
   set hostId(String? value) {
     _hostId = value;
@@ -203,6 +212,7 @@ class TeamData {
     List<RequestSendData>? requests,
     List<ConversationData>? chats,
     Count? count,
+    Partner? partner,
   }) =>
       TeamData(
           id: id ?? _id,
@@ -223,10 +233,10 @@ class TeamData {
           producer: producer ?? _producer,
           requests: requests ?? _requests,
           chats: chats ?? _chats,
+          partner: partner ?? _partner,
           count: count ?? _count);
 
   String? get id => _id;
-
 
   set id(String? value) {
     _id = value;
@@ -247,7 +257,6 @@ class TeamData {
   bool? get isPublic => _isPublic;
 
   List<ConversationData>? get chats => _chats;
-
 
   set chats(List<ConversationData>? value) {
     _chats = value;
@@ -656,7 +665,7 @@ class User {
   }
 
   User.fromJson(dynamic json) {
-    if(json['id']!=null) {
+    if (json['id'] != null) {
       _id = json['id'] ?? '';
     }
     _email = json['email'] ?? '';
@@ -703,9 +712,7 @@ class User {
         cardLastFourDigits: cardLastFourDigits ?? _cardLastFourDigits,
       );
 
-
   String? get id => _id;
-
 
   set id(String? value) {
     _id = value;

@@ -118,6 +118,7 @@ class _BuyingTeamWidgetState extends State<BuyingTeamWidget> {
                   return BuyingTeamItemWidget(
                     isVertical: widget.isHorizontal,
                     teamId: data.id,
+                    partnerId: data.producerId ?? '',
                     image: data.imageUrl ?? '',
                     teamName: data.name,
                     postalCode: data.postalCode ?? '',
@@ -207,6 +208,7 @@ class _BuyingTeamWidgetState extends State<BuyingTeamWidget> {
               return BuyingTeamItemWidget(
                 isVertical: widget.isHorizontal,
                 teamId: data.id,
+                partnerId: data.producerId ?? '',
                 teamName: data.name,
                 postalCode: data.postalCode ?? '',
                 image: data.imageUrl,
@@ -266,6 +268,7 @@ class _BuyingTeamWidgetState extends State<BuyingTeamWidget> {
                     return BuyingTeamItemWidget(
                       isVertical: widget.isHorizontal,
                       teamId: data.id,
+                      partnerId: data.producerId ?? '',
                       teamName: data.name,
                       postalCode: data.postalCode ?? '',
                       image: data.imageUrl,

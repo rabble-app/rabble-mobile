@@ -484,6 +484,9 @@ class TeamView extends StatelessWidget {
                                                                                                 'memberId': member.id,
                                                                                                 'card': member.user!.cardLastFourDigits ?? '',
                                                                                                 'deadline': currentOrderSnap.data!.deadline,
+                                                                                                'status': currentOrderSnap.data?.status,
+                                                                                                'type':'0'
+
                                                                                               };
 
                                                                                               NavigatorHelper().navigateTo('/subscription_shipment_view', dataaa);
@@ -529,6 +532,7 @@ class TeamView extends StatelessWidget {
                                                                                                       'myId': bloc.isMyTeam.value.id,
                                                                                                       'bloc': bloc,
                                                                                                       'memberId': member.id,
+                                                                                                      'status': currentOrderSnap.data!.status,
                                                                                                       'deadline': currentOrderSnap.data!.deadline,
                                                                                                       'percentage': DateFormatUtil.calculatePercentage(int.parse(currentOrderSnap.data!.accumulatedAmount!.round().toString()), int.parse(currentOrderSnap.data!.minimumTreshold!.toString()))
                                                                                                     };

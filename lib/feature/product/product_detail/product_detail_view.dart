@@ -535,7 +535,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                                                           child: RabbleText
                                                               .subHeaderText(
                                                             text:
-                                                                'This is a ${productDetail.totalThresholdQuantity} ${productDetail.orderSubUnit!.toLowerCase()} ${productDetail.orderUnit!.toLowerCase()}. The ${productDetail.orderUnit!.toLowerCase()} is ordered once all ${productDetail.orderSubUnit!.toLowerCase()} are sold to the team',
+                                                                'This is a ${productDetail.totalThresholdQuantity} ${productDetail.orderSubUnit!.toLowerCase()} ${productDetail.orderUnit!.toLowerCase()}. The ${productDetail.orderUnit!.toLowerCase()} is ordered once all ${productDetail.orderSubUnit!.toLowerCase()}s in it are sold to the team',
                                                             textAlign:
                                                                 TextAlign.start,
                                                             fontWeight:

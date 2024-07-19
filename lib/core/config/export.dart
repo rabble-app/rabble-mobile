@@ -17,6 +17,7 @@ export 'package:rabble/feature/hub/widget/community_detail_widget.dart';
 export 'package:rabble/feature/hub/widget/days_widget.dart';
 export 'package:rabble/domain/entities/mock/community_detail_item_widget.dart';
 export 'package:rabble/domain/entities/mock/mock_community_model.dart';
+export 'package:rabble/domain/entities/hub/Partner.dart';
 
 export 'dart:math';
 export 'package:sizer/sizer.dart';

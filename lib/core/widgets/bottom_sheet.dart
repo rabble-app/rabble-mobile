@@ -88,7 +88,7 @@ class CustomBottomSheet {
             return SizedBox(
               height: date != null
                   ? !canLeave
-                      ? MediaQuery.of(context).size.height * 0.3
+                      ? MediaQuery.of(context).size.height * 0.47
                       : MediaQuery.of(context).size.height * 0.47
                   : MediaQuery.of(context).size.height * 0.4,
               child: Scaffold(

@@ -75,6 +75,8 @@ class MySubscriptionsView extends StatelessWidget {
                               return BuyingTeamItemWidget(
                                 isVertical: false,
                                 teamId: data.team!.id,
+                                partnerId: data.team?.partnerId,
+
                                 teamName: data.team!.name ?? '',
                                 postalCode: data.team!.postalCode ?? '',
                                 image: data.team!.imageUrl ?? '',

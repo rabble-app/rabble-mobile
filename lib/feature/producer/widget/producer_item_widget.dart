@@ -96,7 +96,7 @@ class ProducerItemWidget extends StatelessWidget {
                 fontFamily: cPoppins,
                 height: 1.3,
                 color: APPColors.bg_grey27,
-                fontSize: 11.sp,
+                fontSize: 10.sp,
               ),
             )
           ],

@@ -1,7 +1,10 @@
 import 'package:rabble/core/config/export.dart';
+import 'package:rabble/domain/entities/hub/open_hours_model.dart';
 
 class OpenHourWidget extends StatelessWidget {
-  OpenHourWidget({super.key});
+  final OpenHoursModel openHoursModel;
+
+  OpenHourWidget(this.openHoursModel, {super.key});
 
   final StreamController<bool> collectionES = StreamController.broadcast();
 
@@ -54,7 +57,11 @@ class OpenHourWidget extends StatelessWidget {
                                     2.w, 1.w),
                             margin: PagePadding.onlyTop(1.w),
                             child: RabbleText.subHeaderText(
-                              text: 'Mon - Fri',
+                              text:openHoursModel.type == 'ALL_THE_TIME'?
+                              'Open 24/7':
+                              openHoursModel.customOpenHours?.length == 1
+                                  ? openHoursModel.customOpenHours?.first.day
+                                  : getDays(openHoursModel.customOpenHours),
                               textAlign: TextAlign.center,
                               fontWeight: FontWeight.w600,
                               color: APPColors.appGreen4,
@@ -64,6 +71,7 @@ class OpenHourWidget extends StatelessWidget {
                           ),
                         ],
                       ),
+                      if(openHoursModel.type != 'ALL_THE_TIME')
                       InkWell(
                         child: !snapshot.data!
                             ? Assets.svgs.arrowUp
@@ -74,10 +82,31 @@ class OpenHourWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-                snapshot.data! ? const DaysWidget() : const SizedBox.shrink()
+                snapshot.data! &&
+                        (openHoursModel.type == 'CUSTOM' ||
+                            openHoursModel.type == 'MON_TO_FRI')
+                    ? DaysWidget(openHoursModel.customOpenHours!)
+                    : const SizedBox.shrink()
               ],
             ),
           );
         });
+  }
+
+  getDays(List<CustomOpenHours>? customOpenHours) {
+    Map<String, int> dayOrder = {
+      "MONDAY": 1,
+      "TUESDAY": 2,
+      "WEDNESDAY": 3,
+      "THURSDAY": 4,
+      "FRIDAY": 5,
+      "SATURDAY": 6,
+      "SUNDAY": 7,
+    };
+
+    customOpenHours
+        ?.sort((a, b) => dayOrder[a.day]!.compareTo(dayOrder[b.day]!));
+
+    return '${customOpenHours?.first.day?.substring(0, 3)} - ${customOpenHours?.last.day?.substring(0, 3)}';
   }
 }

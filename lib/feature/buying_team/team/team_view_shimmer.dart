@@ -7,7 +7,6 @@ class TeamViewShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var data = ModalRoute.of(context)!.settings.arguments as Map;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -15,7 +14,7 @@ class TeamViewShimmer extends StatelessWidget {
         children: [
           CreationTeamAppbar(
             backTitle: kBack,
-            title: data['teamName'] ?? '',
+            title: '',
             backRoute: '',
             action: [
               CustomShareWidget(
