@@ -22,7 +22,7 @@ class Conversation {
     return '';
   }
 
-  static getFrequencyText2(int freequency) {
+  static String getFrequencyText2(int freequency) {
     int fq = DateFormatUtil().epochToTotalWeeks(freequency);
 
 

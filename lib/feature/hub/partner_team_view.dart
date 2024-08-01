@@ -172,7 +172,7 @@ class PartnerTeamView extends StatelessWidget {
                                                     teamData.frequency!.toInt(),
                                                 currentUserId: '1',
                                                 introText:
-                                                    '${teamData.partner?.name} is partnering with ${teamData.producer?.businessName} and Rabble to bring everyone in ${teamData.postalCode!.length <= 3 ? "" : teamData.postalCode!.substring(0, teamData.postalCode!.length - 3)} the opportunity to access sustainable products, at wholesale prices, shipped direct from ${teamData.producer?.businessName} to ${teamData.partner?.name} ${Conversation.getFrequencyText2(teamData.frequency!.toInt())}. ',
+                                                    '${teamData.partner?.name} is partnering with ${teamData.producer?.businessName} and Rabble to bring everyone in ${teamData.postalCode!.length <= 3 ? "" : teamData.postalCode!.substring(0, teamData.postalCode!.length - 3)} the opportunity to access sustainable products, at wholesale prices, shipped direct from ${teamData.producer?.businessName} to ${teamData.partner?.name} ${Conversation.getFrequencyText2(teamData.frequency!.toInt()).toLowerCase()}. ',
                                                 hostId: teamData.hostId ?? '',
                                                 memberSince: '',
                                                 percentage: '',

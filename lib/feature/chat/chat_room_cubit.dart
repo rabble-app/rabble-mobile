@@ -30,11 +30,9 @@ class ChatRoomCubit extends RabbleBaseCubit with Validators {
 
   Stream<String> get messageStream => _messageSubject$.transform(validateEmpty);
 
-
   BehaviorSubject<UserModel> myDataSubject$ = BehaviorSubject();
 
   final PusherChannelsFlutter pusher = PusherChannelsFlutter.getInstance();
-
 
   late PusherChannel myChannel;
 
@@ -70,8 +68,9 @@ class ChatRoomCubit extends RabbleBaseCubit with Validators {
   }
 
   Future<void> initPusher(String teamName) async {
-//     const String API_KEY = kDebugMode ? '748c798ef5d23aa4750d' : '87b6fa5d4ff005ec100e';
-      const String API_KEY = '748c798ef5d23aa4750d';
+    const String API_KEY =
+        kDebugMode ? '748c798ef5d23aa4750d' : '87b6fa5d4ff005ec100e';
+    //     const String API_KEY = '748c798ef5d23aa4750d';
 
     const String API_CLUSTER = 'eu';
     await pusher.init(
@@ -135,6 +134,7 @@ class ChatRoomCubit extends RabbleBaseCubit with Validators {
     String tempText = input.replaceAll(' ', '');
     return tempText.length > 2 ? tempText : 'Rabble$tempText';
   }
+
   String removeSpecialCharactersExceptDash(String inputString) {
     RegExp regex = RegExp(r'[^a-zA-Z0-9\-]');
     return inputString.replaceAll(regex, '');
@@ -177,11 +177,10 @@ class ChatRoomCubit extends RabbleBaseCubit with Validators {
       if (chatRes.data!.isEmpty) {
         isEmpty = true;
       } else {
-
-        if(offset==0){
+        if (offset == 0) {
           tempList.insertAll(0, chatRes.data!);
           conversationListSubject$.sink.add(tempList);
-        }else{
+        } else {
           _scrollToBottom();
           tempList.addAll(chatRes.data!);
           conversationListSubject$.sink.add(tempList);
@@ -341,6 +340,7 @@ class ChatRoomCubit extends RabbleBaseCubit with Validators {
       initPusher(chatRes.data!.name!);
     }
   }
+
   void _scrollToBottom() {
     if (scrollController.hasClients) {
       scrollController.animateTo(

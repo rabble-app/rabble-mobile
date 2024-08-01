@@ -32,7 +32,7 @@ class AuthCubit extends RabbleBaseCubit with Validators {
             'Combine orders with friends and neighbours to move up the supply chain and buy direct from farmer, producer or importer'),
     OnBoardModel(
         heading: 'Support',
-        subHeading: 'Sustatinable Producers',
+        subHeading: 'Sustainable Producers',
         image: 'assets/png/onboard2.png',
         title: 'Bypass Conventional Supply Chains',
         desc:
