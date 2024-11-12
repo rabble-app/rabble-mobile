@@ -28,26 +28,24 @@ class EmptyStateWidget extends StatelessWidget {
         SizedBox(
           height: context.allHeight * 0.09,
         ),
-        Expanded(
-          child: loader == null
-              ? isBasket != null && isBasket!
-                  ? Container(
-                      margin: PagePadding.onlyTop(context.allHeight / 12),
-                      width: context.allWidth,
-                      child: svg.svg(
-                        height: context.allHeight * 0.2,
-                      ),
-                    )
-                  : SizedBox(
-                      width: context.allWidth,
-                      child: svg.svg(
-                        height: context.allHeight * 0.2,
-                      ),
-                    )
-              : SizedBox(
-                  height: context.allHeight * 0.3,
-                  child: Lottie.asset(loader!)),
-        ),
+        loader == null
+            ? isBasket != null && isBasket!
+                ? Container(
+                    margin: PagePadding.onlyTop(context.allHeight / 12),
+                    width: context.allWidth,
+                    child: svg.svg(
+                      height: context.allHeight * 0.2,
+                    ),
+                  )
+                : SizedBox(
+                    width: context.allWidth,
+                    child: svg.svg(
+                      height: context.allHeight * 0.2,
+                    ),
+                  )
+            : SizedBox(
+                height: context.allHeight * 0.3,
+                child: Lottie.asset(loader!)),
         loader == null
             ? SizedBox(
                 height: context.allHeight * 0.07,

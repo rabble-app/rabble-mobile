@@ -53,13 +53,12 @@ class CardCubit extends RabbleBaseCubit with Validators {
     UserModel userModel = UserModel.fromJson(jsonDecode(userData));
 
     CardModel? myCardRes = await paymentRepo
-        .fetchMyCard(userModel.stripeCustomerId!, throwOnError: true,
+        .fetchMyCard(userModel.stripeCustomerId ?? '', throwOnError: true,
             errorCallBack: () {
       emit(RabbleBaseState.idle());
     });
     if (myCardRes!.statusCode == 200) {
-
-      if(myCardRes.data!.isNotEmpty) {
+      if (myCardRes.data!.isNotEmpty) {
         for (int i = 0; i < myCardRes.data!.length; i++) {
           if (myCardRes.data![i].id != userModel.stripeDefaultPaymentMethodId!)
             continue;
@@ -124,8 +123,8 @@ class CardCubit extends RabbleBaseCubit with Validators {
     if (primaryCardRes!.status == 200) {
       UserModel userData = UserModel.fromJson(primaryCardRes.data);
 
-      await RabbleStorage().storeDynamicValue(
-          RabbleStorage().userKey, jsonEncode(userData));
+      await RabbleStorage()
+          .storeDynamicValue(RabbleStorage().userKey, jsonEncode(userData));
     }
 
     emit(RabbleBaseState.idle());

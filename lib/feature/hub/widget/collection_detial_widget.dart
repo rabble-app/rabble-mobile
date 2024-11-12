@@ -1,12 +1,19 @@
+import 'package:rabble/domain/entities/distance_model.dart';
+import 'package:rabble/feature/hub/hub_cubit.dart';
+
 import '../../../core/config/export.dart';
 
 class CollectionDetailWidget extends StatelessWidget {
-  CollectionDetailWidget({super.key});
+  final Partner? partner;
+
+  CollectionDetailWidget(this.partner, {super.key});
 
   final StreamController<bool> collectionES = StreamController.broadcast();
 
   @override
   Widget build(BuildContext context) {
+    HubCubit bloc = context.read<HubCubit>();
+    bloc.calculateDistanceFromPostalCode(partner!.postalCode!, 0);
     return StreamBuilder<bool>(
         stream: collectionES.stream,
         initialData: false,
@@ -77,7 +84,7 @@ class CollectionDetailWidget extends StatelessWidget {
                                         children: [
                                           RabbleText.subHeaderText(
                                             text:
-                                                'The High Road Wood Green,\nLondon N22 6SU',
+                                                '${partner?.streetAddress},\n${partner?.city} ${partner?.postalCode}',
                                             textAlign: TextAlign.start,
                                             fontWeight: FontWeight.w500,
                                             height: 1.3,
@@ -85,32 +92,79 @@ class CollectionDetailWidget extends StatelessWidget {
                                             fontFamily: cGosha,
                                             fontSize: 11.sp,
                                           ),
-                                          const KiloMeterWidget(
-                                            color: APPColors.appBlack,
-                                          )
+                                          BehaviorSubjectBuilder<
+                                                  Map<String, int>>(
+                                              subject:
+                                                  bloc.cachedDistancesSubject,
+                                              builder: (BuildContext context,
+                                                  AsyncSnapshot<
+                                                          Map<String, int>>
+                                                      snapshot) {
+                                                if (!snapshot.hasData) {
+                                                  return const Empty();
+                                                }
+
+                                                String distance = snapshot
+                                                        .data![
+                                                            partner?.postalCode]
+                                                        ?.toString() ??
+                                                    '';
+
+                                                return KiloMeterWidget(
+                                                  distance: distance,
+                                                  color: APPColors.appBlack,
+                                                );
+                                              }),
                                         ],
                                       ),
                                       SizedBox(
                                         height: 1.5.h,
                                       ),
-                                      SizedBox(
-                                        height: context.allHeight * 0.2,
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(4),
-                                          child: const AppGoogleMap(
-                                            zoomControlsEnabled: false,
-                                            zoomGesturesEnabled: false,
-                                            initialCameraPosition:
-                                                CameraPosition(
-                                                    target: LatLng(
-                                                        36.7783, -119.4179),
-                                                    zoom: 10),
-                                            scrollGesturesEnabled: false,
-                                            rotateGesturesEnabled: false,
-                                          ),
-                                        ),
-                                      ),
+                                      BehaviorSubjectBuilder<DistanceModel>(
+                                          subject: bloc.distanceSubject,
+                                          builder: (BuildContext context,
+                                              AsyncSnapshot<DistanceModel>
+                                                  snapshot) {
+                                            if (!snapshot.hasData) {
+                                              return const Empty();
+                                            }
+
+                                            return SizedBox(
+                                              height: context.allHeight * 0.2,
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(4),
+                                                child: AppGoogleMap(
+                                                  zoomControlsEnabled: false,
+                                                  zoomGesturesEnabled: false,
+                                                  initialCameraPosition:
+                                                      CameraPosition(
+                                                          target: LatLng(
+                                                              snapshot.data!
+                                                                          .from !=
+                                                                      null
+                                                                  ? snapshot
+                                                                      .data!
+                                                                      .from!
+                                                                      .latitude!
+                                                                      .toDouble()
+                                                                  : 0.0,
+                                                              snapshot.data!
+                                                                          .from !=
+                                                                      null
+                                                                  ? snapshot
+                                                                      .data!
+                                                                      .from!
+                                                                      .longitude!
+                                                                      .toDouble()
+                                                                  : 0.0),
+                                                          zoom: 12),
+                                                  scrollGesturesEnabled: false,
+                                                  rotateGesturesEnabled: false,
+                                                ),
+                                              ),
+                                            );
+                                          }),
                                     ],
                                   ),
                                 ),
@@ -118,7 +172,9 @@ class CollectionDetailWidget extends StatelessWidget {
                               SizedBox(
                                 height: 1.h,
                               ),
-                              OpenHourWidget(),
+
+                                OpenHourWidget(
+                                    partner!.openHoursModel!),
                               SizedBox(
                                 height: 1.h,
                               ),

@@ -122,6 +122,7 @@ class NavigatorHelper {
   Future<T?> navigateTo<T>(String route,
       [Object? arguments, bool force = false]) async {
     print("route ${route}");
+    print("arguments ${arguments}");
     return navigatorKey.currentState?.pushNamed(route, arguments: arguments);
   }
 
@@ -144,6 +145,16 @@ class NavigatorHelper {
   }) {
     print('arguments ${arguments.toString()}');
     navigateToClearAll(name, arguments);
+  }
+
+  navigateToPartnerTeamScreen(String partnerId) {
+    print(partnerId);
+    navigateTo('/PartnerTeam/$partnerId');
+  }
+
+  navigateToPartnerTeamScreenAndClear(String partnerId) {
+    print(partnerId);
+    navigateAnClearAll('/PartnerTeam/$partnerId');
   }
 
   navigateToWebScreen(String url, String title) {

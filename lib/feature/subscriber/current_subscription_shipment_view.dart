@@ -13,6 +13,7 @@ class CurrentSubscriptionShipmentView extends StatelessWidget {
     String myId = data['myId'];
     String card = data['card'];
     String memberId = data['memberId'];
+    String status = data['status'];
 
     String percentage = DateFormatUtil.calculatePercentage(
         int.parse(currentOrderData.accumulatedAmount!.round().toString()),
@@ -21,7 +22,7 @@ class CurrentSubscriptionShipmentView extends StatelessWidget {
     int remainingDays = data['deadline'] != null && data['deadline'] != '0'
         ? DateFormatUtil.remainingDays(data['deadline'])
         : 0;
-
+    String type = data['type'] ?? '0';
 
     return CubitProvider<RabbleBaseState, SubscriptionCubit>(
         create: (context) => SubscriptionCubit(),
@@ -48,20 +49,60 @@ class CurrentSubscriptionShipmentView extends StatelessWidget {
                           children: [
                             Stack(
                               children: [
-                                Container(
-                                  decoration: ContainerDecoration
-                                      .leftRightBottomRadiusDecoration(
-                                          border: Colors.transparent, width: 0),
-                                  child: SizedBox(
-                                    width: context.allWidth,
-                                    height: context.allWidth * 0.5,
-                                    child: RabbleImageLoader(
-                                      fit: BoxFit.cover,
-                                      imageUrl: teamData.imageUrl ?? '',
-                                      isRound: false,
-                                    ),
-                                  ),
-                                ),
+                                type == '0'
+                                    ? Container(
+                                        decoration: ContainerDecoration
+                                            .leftRightBottomRadiusDecoration(
+                                                border: Colors.transparent,
+                                                width: 0),
+                                        child: SizedBox(
+                                          width: context.allWidth,
+                                          height: context.allWidth * 0.5,
+                                          child: RabbleImageLoader(
+                                            fit: BoxFit.cover,
+                                            imageUrl: teamData.imageUrl ?? '',
+                                            isRound: false,
+                                          ),
+                                        ),
+                                      )
+                                    : Container(
+                                        height: context.allHeight * 0.22,
+                                        color: APPColors.appBlack4,
+                                        child: Stack(
+                                          children: [
+                                            Positioned(
+                                              top: 0,
+                                              right: 0,
+                                              left: 0,
+                                              bottom: 5,
+                                              child: Align(
+                                                alignment: Alignment.center,
+                                                child: SizedBox(
+                                                  width:
+                                                      context.allWidth * 0.75,
+                                                  child:
+                                                      RabbleText.subHeaderText(
+                                                    text: '${teamData.name}',
+                                                    textAlign: TextAlign.center,
+                                                    fontWeight: FontWeight.w700,
+                                                    color: APPColors
+                                                        .appPrimaryColor,
+                                                    fontFamily: cGosha,
+                                                    height: 1.3,
+                                                    fontSize: '${teamData.name}'
+                                                                .length >
+                                                            55
+                                                        ? 22.sp
+                                                        : 25.sp,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Assets.svgs.hub_box
+                                                .svg(width: context.allWidth),
+                                          ],
+                                        ),
+                                      ),
                                 Positioned(
                                   bottom: 0,
                                   right: 0,
@@ -79,9 +120,11 @@ class CurrentSubscriptionShipmentView extends StatelessWidget {
                                             .navigateTo('/my_checkout', data);
                                       },
                                       child: RabbleText.subHeaderText(
-                                        text: teamData.count!.order! > 1
-                                            ? kYB
-                                            : KUO,
+                                        text: type == '0'
+                                            ? teamData.count!.order! > 1
+                                                ? kYB
+                                                : KUO
+                                            : kYourBasket,
                                         fontSize: 13.sp,
                                         fontFamily: 'Gosha',
                                         color: APPColors.appBlack,
@@ -127,8 +170,9 @@ class CurrentSubscriptionShipmentView extends StatelessWidget {
                                       : const SizedBox.shrink(),
                                   ShippingCardCustom(
                                     label: kShipTo,
-                                    value:
-                                        '${teamData.host!.shipping!.buildingNo! ?? ''} ${teamData.host!.shipping!.address! ?? ''} ${teamData.host!.shipping!.city! ?? ''}',
+                                    value: teamData.host!.shipping != null
+                                        ? '${teamData.host!.shipping!.buildingNo! ?? ''} ${teamData.host!.shipping!.address! ?? ''} ${teamData.host!.shipping!.city! ?? ''}'
+                                        : '',
                                     icon: Assets.svgs.pin
                                         .svg(color: APPColors.appBlue),
                                   ),
@@ -213,8 +257,10 @@ class CurrentSubscriptionShipmentView extends StatelessWidget {
                             CustomBottomSheet.showQuitBottomModelSheet(
                                 context,
                                 QuiteTeam(
+                                  status: status,
                                   canLeave: int.parse(percentage) < 100 &&
-                                      remainingDays > 0 && teamData.count!.order! == 1,
+                                      remainingDays > 0 &&
+                                      teamData.count!.order! == 1,
                                   showHeading: true,
                                   isHost: teamData.hostId ==
                                       bloc.userDataSubject$.value.id,
@@ -229,7 +275,8 @@ class CurrentSubscriptionShipmentView extends StatelessWidget {
                                 ),
                                 true,
                                 int.parse(percentage) < 100 &&
-                                    remainingDays > 0 && teamData.count!.order! == 1,
+                                    remainingDays > 0 &&
+                                    teamData.count!.order! == 1,
                                 isRemove: true,
                                 date: data['deadline'].toString());
                           },

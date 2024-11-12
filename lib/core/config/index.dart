@@ -14,6 +14,8 @@ import 'package:rabble/domain/entities/TeamCountModel.dart';
 import 'package:rabble/domain/entities/TeamDetailChatModel.dart';
 import 'package:rabble/domain/entities/UserBasketModel.dart';
 import 'package:rabble/domain/entities/UserTeamModel.dart';
+import 'package:rabble/domain/entities/hub/AllPartnerTeamsModel.dart';
+import 'package:rabble/domain/entities/hub/open_hours_model.dart';
 
 
 final dataFactories = {
@@ -55,5 +57,8 @@ final dataFactories = {
   TeamChatListModel: (_) => TeamChatListModel.fromJson(_),
   TeamDetailChatModel: (_) => TeamDetailChatModel.fromJson(_),
   ConversationModel: (_) => ConversationModel.fromJson(_),
+  AllPartnerTeamsModel: (_) => AllPartnerTeamsModel.fromJson(_),
+  Partner: (_) => Partner.fromJson(_),
+  OpenHoursModel: (_) => OpenHoursModel.fromJson(_),
 
 };

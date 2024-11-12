@@ -1,9 +1,12 @@
 import 'package:rabble/core/config/export.dart';
 import 'package:rabble/domain/repositries/chat_repositry.dart';
 
+import 'hub_repositry.dart';
+
 final authRepo = di<AuthRepository>();
 final producerRepo = ProducerRepository();
 final buyingTeamRepo = BuyingTeamRepository();
+final hubRepo = HubRepository();
 final addressRepo = di<AddressRepository>();
 final searchRepo = SearchRepository();
 final userRepo = UserRepository();
@@ -28,6 +31,14 @@ class RepositoryBarrel {
       await FutureExt.allSettled(
         [
           authRepo.reset(),
+          producerRepo.reset(),
+          addressRepo.reset(),
+          buyingTeamRepo.reset(),
+          searchRepo.reset(),
+          userRepo.reset(),
+          paymentRepo.reset(),
+          chatRepo.reset(),
+          hubRepo.reset(),
         ],
         onError: (error, stackTrace) => print(
             "Something failed while resetting a particular repository $stackTrace,$error"),
@@ -53,6 +64,7 @@ class RepositoryBarrel {
       userRepo.initialize(),
       paymentRepo.initialize(),
       chatRepo.initialize(),
+      hubRepo.initialize(),
     ]);
     reposInitialized = true;
   }

@@ -10,7 +10,6 @@ class HomeCubit extends RabbleBaseCubit {
   Future<void> fetchNotifications() async {
     String status = await RabbleStorage().getLoginStatus() ?? "0";
     if (status != '0') {
-      emit(RabbleBaseState.primaryBusy());
       globalBloc.isNotifcation.sink.add(false);
 
       var userData =
@@ -23,12 +22,12 @@ class HomeCubit extends RabbleBaseCubit {
           errorCallBack: () {
             emit(RabbleBaseState.idle());
           });
+
       if (res!.statusCode == 200) {
         if (res.data!.isNotEmpty) {
           notificationsListSubject$.sink.add(res.data!);
         }
       }
-      emit(RabbleBaseState.idle());
     }
   }
 

@@ -57,17 +57,20 @@ class InvitationData {
     String? teamId,
     String? teamName,
     Producer? producerInfo,
+    String? type,
   }) {
     _phone = phone;
     _teamId = teamId;
     _teamName = teamName;
     _producerInfo = producerInfo;
+    _type = type ?? _type;
   }
 
   InvitationData.fromJson(dynamic json) {
     _phone = json['phone'];
     _teamId = json['teamId'];
     _teamName = json['teamName'];
+    _type = json['type'] ?? _type;
     _producerInfo = json['producerInfo'] != null
         ? Producer.fromJson(json['producerInfo'])
         : null;
@@ -77,6 +80,13 @@ class InvitationData {
   String? _teamId;
   String? _teamName;
   Producer? _producerInfo;
+  String _type = 'normal';
+
+  String get type => _type;
+
+  set type(String value) {
+    _type = value;
+  }
 
   InvitationData copyWith({
     String? phone,
@@ -107,7 +117,7 @@ class InvitationData {
     if (_producerInfo != null) {
       map['producerInfo'] = _producerInfo?.toJson();
     }
+    map['type'] = _type;
     return map;
   }
 }
-

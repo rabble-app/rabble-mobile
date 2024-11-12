@@ -16,7 +16,7 @@ void main() async {
   Config.initialize(Flavor.DEV, DevConfig());
   setupInjection();
 
-//   Stripe.publishableKey = kStripeDebugPublishKey;
+ // Stripe.publishableKey = kStripeDebugPublishKey;
 
   if (kDebugMode) {
     Stripe.publishableKey = kStripeDebugPublishKey;

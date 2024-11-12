@@ -1,4 +1,5 @@
 import 'package:rabble/core/config/export.dart';
+import 'package:rabble/feature/hub/partner_team_view.dart';
 import 'package:rabble/feature/web_view/webview.dart';
 
 class RouteHandlers {
@@ -13,6 +14,14 @@ class RouteHandlers {
       return WebView(
         url: parameters['url'][0],
         title: parameters['title'][0],
+      );
+    },
+  );
+
+  static Handler partnerTeamHandler = Handler(
+    handlerFunc: (context, Map<String, dynamic> parameters) {
+      return PartnerTeamView(
+        partnerId: parameters['partnerId'][0],
       );
     },
   );

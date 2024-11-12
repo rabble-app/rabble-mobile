@@ -15,6 +15,7 @@ class $AssetsSVGGen {
   SvgGenImage get home => const SvgGenImage('assets/svg/home.svg');
   SvgGenImage get danger_filled => const SvgGenImage('assets/svg/danger_filled.svg');
   SvgGenImage get boxTick => const SvgGenImage('assets/svg/box-tick.svg');
+  SvgGenImage get boxTickRemove => const SvgGenImage('assets/svg/box-remove.svg');
 
   SvgGenImage get portioned_icon =>
       const SvgGenImage('assets/svg/portioned_icon.svg');

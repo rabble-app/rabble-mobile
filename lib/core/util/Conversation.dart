@@ -22,11 +22,9 @@ class Conversation {
     return '';
   }
 
-  static getFrequencyText2(int freequency) {
+  static String getFrequencyText2(int freequency) {
     int fq = DateFormatUtil().epochToTotalWeeks(freequency);
 
-    print('fq ${fq}');
-    print('fq ${fq}');
 
     if (fq == 1) {
       return 'Every Week';

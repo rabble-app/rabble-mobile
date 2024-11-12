@@ -7,7 +7,7 @@ class EditProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CubitProvider<RabbleBaseState, MyRabbleAccountCubit>(
-        create: (BuildContext context) => MyRabbleAccountCubit(),
+        create: (BuildContext context) => MyRabbleAccountCubit()..fetchMyData(),
         builder: (BuildContext context, RabbleBaseState state,
             MyRabbleAccountCubit bloc) {
           return RabbleFullScreenProgressIndicator(
@@ -16,6 +16,7 @@ class EditProfileView extends StatelessWidget {
                 subject: bloc.userDataSubject$,
                 builder:
                     (BuildContext context, AsyncSnapshot<UserModel> snapshot) {
+
                   UserModel userModel = snapshot.data!;
                   return ToucheDetector(
                     child: Scaffold(

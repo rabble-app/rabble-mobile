@@ -13,6 +13,7 @@ import 'package:rabble/domain/entities/TeamModel.dart';
 import 'package:rabble/domain/entities/UserBasketModel.dart';
 import 'package:rabble/domain/entities/UserTeamModel.dart';
 import 'package:rabble/domain/entities/distance_model.dart';
+import 'package:rabble/domain/entities/hub/AllPartnerTeamsModel.dart';
 import 'dart:math' as math; // Import the math library
 
 import '../domain/entities/MySubscriptionModel.dart';
@@ -490,6 +491,20 @@ class ApiProvider extends Source {
     return res!.data;
   }
 
+  Future<AllPartnerTeamsModel> fetchPartnersTeam(
+    String postalCode, {
+    throwOnError = true,
+    snackBarOnError = true,
+    VoidCallback? errorCallBack,
+  }) async {
+    final res = await get<AllPartnerTeamsModel>(
+        constructUrl('$nTeams/$pPostalCode/$postalCode?getRabbleHubTeams'),
+        throwOnError: throwOnError,
+        snackbarOnError: snackBarOnError);
+
+    return res!.data;
+  }
+
   Future<UserTeamModel> fetchMembersTeam(
     String id, {
     throwOnError = true,
@@ -609,6 +624,17 @@ class ApiProvider extends Source {
 
     return res!.data;
   }
+  Future<TeamModel> fetchPartnerTeamDetail(
+    String teamId, {
+    throwOnError = true,
+    snackBarOnError = true,
+    VoidCallback? errorCallBack,
+  }) async {
+    final res = await get<TeamModel>(constructUrl('$nTeams/$teamId'),
+        throwOnError: throwOnError, snackbarOnError: snackBarOnError);
+
+    return res!.data;
+  }
 
   Future<OrderModel> fetchCurrentOrderDetail(
     String teamId, {
@@ -623,6 +649,7 @@ class ApiProvider extends Source {
 
     return res!.data;
   }
+
 
   Future<SearchProductModel> searchProduct(
     String query,

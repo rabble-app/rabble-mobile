@@ -8,11 +8,12 @@ class TeamSettingView extends StatelessWidget {
   final String percentage;
   final String deadLine;
   final String memberId;
+  final String status;
   final int remainingDays;
 
   TeamSettingView(
       this.teamData, this.myId, this.cubit, this.percentage, this.remainingDays,
-      {Key? key, required this.deadLine, required this.memberId})
+      {Key? key, required this.deadLine, required this.memberId, required this.status})
       : super(key: key);
 
   @override
@@ -322,6 +323,7 @@ class TeamSettingView extends StatelessWidget {
                         CustomBottomSheet.showQuitBottomModelSheet(
                             context,
                             QuiteTeam(
+                              status: status,
                               canLeave: int.parse(percentage) < 100 &&
                                   remainingDays > 0 &&
                                   teamData.count!.order! == 1,

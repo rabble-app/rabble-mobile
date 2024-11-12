@@ -2,14 +2,12 @@ import 'package:intl/intl.dart';
 
 class DateFormatUtil {
   static String formatDate(String stringDate, String format) {
-    print(stringDate);
     final parsedDate = DateTime.parse(stringDate.split(':')[0].split('T')[0]);
     final String formattedDate = DateFormat(format).format(parsedDate);
     return formattedDate;
   }
 
   static String formatDate2(String stringDate, String format) {
-    print(stringDate);
     final parsedDate = DateTime.parse(stringDate.split(':')[0].split('T')[0]);
 
     String dayWithSuffix = _getDayWithSuffix(parsedDate.day);
@@ -59,33 +57,41 @@ class DateFormatUtil {
   }
 
   static String countDays(String stringDate) {
-
-
     DateTime targetDate = DateTime.parse(stringDate).toLocal();
 
     DateTime currentDate = DateTime.now();
 
     int differenceInDays = targetDate.difference(currentDate).inDays + 1;
 
-    return differenceInDays <0? '0': differenceInDays.toString();
+
+    return differenceInDays < 0 ? '0' : differenceInDays.toString();
   }
+
+  static String countDays2(String stringDate) {
+    DateTime targetDate = DateTime.parse(stringDate).toLocal();
+    DateTime currentDate = DateTime.now();
+
+    // Calculate the difference in days
+    int differenceInDays = targetDate.difference(currentDate).inDays;
+
+    // Return the difference, ensuring it does not return a negative value
+    return differenceInDays.toString();
+  }
+
 
   static String calculatePercentage(int value, int total) {
     String percentage = ((value / total) * 100).toStringAsFixed(0);
 
-    print('value ${value}');
-    print('total ${total}');
-    print("percentage ${percentage}");
-    if(percentage=='NaN')
+    if (percentage == 'NaN') {
       return '0';
-    return int.parse(percentage) < 100 ? percentage.toString() : '100';
+    }
+    return percentage.toString();
   }
 
   static double calculateScreenPercentage(num value, num total) {
     if (((value / total) * 1300) > total) {
       return total - 100.toDouble();
     }
-    print("((value / total) * 1300) ${((value / total) * 1300)}");
     return ((value / total) * 1300);
   }
 
@@ -105,7 +111,6 @@ class DateFormatUtil {
   }
 
   static String amountFormatter(double amount) {
-    print("amount $amount");
     NumberFormat currencyFormatter = NumberFormat.currency(
       symbol: '\£', // Currency symbol (optional)
       decimalDigits: 2, // Number of decimal digits (optional)
@@ -146,8 +151,8 @@ class DateFormatUtil {
     }
   }
 
-
- static String getNextDeliveryDate(String? dateString, int frequencyInSeconds) {
+  static String getNextDeliveryDate(
+      String? dateString, int frequencyInSeconds) {
     if (dateString == null) {
       return 'Next Delivery date TBD';
     }
@@ -168,11 +173,12 @@ class DateFormatUtil {
           daysToAdd = 14;
           break;
         case 2419200: // 1 month
-        // Adjusted to the next month
-          adjustedDate = DateTime(targetDate.year, targetDate.month + 1, targetDate.day);
+          // Adjusted to the next month
+          adjustedDate =
+              DateTime(targetDate.year, targetDate.month + 1, targetDate.day);
           break;
         default:
-        // Custom frequency, calculate based on seconds
+          // Custom frequency, calculate based on seconds
           daysToAdd = (frequencyInSeconds / 86400).round();
           break;
       }
@@ -180,7 +186,7 @@ class DateFormatUtil {
     }
 
     // Calculate the difference in days
-    int differenceInDays = daysBetween(currentDate,adjustedDate);
+    int differenceInDays = daysBetween(currentDate, adjustedDate);
 
     // Return appropriate string based on the difference
     if (differenceInDays == 0) {
@@ -193,7 +199,8 @@ class DateFormatUtil {
       return 'Next Delivery on ${DateFormat('dd MMM yyyy').format(adjustedDate)}';
     }
   }
- static int daysBetween(DateTime from, DateTime to) {
+
+  static int daysBetween(DateTime from, DateTime to) {
     from = DateTime(from.year, from.month, from.day);
     to = DateTime(to.year, to.month, to.day);
     return (to.difference(from).inHours / 24).round();

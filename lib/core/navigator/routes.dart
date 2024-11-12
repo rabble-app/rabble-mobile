@@ -61,7 +61,6 @@ class Routes {
     defineRoute(router, '/checkout',
         RouteHandlers.makeHandler(() => const CheckoutView()));
 
-
     defineRoute(router, '/producer_list_view',
         RouteHandlers.makeHandler(() => const ProducerListView()));
 
@@ -145,8 +144,8 @@ class Routes {
     defineRoute(router, '/personalise_group_view',
         RouteHandlers.makeHandler(() => PersonaliseGroupView()));
 
-    defineRoute(router, '/threshold_view',
-        RouteHandlers.makeHandler(() => TeamView()));
+    defineRoute(
+        router, '/threshold_view', RouteHandlers.makeHandler(() => TeamView()));
 
     defineRoute(router, '/add_address_view',
         RouteHandlers.makeHandler(() => AddAddressView()));
@@ -162,23 +161,28 @@ class Routes {
 
     defineRoute(router, '/my_checkout',
         RouteHandlers.makeHandler(() => MyCheckoutView()));
-    defineRoute(router, '/chat_room',
-        RouteHandlers.makeHandler(() => ChatRoomView()));
+    defineRoute(
+        router, '/chat_room', RouteHandlers.makeHandler(() => ChatRoomView()));
     defineRoute(router, '/team_list_view',
         RouteHandlers.makeHandler(() => TeamListView()));
 
-    defineRoute(router, '/all_cards',
-        RouteHandlers.makeHandler(() => AllCardView()));
+    defineRoute(
+        router, '/all_cards', RouteHandlers.makeHandler(() => AllCardView()));
 
     defineRoute(router, '/ExistingBuyingTeamsView',
         RouteHandlers.makeHandler(() => ExistingBuyingTeamsView()));
 
     defineRoute(router, '/AllPartnersTeams',
         RouteHandlers.makeHandler(() => AllPartnersTeamsView()));
-    defineRoute(router, '/PartnerTeam',
-        RouteHandlers.makeHandler(() => PartnerTeamView()));
-    defineRoute(router, '/qrCode',
-        RouteHandlers.makeHandler(() => QrCodeView()));
+
+    defineRoute(
+      router,
+      '/PartnerTeam/:partnerId',
+      RouteHandlers.partnerTeamHandler,
+    );
+
+    defineRoute(
+        router, '/qrCode', RouteHandlers.makeHandler(() => QrCodeView()));
   }
 
   static void defineRoute(

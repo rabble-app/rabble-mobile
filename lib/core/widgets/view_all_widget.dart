@@ -14,8 +14,7 @@ class ViewAllWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        SizedBox(
-          width: context.allWidth*0.6,
+        Expanded(
           child: RabbleText.subHeaderText(
             text: title,
             fontSize: 16.sp,

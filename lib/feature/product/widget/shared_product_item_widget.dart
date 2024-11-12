@@ -25,7 +25,6 @@ class SharedProductItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return CubitProvider<RabbleBaseState, ProductDetailCubit>(
         create: (BuildContext context) => ProductDetailCubit()
           ..fetchSingleProductExist2(productDetail, productDetail.id!),
@@ -35,7 +34,8 @@ class SharedProductItemWidget extends StatelessWidget {
               subject: bloc.productDetailSubject$,
               builder: (BuildContext context,
                   AsyncSnapshot<ProductDetail> productInCartSnapShot) {
-                if (!productInCartSnapShot.hasData) return const SizedBox.shrink();
+                if (!productInCartSnapShot.hasData)
+                  return const SizedBox.shrink();
 
                 // print("PRODUCT ID ${productDetail.id}");
                 // print("productInCartSnapShot ID ${productInCartSnapShot.data!.id}");
@@ -59,7 +59,8 @@ class SharedProductItemWidget extends StatelessWidget {
                             NavigatorHelper()
                                 .navigateTo('/detail', isEmpty)
                                 .then((value) {
-                              bloc.fetchSingleProductExist2(productDetail,productDetail.id!);
+                              bloc.fetchSingleProductExist2(
+                                  productDetail, productDetail.id!);
                               voidCallBack!.call();
                             });
                           }
@@ -175,7 +176,8 @@ class SharedProductItemWidget extends StatelessWidget {
                                     left: 0,
                                     child: Center(
                                       child: RabbleText.subHeaderText(
-                                        text: 'You got the\nlast ${productDetail.orderSubUnit!.toLowerCase()}!',
+                                        text:
+                                            'You got the\nlast ${productDetail.orderSubUnit!.toLowerCase()}!',
                                         textAlign: TextAlign.center,
                                         fontWeight: FontWeight.w700,
                                         fontSize: 17.sp,
@@ -430,12 +432,13 @@ class SharedProductItemWidget extends StatelessWidget {
                                 )
                               : GestureDetector(
                                   onTap: () async {
-                                    String status =
-                                        await RabbleStorage().getLoginStatus() ??
-                                            "0";
+                                    String status = await RabbleStorage()
+                                            .getLoginStatus() ??
+                                        "0";
 
                                     String postalCode =
-                                        await RabbleStorage().getPostalCode() ?? '';
+                                        await RabbleStorage().getPostalCode() ??
+                                            '';
 
                                     if (status != '0') {
                                       if (postalCode.isEmpty) {
@@ -447,6 +450,16 @@ class SharedProductItemWidget extends StatelessWidget {
                                                 null
                                             ? businessDetail!.businessName ?? ''
                                             : '';
+
+                                        if (isEmpty!['flow'] == 'partner') {
+                                          TeamData data = isEmpty!['team'];
+                                          RabbleStorage().setInivitationData(
+                                              json.encode(InvitationData(
+                                                  producerInfo: data.producer,
+                                                  teamId: data.id,
+                                                  teamName: data.name,
+                                                  type: 'partner')));
+                                        }
                                         if (voidCallBack != null) {
                                           productDetail.qty =
                                               productInCartSnapShot.data!.qty! +

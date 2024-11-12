@@ -63,6 +63,7 @@ class HostListView extends StatelessWidget {
 
                                   return BuyingTeamItemWidget(
                                     isVertical: true,
+                                    partnerId: data.partnerId,
                                     teamId: data.id,
                                     teamName: data.name,
                                     image: data.imageUrl,

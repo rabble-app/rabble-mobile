@@ -5,6 +5,7 @@ class QrCodeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String qrCode = ModalRoute.of(context)?.settings.arguments as String;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(7.h),
@@ -73,13 +74,18 @@ class QrCodeView extends StatelessWidget {
             ),
             Center(
               child: Container(
+                height: context.allHeight * 0.4,
                 decoration: ContainerDecoration.boxDecoration(
                     border: APPColors.bg_grey26,
                     bg: APPColors.appWhite,
                     width: 1,
                     radius: 8,
                     showShadow: true),
-                child: Assets.svgs.qrcode.svg(),
+                child: RabbleImageLoader(
+                  imageUrl: qrCode,
+                  isRound: true,
+                  roundValue: 8,
+                ),
               ),
             )
           ],

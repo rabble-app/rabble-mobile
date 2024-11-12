@@ -472,6 +472,51 @@ class PaymentCubit extends RabbleBaseCubit with Validators {
     }
   }
 
+  Future<void> uploadBasketForPartner(
+      TeamCreationData createBuyingTeamRes) async {
+    var userData =
+        await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
+    UserModel userModel = UserModel.fromJson(jsonDecode(userData));
+
+    List<ProductDetail> bulkBasketItems =
+        await dbHelper.getAllProductsWithOrderId(
+      createBuyingTeamRes.orderId!,
+      userModel.id!,
+    );
+
+    List<Map<String, dynamic>> basketList =
+        bulkBasketItems.map((ProductDetail productDetail) {
+      return {
+        'orderId': createBuyingTeamRes.orderId!,
+        'userId': userModel.id!,
+        'productId': productDetail.id,
+        'quantity': productDetail.qty,
+        'price': productDetail.price,
+        'type': productDetail.type,
+      };
+    }).toList();
+
+    Map<String, dynamic> dataToUpload = {
+      'basket': basketList,
+      'teamId': createBuyingTeamRes.id.toString(),
+      'deadlineReached': false,
+    };
+
+    RabbleStorage().deleteKey(RabbleStorage().inivitationData);
+
+    BulkUploadedModel? bulkUploadTeamRes =
+        await buyingTeamRepo.uploadProducts(dataToUpload, () {});
+
+    if (bulkUploadTeamRes!.statusCode == 201) {
+      dbHelper.truncateCartItems();
+      BuyingTeamCreationService().payDataSubject$.sink.add({});
+      BuyingTeamCreationService().groupNameSubject$.sink.add('');
+
+      NavigatorHelper().navigateToPartnerTeamScreenAndClear(
+          createBuyingTeamRes.id.toString());
+    }
+  }
+
   Future<void> onUpdatePayment(Map map) async {
     emit(RabbleBaseState.tertiaryBusy());
     messageSubject$.sink.add({
@@ -839,5 +884,41 @@ class PaymentCubit extends RabbleBaseCubit with Validators {
     Map map = {'teamId': teamId, 'type': type};
 
     NavigatorHelper().navigateAnClearAll('/threshold_view', arguments: map);
+  }
+
+  Future<void> addMember(String teamId) async {
+    emit(RabbleBaseState.share());
+    var userData =
+        await RabbleStorage().retrieveDynamicValue(RabbleStorage().userKey);
+    UserModel userModel = UserModel.fromJson(jsonDecode(userData));
+
+    Map<String, dynamic> body = {
+      'userId': userModel.id,
+      'teamId': teamId,
+      'status': 'APPROVED'
+    };
+
+    var addTeamRes = await userRepo.addMember(
+        throwOnError: true,
+        body: body,
+        errorCallBack: () {
+          emit(RabbleBaseState.idle());
+        });
+
+    if (addTeamRes?.statusCode == 200) {
+      OrderModel? fetchTeamRes = await buyingTeamRepo
+          .fetchCurrentOrderDetail(teamId, errorCallBack: () {
+        emit(RabbleBaseState.idle());
+      });
+
+      await uploadBasketForPartner(TeamCreationData(
+        id: teamId,
+        orderId: fetchTeamRes?.data?.id,
+      ));
+    } else {
+      globalBloc.showErrorSnackBar(message: addTeamRes?.message);
+    }
+
+    emit(RabbleBaseState.idle());
   }
 }

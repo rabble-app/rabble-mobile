@@ -38,17 +38,14 @@
         <string>applinks:https://www.rabble.market/?mode=developer</string>
     </array>
     
-    
-	<key>branch_universal_link_domains</key>
-	<array/>
-	<key>item 0</key>
-	<string>rabble.app.link</string>
-	<key>item 1</key>
-	<string>rabble-alternate.app.link</string>
-	<key>item 2</key>
-	<string>rabble.test-app.link</string>
-	<key>item 3</key>
-	<string>rabble-alternate.test-app.link</string>
+    <key>branch_universal_link_domains</key>
+    <array>
+      <string>rabble.app.link</string>
+      <string>rabble-alternate.app.link</string>
+      <string>rabble.test-app.link</string>
+      <string>rabble-alternate.test-app.link</string>
+    </array>
+
 	<key>branch_key</key>
 	<dict>
 		<key>test</key>

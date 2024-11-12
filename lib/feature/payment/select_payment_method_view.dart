@@ -596,13 +596,32 @@ class _SelectPaymentMethodViewState extends State<SelectPaymentMethodView>
                                 bgColor: snapshot.hasData
                                     ? APPColors.appPrimaryColor
                                     : APPColors.bg_grey25,
-                                onPressed: () {
-                                  BuyingTeamCreationService().addPaymentData(
-                                      mpaymentMethodId,
-                                      snapshot.data!.id.toString());
+                                onPressed: () async {
+                                  var tempData = await RabbleStorage()
+                                      .getinivitationData();
 
-                                  NavigatorHelper()
-                                      .navigateTo('/review_payment_view');
+                                  if (tempData != null) {
+                                    InvitationData invitationData =
+                                        InvitationData.fromJson(
+                                            json.decode(tempData));
+                                    if (invitationData.type == 'partner') {
+                                      bloc.addMember(invitationData.teamId!);
+                                    } else {
+                                      BuyingTeamCreationService()
+                                          .addPaymentData(mpaymentMethodId,
+                                              snapshot.data!.id.toString());
+
+                                      NavigatorHelper()
+                                          .navigateTo('/review_payment_view');
+                                    }
+                                  } else {
+                                    BuyingTeamCreationService().addPaymentData(
+                                        mpaymentMethodId,
+                                        snapshot.data!.id.toString());
+
+                                    NavigatorHelper()
+                                        .navigateTo('/review_payment_view');
+                                  }
                                 },
                                 child: RabbleText.subHeaderText(
                                   text: kContinue,
@@ -630,7 +649,6 @@ class _SelectPaymentMethodViewState extends State<SelectPaymentMethodView>
                           return CreationTeamAppbar(
                             backTitle: kBackToBasket,
                             canGoBack: !state.secondaryBusy,
-
                             title: snapshot.data,
                             barPercentage: 4,
                           );
@@ -1064,76 +1082,134 @@ class _SelectPaymentMethodViewState extends State<SelectPaymentMethodView>
                     ),
                   ],
                 ),
-                bottomNavigationBar: bloc.deadlineCountSubject$.hasValue &&
-                        bloc.deadlineCountSubject$.value <= 0
-                    ? BehaviorSubjectBuilder<CardData>(
-                        subject: bloc.paymentMethodSelectedSubject$,
-                        builder: (context, snapshot) {
-                          return Container(
-                            margin: PagePadding.all(4.w),
-                            child: RabbleButton.tertiaryFilled(
-                              bgColor: snapshot.hasData
-                                  ? APPColors.appPrimaryColor
-                                  : APPColors.bg_grey25,
-                              onPressed: state.secondaryBusy? null :  () {
-                                if (bloc.deadlineCountSubject$.value <= 0) {
-                                  bloc.uploadBasketForNewUser();
-                                }
-                              },
-                              child: state.secondaryBusy
-                                  ? Container(
-                                      width: 20.w,
-                                      height: 15.h,
-                                      padding:
-                                          PagePadding.horizontalSymmetric(5.w),
-                                      child: const Center(
-                                        child:
-                                            RabbleSecondaryScreenProgressIndicator(
-                                          enabled: true,
-                                        ),
-                                      ),
-                                    )
-                                  : RabbleText.subHeaderText(
-                                      text: kContinue,
-                                      fontSize: 14.sp,
-                                      fontFamily: 'Gosha',
-                                      color: snapshot.hasData
-                                          ? APPColors.appBlack
-                                          : APPColors.bg_grey27,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                            ),
-                          );
-                        })
-                    : BehaviorSubjectBuilder<CardData>(
-                        subject: bloc.paymentMethodSelectedSubject$,
-                        builder: (context, snapshot) {
-                          return Container(
-                            margin: PagePadding.all(4.w),
-                            child: RabbleButton.tertiaryFilled(
-                              bgColor: snapshot.hasData
-                                  ? APPColors.appPrimaryColor
-                                  : APPColors.bg_grey25,
-                              onPressed: () {
-                                BuyingTeamCreationService().addPaymentData(
-                                    mpaymentMethodId,
-                                    snapshot.data!.id.toString());
+                bottomNavigationBar: state.share
+                    ? Container(
+                        width: 20.w,
+                        height: 10.h,
+                        padding: PagePadding.horizontalSymmetric(5.w),
+                        child: const Center(
+                          child: RabbleSecondaryScreenProgressIndicator(
+                            enabled: true,
+                          ),
+                        ),
+                      )
+                    : bloc.deadlineCountSubject$.hasValue &&
+                            bloc.deadlineCountSubject$.value <= 0
+                        ? BehaviorSubjectBuilder<CardData>(
+                            subject: bloc.paymentMethodSelectedSubject$,
+                            builder: (context, snapshot) {
+                              return Container(
+                                margin: PagePadding.all(4.w),
+                                child: RabbleButton.tertiaryFilled(
+                                  bgColor: snapshot.hasData
+                                      ? APPColors.appPrimaryColor
+                                      : APPColors.bg_grey25,
+                                  onPressed: state.secondaryBusy
+                                      ? null
+                                      : () async {
+                                          var tempData = await RabbleStorage()
+                                              .getinivitationData();
 
-                                NavigatorHelper()
-                                    .navigateTo('/review_payment_view');
-                              },
-                              child: RabbleText.subHeaderText(
-                                text: kContinue,
-                                fontSize: 14.sp,
-                                fontFamily: 'Gosha',
-                                color: snapshot.hasData
-                                    ? APPColors.appBlack
-                                    : APPColors.bg_grey27,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          );
-                        }));
+                                          if (tempData != null) {
+                                            InvitationData invitationData =
+                                                InvitationData.fromJson(
+                                                    json.decode(tempData));
+                                            if (invitationData.type ==
+                                                'partner') {
+                                              bloc.addMember(
+                                                  invitationData.teamId!);
+                                            } else {
+                                              BuyingTeamCreationService()
+                                                  .addPaymentData(
+                                                      mpaymentMethodId,
+                                                      snapshot.data!.id
+                                                          .toString());
+
+                                              NavigatorHelper().navigateTo(
+                                                  '/review_payment_view');
+                                            }
+                                          } else {
+                                            if (bloc.deadlineCountSubject$
+                                                    .value <=
+                                                0) {
+                                              bloc.uploadBasketForNewUser();
+                                            }
+                                          }
+                                        },
+                                  child: state.secondaryBusy
+                                      ? Container(
+                                          width: 20.w,
+                                          height: 15.h,
+                                          padding:
+                                              PagePadding.horizontalSymmetric(
+                                                  5.w),
+                                          child: const Center(
+                                            child:
+                                                RabbleSecondaryScreenProgressIndicator(
+                                              enabled: true,
+                                            ),
+                                          ),
+                                        )
+                                      : RabbleText.subHeaderText(
+                                          text: kContinue,
+                                          fontSize: 14.sp,
+                                          fontFamily: 'Gosha',
+                                          color: snapshot.hasData
+                                              ? APPColors.appBlack
+                                              : APPColors.bg_grey27,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                ),
+                              );
+                            })
+                        : BehaviorSubjectBuilder<CardData>(
+                            subject: bloc.paymentMethodSelectedSubject$,
+                            builder: (context, snapshot) {
+                              return Container(
+                                margin: PagePadding.all(4.w),
+                                child: RabbleButton.tertiaryFilled(
+                                  bgColor: snapshot.hasData
+                                      ? APPColors.appPrimaryColor
+                                      : APPColors.bg_grey25,
+                                  onPressed: () async {
+                                    var tempData = await RabbleStorage()
+                                        .getinivitationData();
+
+                                    if (tempData != null) {
+                                      InvitationData invitationData =
+                                          InvitationData.fromJson(
+                                              json.decode(tempData));
+                                      if (invitationData.type == 'partner') {
+                                        bloc.addMember(invitationData.teamId!);
+                                      } else {
+                                        BuyingTeamCreationService()
+                                            .addPaymentData(mpaymentMethodId,
+                                                snapshot.data!.id.toString());
+
+                                        NavigatorHelper()
+                                            .navigateTo('/review_payment_view');
+                                      }
+                                    } else {
+                                      BuyingTeamCreationService()
+                                          .addPaymentData(mpaymentMethodId,
+                                              snapshot.data!.id.toString());
+
+                                      NavigatorHelper()
+                                          .navigateTo('/review_payment_view');
+                                    }
+                                  },
+                                  child: RabbleText.subHeaderText(
+                                    text: kContinue,
+                                    fontSize: 14.sp,
+                                    fontFamily: 'Gosha',
+                                    color: snapshot.hasData
+                                        ? APPColors.appBlack
+                                        : APPColors.bg_grey27,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              );
+                            }));
           }
         });
   }

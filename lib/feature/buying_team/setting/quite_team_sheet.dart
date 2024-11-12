@@ -3,7 +3,7 @@ import '../../../core/config/export.dart';
 class QuiteTeam extends StatelessWidget {
   final String date;
   final VoidCallback callBackDelete;
-  final String subheading, des;
+  final String subheading, des, status;
   final bool showHeading;
   final bool isHost;
   final bool canLeave;
@@ -16,12 +16,17 @@ class QuiteTeam extends StatelessWidget {
       required this.des,
       required this.showHeading,
       required this.isHost,
-      required this.canLeave});
+      required this.canLeave,
+      required this.status});
 
   @override
   Widget build(BuildContext context) {
     return ToucheDetector(
-        child: canLeave ? quite(context) : upcomingCancellation(context));
+        child: status == 'PENDING_DELIVERY' || status == 'SUCCESSFUL' || status == 'FAILED'
+            ? quite(context)
+            : canLeave
+                ? quite(context)
+                : upcomingCancellation(context));
   }
 
   Widget upcomingCancellation(BuildContext context) {
